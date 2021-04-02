@@ -1,10 +1,17 @@
-import '../styles/globals.css'
+import '../styles/tailwind.css'
+import 'dayjs/locale/th'
+
+import React from 'react'
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 import Meta from '../core/components/Meta'
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
+// 
   return (
     <>
       <Meta />
+      <CssBaseline />
       <Component {...pageProps} />
     </>
   )
