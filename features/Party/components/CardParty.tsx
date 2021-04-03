@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image'
 import {
   makeStyles,
@@ -15,17 +15,7 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
-
-
-interface Props {
-  partyName: string
-  restaurantName: string
-  timeToGo: string
-  promotion: string
-  interestTag: Array<string>
-  currentMember: number
-  maxMember: number
-}
+import PartyModal from './PartyModal'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -37,66 +27,108 @@ const useStyles = makeStyles(() =>
   }),
 );
 
+interface Props {
+  partyId: string
+  partyName: string
+  restaurantName: string
+  timeToGo: string
+  promotion: string
+  interestTag: Array<string>
+  currentMember: number
+  maxMember: number
+}
+
 const CardParty = (props: Props) => {
+  const [openModal, setOpenModal] = useState(false);
   const classes = useStyles();
-  const { partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember } = props
+  const { partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember } = props
+
+  const handleClickOpen = () => {
+    setOpenModal(true)
+  };
+
+  const valueFromPartyModal = (value) => {
+    setOpenModal(value)
+  }
 
   return (
-    <Paper className={classes.paper}>
-      <SubHeader bold>
-        {partyName}
-      </SubHeader>
-      <div className="flex py-1">
-        <div className="w-1/2">
-          <Image
-            alt="complex"
-            width={"auto"}
-            height={"100%"}
-            src="/images/tidmun.webp"
-            className="rounded-l-lg"
-          />
+    <>
+      <Paper className={classes.paper} onClick={handleClickOpen}>
+        <SubHeader bold>
+          {partyName}
+        </SubHeader>
+        <div className="flex py-1">
+          <div className="w-1/2">
+            <Image
+              alt="complex"
+              width={"auto"}
+              height={"100%"}
+              src="/images/tidmun.webp"
+              className="rounded-l-lg"
+            />
+          </div>
+          <div className="w-1/2">
+            <div className="flex flex-wrap justify-start h-9 bg-cusGreen rounded-tr-lg">
+              <div className="flex items-center px-2 py-1">
+                <PinDropOutlinedIcon className="mr-2" />
+                <NormalText>
+                  {restaurantName}
+                </NormalText>
+              </div>
+            </div>
+            <div className="flex flex-wrap justify-start h-7">
+              <div className="flex items-center px-2">
+                <QueryBuilderOutlinedIcon className="mr-2" />
+                <SmallText>
+                  {timeToGo}
+                </SmallText>
+              </div>
+            </div>
+            <div className="h-9 px-2 py-1 bg-cusPink rounded-br-lg">
+              <NormalText>
+                Promotion
+              </NormalText>
+              <SmallText className="text-right">
+                {promotion}
+              </SmallText>
+            </div>
+          </div>
         </div>
-        <div className="w-1/2">
-          <NormalText className="bg-cusGreen px-2 py-1 rounded-tr-lg">
-            <PinDropOutlinedIcon className="mr-2" />
-            {restaurantName}
+        <div className="flex justify-between">
+          <div className="flex flex-row-1 space-x-1">
+            {
+              interestTag.map((data, index) => (
+                <>
+                  {
+                    index < 3 ?
+                      <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-md px-3">
+                        {index < 2 ? `${data}` : `+${data.length}`}
+                      </TinyText>
+                      : <></>
+                  }
+                </>
+              ))
+            }
+          </div>
+          <NormalText>
+            {currentMember}/{maxMember}
+            <PeopleAltOutlinedIcon />
           </NormalText>
-          <SmallText className="px-2 py-0.5">
-            <QueryBuilderOutlinedIcon className="mr-2" />
-            {timeToGo}
-          </SmallText> 
-          <div className="bg-cusPink px-2 py-1 rounded-br-lg">
-            <NormalText>
-              Promotion
-            </NormalText>
-            <SmallText className="text-right">
-              {promotion}
-            </SmallText>
-          </div> 
         </div>
-      </div>
-      <div className="flex justify-between">
-        <div className="flex flex-row-1 space-x-1">
-          {
-            interestTag.map((data, index) => (
-              <>
-              {
-                index < 3 ?
-                  <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-md px-3">
-                    { index < 2 ? `${data}`: `+${data.length}` }
-                  </TinyText>
-                : <></>
-              }
-              </>
-            ))
-          }
-        </div>
-        <NormalText>
-          {currentMember}/{maxMember}
-          <PeopleAltOutlinedIcon />
-        </NormalText>
-      </div>
-    </Paper>
+      </Paper>
+      <PartyModal
+        showModal={openModal}
+        callBackToPartyList={valueFromPartyModal}
+        partyId={partyId}
+        partyName={partyName}
+        restaurantName={restaurantName}
+        timeToGo={timeToGo}
+        promotion={promotion}
+        interestTag={interestTag}
+        currentMember={currentMember}
+        maxMember={maxMember}
+      />
+    </>
   );
 }
 

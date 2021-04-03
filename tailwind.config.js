@@ -15,6 +15,7 @@ module.exports = {
       ...theme('colors'),
       'cusGreen': '#62DE81',
       'cusPink': '#F9BEBA',
+      'cusLightYellow': '#FFF0A4',
     }),
   },
   variants: {
