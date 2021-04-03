@@ -16,13 +16,6 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 import { Title, SubHeader } from '../../core/config/textStyle'
 
-interface Props {
-  backTextButton: String,
-  middleText: String,
-  leftIcon: JSX.Element,
-  children: JSX.Element,
-}
-
 const useStyles = makeStyles(() =>
   createStyles({
     backButton: {
@@ -50,6 +43,13 @@ const useStyles = makeStyles(() =>
     },
   }),
 );
+
+interface Props {
+  backTextButton: String,
+  middleText: String,
+  leftIcon: JSX.Element,
+  children: JSX.Element,
+}
 
 const Navigator = (props: Props) => {
   const classes = useStyles();
