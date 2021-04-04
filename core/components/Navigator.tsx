@@ -36,7 +36,7 @@ const CusNavigateBeforeIcon = styled(NavigateBeforeIcon)`
 `
 
 const CusButton = styled(Button)`
-  color: ${props => props.isYellow ? 'white' : 'black'};
+  color: ${props => props.isYellow ? 'white' : 'black'}p;
   text-transform: capitalize;
 `
 
