@@ -1,23 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import FilterListIcon from '@material-ui/icons/FilterList';
-
-import HomePage from './Navigator/Navigator'
-import PartyList from '../features/Party/pages/party-list'
+import { useRouter } from 'next/router'
 
 const Screen = styled.div`
   overflow-x: hidden;
 `
 const Home = () => {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push("/party")
+  }, [])
+
   return (
     <Screen>
-      <HomePage
-        backTextButton= 'Restaurant'
-        middleText= 'Party'
-        leftIcon= {<FilterListIcon /> }
-      >
-        <PartyList />
-      </HomePage>
+      Hi
     </Screen>
   )
 }

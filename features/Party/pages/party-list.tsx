@@ -74,11 +74,6 @@ const mockParty = [
   },
 ]
 
-interface Props {
-
-}
-
-
 const PartyList = () => {
   return (
     <>
