@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
-import CancelIcon from '@material-ui/icons/Cancel';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 

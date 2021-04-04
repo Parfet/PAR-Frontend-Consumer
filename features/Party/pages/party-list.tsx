@@ -1,7 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
-import { Box, ListItem } from '@material-ui/core';
 
 import CardParty from '../components/CardParty'
 
@@ -76,24 +75,22 @@ const mockParty = [
 
 const PartyList = () => {
   return (
-    <>
-      <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
-          {
-            mockParty.map((data, index) => (
-              <CardParty
-                partyId={data.partyId}
-                partyName={data.partyName}
-                restaurantName={data.restaurantName} 
-                timeToGo={data.timeToGo} 
-                promotion={data.promotion}
-                interestTag={data.interestTag}
-                currentMember={data.currentMember}
-                maxMember={data.maxMember}
-              />
-            ))
-          }
-      </BackgroundPartyList>
-    </>
+    <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
+        {
+          mockParty.map((data, index) => (
+            <CardParty
+              partyId={data.partyId}
+              partyName={data.partyName}
+              restaurantName={data.restaurantName} 
+              timeToGo={data.timeToGo} 
+              promotion={data.promotion}
+              interestTag={data.interestTag}
+              currentMember={data.currentMember}
+              maxMember={data.maxMember}
+            />
+          ))
+        }
+    </BackgroundPartyList>
   )
 }
 
