@@ -1,22 +1,29 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import { useRouter } from 'next/router'
+import { detect } from 'detect-browser'
 
-const Screen = styled.div`
-  overflow-x: hidden;
-`
+import InCorrectDevice from '../core/components/Error/InCorrectDevice'
+
 const Home = () => {
+  const browser = detect();
   const router = useRouter()
 
   useEffect(() => {
-    router.push("/party")
+    if (browser.os === 'Android OS' || browser.os === 'iOS'){
+      router.push("/party")
+    }
   }, [])
 
-  return (
-    <Screen>
-      Hi
-    </Screen>
-  )
+  if (browser.os === 'Android OS' || browser.os === 'iOS') {
+    return (
+      <div>
+        Hi I'm Parfet
+      </div>
+    )
+  }else{
+    return <InCorrectDevice />
+  }
+  
 }
 
 export default Home

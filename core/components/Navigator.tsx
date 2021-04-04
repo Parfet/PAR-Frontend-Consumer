@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import {
   makeStyles,
-  createStyles,
   AppBar,
   Toolbar,
   Button,
@@ -37,7 +36,7 @@ const CusNavigateBeforeIcon = styled(NavigateBeforeIcon)`
 
 const CusButton = styled(Button)`
   color: ${props => props.isYellow ? 'white' : 'black'} !important;
-  text-transform: 'capitalize' !important;
+  text-transform: capitalize !important;
 `
 
 interface Props {
