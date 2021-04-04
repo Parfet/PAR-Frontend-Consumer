@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import {
@@ -22,22 +22,26 @@ const useStyles = makeStyles({
   },
 })
 
-const TopAppBar = styled(AppBar)`
+const TopAppBar = styled(AppBar)<IsYellow>`
   top: 0;
   bottom: 'auto';
-  background-color: ${props => props.isYellow ? '#F8CE28' : 'white'};
-  color: ${props => props.isYellow ? 'white' : 'black'};
+  background-color: ${(iy: IsYellow) => iy.yellow ? '#F8CE28' : 'white'};
+  color: ${(iy: IsYellow) => iy.yellow ? 'white' : 'black'};
 `
 
-const CusNavigateBeforeIcon = styled(NavigateBeforeIcon)`
-  color: ${props => props.isYellow ? 'white' : '#F8CE28'};
+const CusNavigateBeforeIcon = styled(NavigateBeforeIcon)<IsYellow>`
+  color: ${(iy: IsYellow) => iy.yellow ? 'white' : '#F8CE28'};
   font-size:36px;
 `
 
-const CusButton = styled(Button)`
-  color: ${props => props.isYellow ? 'white' : 'black'} !important;
+const CusButton = styled(Button)<IsYellow>`
+  color: ${(iy: IsYellow) => iy.yellow ? 'white' : 'black'} !important;
   text-transform: capitalize !important;
 `
+
+type IsYellow = {
+  yellow?: boolean
+}
 
 interface Props {
   backTextButton: string,
@@ -46,21 +50,21 @@ interface Props {
   leftIcon?: JSX.Element,
   children: JSX.Element,
   bottomNavigator?: JSX.Element,
-  isYellow?: boolean
+  yellow?: boolean
 }
 
 const Navigator = (props: Props) => {
-  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, isYellow } = props
+  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, yellow } = props
   const router = useRouter()
   const classes = useStyles();
 
   return (
     <>
-      <TopAppBar isYellow={isYellow}>
+      <TopAppBar yellow={yellow}>
         <Toolbar style={{ padding: 0 }}>
           <div className="flex w-1/3">
-            <CusButton onClick={() => router.push(backRoute)} isYellow={isYellow}>
-              <CusNavigateBeforeIcon isYellow={isYellow}/>
+            <CusButton onClick={() => router.push(backRoute)} yellow={yellow}>
+              <CusNavigateBeforeIcon yellow={yellow}/>
               <SubHeader>{backTextButton}</SubHeader>
             </CusButton>
           </div>

@@ -10,7 +10,7 @@ const CreatePartyPage = () => {
 
   return (
     <Navigator
-      isYellow
+      yellow
       backTextButton='Back'
       backRoute='/party'
       middleText='New Party'
