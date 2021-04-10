@@ -2,11 +2,6 @@ pipeline {
     agent any
     
     stages {
-        stage('Git') {
-            steps {
-                git 'https://github.com/Parfet/PAR-Frontend-Consumer.git'
-            }
-        }
         stage('Init'){
             steps {
                 echo 'Init'
