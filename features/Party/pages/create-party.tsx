@@ -1,20 +1,48 @@
 import React, { useState } from 'react'
 import dayjs from 'dayjs'
+import styled from 'styled-components'
+import { useFormik } from 'formik';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { TextField, MenuItem, Button } from '@material-ui/core';
-import { DateTimePicker } from "@material-ui/pickers";
+import { 
+  TextField, 
+  MenuItem, 
+  Button, 
+  } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
+
 
 import { SubHeader } from '../../../core/config/textStyle'
 import InputField from '../components/InputField'
+import { aryMaxMember, aryPartyType, aryPromotion, restaurantMock, interestTag} from '../../../core/config/mockData'
 
 let now = dayjs()
-let dateNow = now.format("DD/MMM/YYYYTHH:mm ")
-let dateAddHour = now.add(2, 'h').format("DD/MMM/YYYYTHH:mm ")
+let dateNow = now.format("YYYY-MM-DDTHH:mm")
+let dateAddHour = now.add(2, 'h').format("YYYY-MM-DDTHH:mm")
+const animatedComponents = makeAnimated();
+
+interface FormValue {
+  partyName: string
+  partyTopic: string
+  tags: string[]
+  restaurant: string
+  promotion: string
+  dateTime: string
+  partyType: string
+  maxMember: number
+  passCode?: string
+}
 
 const useStyles = makeStyles({
   root: {
+    borderRadius: 25,
+    borderColor: "#F8CE28",
     [`& fieldset`]: {
       borderRadius: 25,
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#F8CE28 !important",
     },
     "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
       borderColor: "#F8CE28"
@@ -22,7 +50,7 @@ const useStyles = makeStyles({
     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderColor: "#F8CE28"
     },
-  }
+  },
 });
 
 const CreateButton = withStyles(() => ({
@@ -33,16 +61,41 @@ const CreateButton = withStyles(() => ({
       backgroundColor: "#F8CE28",
     },
   },
-}))(Button);
+}))(Button)
 
-const aryMaxMember = [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]
-const aryPartyType = [ "สาธารณะ", "ส่วนตัว" ]
+const customStyles = {
+  control: (styles, { isFocused, isSelected }) => ({ ...styles,
+    borderRadius: 25,
+    backgroundColor: "none",
+    boxShadow: "none",
+    ":hover": {
+      ...styles[":hover"],
+      borderColor: "#F8CE28",
+    },
+    ":active": {
+      ...styles[":active"],
+      borderColor: "#F8CE28",
+    }
+  }),
+}
 
 const CreateParty = () => {
   const classes = useStyles();
   const [maxMember, setMaxMember] = useState(aryMaxMember[0]);
   const [partyType, setPartyType] = useState(aryPartyType[0]);
-  const [selectedDate, handleDateChange] = useState(dateNow);
+  const [promotion, setPromotion] = useState(aryPromotion[0]);
+  const [date, setDate] = useState(dateAddHour);
+  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [value, setValue] = useState<string | null>(restaurantMock[0]);
+  const [inputValue, setInputValue] = useState('');
+
+  const changeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDate(event.target.value);
+  };
+
+  const changePromotion = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPromotion(event.target.value);
+  };
 
   const changePartyType = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPartyType(event.target.value);
@@ -61,28 +114,64 @@ const CreateParty = () => {
         <TextField id="topic" variant="outlined" size="small" className={classes.root} required />
       </InputField>
       <InputField label="Tag ที่สนใจ">
-        <TextField id="Tag" variant="outlined" size="small" className={classes.root} required />
+        <Select
+          styles={customStyles}
+          closeMenuOnSelect={false}
+          components={animatedComponents}
+          placeholder="เลือกTag ที่เกี่ยวข้อง"
+          isMulti
+          options={interestTag}
+          className="rounded-lg"
+        />
       </InputField>
       <InputField label="ร้านบุฟเฟต์">
-        <TextField id="restaurant" variant="outlined" size="small" className={classes.root} required />
+        <Autocomplete
+          value={value}
+          onChange={(event: any, newValue: string | null) => {
+            setValue(newValue);
+          }}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          id="controllable-states-demo"
+          options={restaurantMock}
+          className={classes.root} 
+          size="small"
+          renderInput={(params) => <TextField {...params} variant="outlined" required />}
+        />
+      </InputField>
+      <InputField label="โปรโมชั่น">
+        <TextField
+          id="Promotion"
+          variant="outlined"
+          size="small"
+          className={classes.root}
+          select
+          value={promotion}
+          onChange={changePromotion}
+        >
+          {
+            aryPromotion.map((data) => (
+              <MenuItem key={data} value={data}>
+                {data}
+              </MenuItem>
+            ))
+          }
+        </TextField>
       </InputField>
       <InputField label="วันและเวลาที่จะไป">
-        {/* <DateTimePicker
-          label="DateTimePicker"
-          inputVariant="outlined"
-          value={selectedDate}
-          onChange={handleDateChange}
-        /> */}
         <TextField
           id="datetime"
           type="datetime-local"
           variant="outlined"
           defaultValue={dateAddHour}
-          InputLabelProps={{
-            shrink: true,
-          }}
           size="small" 
           className={classes.root}
+          onChange={changeDate}
+          inputProps={{
+            min: dateNow
+          }}
         />
       </InputField>
       <div className="flex  space-x-2">
@@ -132,9 +221,9 @@ const CreateParty = () => {
               id="Tag" 
               variant="outlined" 
               size="small" 
-              type='number' 
+              type="text"
               className={classes.root} 
-              inputProps={{ pattern: "[0-9]*" }}
+              inputProps={{ maxlength: "6", pattern: "[0-9]*" }}
               required
             />
           </InputField>
