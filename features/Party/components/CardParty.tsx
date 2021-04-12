@@ -36,12 +36,13 @@ interface Props {
   interestTag: Array<string>
   currentMember: number
   maxMember: number
+  partyType: string
 }
 
 const CardParty = (props: Props) => {
   const [openModal, setOpenModal] = useState(false);
   const classes = useStyles();
-  const { partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember } = props
+  const { partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember, partyType } = props
 
   const handleClickOpen = () => {
     setOpenModal(true)
@@ -68,27 +69,27 @@ const CardParty = (props: Props) => {
             />
           </div>
           <div className="w-1/2">
-            <div className="flex flex-wrap justify-start h-9 bg-cusGreen rounded-tr-lg">
+            <div className="flex flex-wrap justify-center h-9 bg-cusLightOrange rounded-tr-lg">
               <div className="flex items-center px-2 py-1">
-                <PinDropOutlinedIcon className="mr-2" />
-                <NormalText>
+                <PinDropOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
+                <NormalText white>
                   {restaurantName}
                 </NormalText>
               </div>
             </div>
-            <div className="flex flex-wrap justify-start h-7">
+            <div className="flex flex-wrap bg-cusDarkRed justify-center h-7">
               <div className="flex items-center px-2">
-                <QueryBuilderOutlinedIcon className="mr-2" />
-                <SmallText>
+                <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
+                <SmallText white>
                   {timeToGo}
                 </SmallText>
               </div>
             </div>
-            <div className="h-9 px-2 py-1 bg-cusPink rounded-br-lg">
-              <NormalText>
+            <div className="flex flex-col h-9 px-2 py-1 bg-cusRed text-center rounded-br-lg">
+              <NormalText white>
                 Promotion
-              </NormalText>
-              <SmallText className="text-right">
+              </NormalText >
+              <SmallText white>
                 {promotion}
               </SmallText>
             </div>
@@ -127,6 +128,7 @@ const CardParty = (props: Props) => {
         interestTag={interestTag}
         currentMember={currentMember}
         maxMember={maxMember}
+        partyTypeProp={partyType}
       />
     </>
   );

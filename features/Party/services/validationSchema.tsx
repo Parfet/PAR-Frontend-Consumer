@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { aryPartyType } from '../../../core/config/mockData'
+import { partyType } from '../../../core/config/constant'
 
 export const ValidationFormSchema = yup.object({
   partyName: yup
@@ -33,7 +33,7 @@ export const ValidationFormSchema = yup.object({
   password: yup
     .number()
     .when("partyType", {
-      is: aryPartyType[1],
+      is: partyType.PRIVATE,
       then: yup.number().required("จำเป็นต้องกรอกรหัสผ่าน")
     })
 });

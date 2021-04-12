@@ -16,6 +16,9 @@ module.exports = {
       'cusGreen': '#62DE81',
       'cusPink': '#F9BEBA',
       'cusLightYellow': '#FFF0A4',
+      'cusLightOrange': '#FFA753',
+      'cusDarkRed': '#9C4A55',
+      'cusRed': '#AC3B31',
     }),
   },
   variants: {

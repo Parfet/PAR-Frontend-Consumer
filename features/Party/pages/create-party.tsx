@@ -8,7 +8,8 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 
-import { aryMaxMember, aryPartyType, aryPromotion, restaurantMock, interestTag} from '../../../core/config/mockData'
+import { aryPromotion, restaurantMock, interestTag } from '../../../core/config/mockData'
+import { partyType, partyTypeThai } from '../../../core/config/constant'
 import { SubHeader, NormalText } from '../../../core/config/textStyle'
 import { apiParty } from '../../../core/service/apiParty'
 import InputField from '../components/InputField'
@@ -17,7 +18,11 @@ import { ValidationFormSchema } from '../services/validationSchema'
 let now = dayjs()
 let dateNow = now.format("YYYY-MM-DDTHH:mm")
 let dateAddHour = now.add(2, 'h').format("YYYY-MM-DDTHH:mm")
+
 const animatedComponents = makeAnimated();
+
+const aryMaxMember = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+const aryPartyType = [partyTypeThai.PUBLIC, partyTypeThai.PRIVATE]
 
 const useStyles = makeStyles({
   root: {
@@ -82,19 +87,25 @@ const CreateParty = () => {
       restaurant: restaurantMock[0],
       promotion: aryPromotion[0],
       datetime: dateAddHour,
-      partyType: aryPartyType[0],
+      partyType: partyTypeThai.PUBLIC,
       maxMember: aryMaxMember[0],
       password: ''
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-      if (formik.values.tags.length == 0){
+      if (formik.values.tags.length === 0){
         setCheckTags(true)
-
       }else{
         setCheckTags(false)
       }
-      if(!checkTags){
+
+      if (values.partyType === partyTypeThai.PRIVATE){
+        values.partyType = partyType.PRIVATE
+      } else {
+        values.partyType = partyType.PUBLIC
+      }
+
+      if (!checkTags && formik.values.tags.length != 0){
         let tagsValue = []
         formik.values.tags.map((data) => {
           tagsValue.push(data.value)
@@ -156,7 +167,7 @@ const CreateParty = () => {
           />
           {
             checkTags ? 
-              <NormalText className="ml-3 mt-1 text-red-500">จำเป็นต้องกรอกแท็กที่เกี่ยวข้อง</NormalText> 
+              <NormalText className="ml-3 mt-1" style={{ color: 'red' }}>จำเป็นต้องกรอกแท็กที่เกี่ยวข้อง</NormalText> 
               : <></>
           }
         </>
@@ -268,7 +279,7 @@ const CreateParty = () => {
         </InputField>
       </div>
       {
-        formik.values.partyType === aryPartyType[1] ?
+        formik.values.partyType === partyType.PRIVATE ?
           <InputField label="รหัสผ่าน">
             <TextField 
               id="password" 

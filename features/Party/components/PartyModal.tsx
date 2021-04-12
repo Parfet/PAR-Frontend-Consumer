@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
-import { withStyles } from '@material-ui/core/styles';
+import { TextField, Dialog, Button } from '@material-ui/core';
+import { withStyles, makeStyles } from '@material-ui/styles';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 
 import {
   SubHeader,
@@ -12,15 +11,8 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
-
-const JoinButton = withStyles(() => ({
-  root: {
-    backgroundColor: "#34C759",
-    '&:hover': {
-      backgroundColor: "#34C759",
-    },
-  },
-}))(Button);
+import { partyType } from '../../../core/config/constant'
+import InputField from '../components/InputField'
 
 interface Props {
   partyId: string
@@ -31,13 +23,42 @@ interface Props {
   interestTag: Array<string>
   currentMember: number
   maxMember: number
+  partyTypeProp: string
   showModal: boolean
   callBackToPartyList: Function
 }
 
+const JoinButton = withStyles(() => ({
+  root: {
+    backgroundColor: "#34C759",
+    '&:hover': {
+      backgroundColor: "#34C759",
+    },
+  },
+}))(Button);
+
+const useStyles = makeStyles({
+  root: {
+    [`& fieldset`]: {
+      borderRadius: 25,
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#F8CE28 !important",
+    },
+    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#F8CE28"
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#F8CE28"
+    },
+  },
+});
+
 const PartyModal = (props: Props) => {
-  const { showModal, callBackToPartyList, partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember } = props
-  const [open, setOpen] = React.useState(false);
+  const { showModal, callBackToPartyList, partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember, partyTypeProp } = props
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [passcode, setPasscode] = useState('')
 
   useEffect(() => {
     setOpen(showModal)
@@ -47,6 +68,10 @@ const PartyModal = (props: Props) => {
     setOpen(false);
     callBackToPartyList(false);
   };
+
+  const handleClick = () => {
+    console.log(passcode)
+  }
 
   return (
     <>
@@ -62,7 +87,7 @@ const PartyModal = (props: Props) => {
               src="/images/tidmun.webp"
               className="rounded-lg object-fill"
             />
-            <div className="flex flex-wrap justify-center h-8 mt-3 ">
+            <div className="flex flex-wrap justify-center h-8 mt-3">
               <div className="flex items-center">
               <PinDropOutlinedIcon className="mr-2" />
               <NormalText className="text-center">
@@ -70,23 +95,25 @@ const PartyModal = (props: Props) => {
               </NormalText>
               </div>
             </div>
-            <div className="flex flex-wrap justify-center h-8 mt-3 ">
-              <div className="flex items-center bg-cusLightYellow rounded-lg px-3">
-                <QueryBuilderOutlinedIcon className="mr-2" />
-                <NormalText className="text-center ">
+            <div className="flex flex-wrap justify-center h-8 mt-3">
+              <div className="flex items-center bg-cusDarkRed rounded-lg px-3">
+                <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }} />
+                <NormalText className="text-center " white>
                   {timeToGo}
                 </NormalText>
               </div>
             </div>
-            <div className="mt-2 py-1 text-center">
-              <NormalText className="pr-16">
-                Promotion
-              </NormalText>
-              <SmallText className="pl-16">
-                {promotion}
-              </SmallText>
+            <div className="flex flex-wrap justify-center h-8 mt-3">
+              <div className="flex flex-col px-2 py-1 bg-cusRed text-center rounded-lg">
+                <NormalText white>
+                  Promotion
+                </NormalText >
+                <SmallText white>
+                  {promotion}
+                </SmallText>
+              </div>
             </div>
-            <div className="flex flex-wrap justify-center h-12 my-2">
+            <div className="flex flex-wrap justify-center h-12 mt-3">
               {
                 interestTag.map((data) => (
                   <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-md px-3 py-1 m-1 ">
@@ -96,12 +123,30 @@ const PartyModal = (props: Props) => {
               }
             </div>
           </div>
-          <div className="flex justify-between mt-4">
-            <div className="w/2 justify-center">
-              <JoinButton variant="contained">เข้าร่วม</JoinButton>
-            </div>
+          {
+            partyTypeProp === partyType.PUBLIC ? 
+              <InputField label="รหัสผ่าน" className="text-center">
+                <TextField
+                  id="password"
+                  name="password"
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  value={passcode}
+                  className={classes.root}
+                  onChange={(e) => setPasscode(e.target.value)}
+                  inputProps={{ minLength: "6", maxLength: "6", pattern: "[0-9]*" }}
+                  required
+                />
+              </InputField>
+              : <></>
+          }
+          <div className="flex justify-between mt-5">
             <div className="w/2 justify-center">
               <Button variant="contained" disableElevation onClick={handleClose}>ยกเลิก</Button>
+            </div>
+            <div className="w/2 justify-center">
+              <JoinButton variant="contained" onClick={handleClick}>เข้าร่วม</JoinButton>
             </div>
           </div>
         </div>
