@@ -22,6 +22,7 @@ export const SubHeader = styled.div`
 
 export const RegularText = styled.div`
   font-size: 14px;
+  font-weight: ${props => props.bold ? 'bold' : 'normal'};
 `
 
 export const NormalText = styled.div`
