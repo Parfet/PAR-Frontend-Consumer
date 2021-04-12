@@ -7,6 +7,9 @@ const nextConfig = {
     webpack5: true,
     strictPostcssConfiguration: true
   },
+  devIndicators: {
+    autoPrerender: false,
+  },
 };
 
 module.exports = withPlugins([

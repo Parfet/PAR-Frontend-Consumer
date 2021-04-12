@@ -65,11 +65,11 @@ const Navigator = (props: Props) => {
           <div className="flex w-1/3">
             <CusButton onClick={() => router.push(backRoute)} yellow={yellow}>
               <CusNavigateBeforeIcon yellow={yellow}/>
-              <SubHeader>{backTextButton}</SubHeader>
+              <SubHeader white={yellow}>{backTextButton}</SubHeader>
             </CusButton>
           </div>
           <div className="flex w-1/3 justify-center">
-            <Title>
+            <Title white={yellow}>
               {middleText}
             </Title>
           </div>
