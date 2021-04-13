@@ -1,14 +1,12 @@
 pipeline {
      agent any
      stages {
-        stage("Build") {
+        stage("build") {
             steps {
-                sh "sudo yarn install"
-            }
-        }
-        stage("Deploy") {
-            steps {
-                sh "pm2 start yarn --name [Dev]PAR-FE-Consumer -- dev"
+                echo ' Executing yarn '
+                nodejs('node-14.16.0') {
+                    sh 'yarn install'
+                }
             }
         }
     }
