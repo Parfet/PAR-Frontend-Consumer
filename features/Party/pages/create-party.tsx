@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { useFormik } from 'formik';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -79,6 +80,12 @@ const DropdownIndicator = ({...props }) => {
 };
 
 const CreateParty = () => {
+  const router = useRouter()
+  const classes = useStyles();
+  const [restaurant, setRestaurant] = useState<string | null>(restaurantMock[0]);
+  const [inputRestaurant, setInputRestaurant] = useState('');
+  const [checkTags, setCheckTags] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       partyName: '',
@@ -112,14 +119,10 @@ const CreateParty = () => {
         })
         values.tags = tagsValue
         apiParty.createParty(values)
+        router.push('/party/'+values.partyName)
       }
     },
   });
-
-  const classes = useStyles();
-  const [restaurant, setRestaurant] = useState<string | null>(restaurantMock[0]);
-  const [inputRestaurant, setInputRestaurant] = useState('');
-  const [checkTags, setCheckTags] = useState(false);
 
   return (
     <form className="flex flex-col justify-center w-screen my-14 px-10" onSubmit={formik.handleSubmit}>
