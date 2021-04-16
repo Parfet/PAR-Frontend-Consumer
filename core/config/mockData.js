@@ -81,3 +81,38 @@ export const mockParty = [
     partyType: "PUBLIC"
   },
 ]
+
+export const mockPartyMember = [
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Sun",
+  },
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Zun",
+  },
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Sun",
+  },
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Zun",
+  },
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Sun",
+  },
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Zun",
+  },
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Sun",
+  },
+  {
+    imageURL: "/images/tidmun.webp",
+    username: "Zun",
+  },
+]

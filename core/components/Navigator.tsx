@@ -74,9 +74,7 @@ const Navigator = (props: Props) => {
             </Title>
           </div>
           <div className="flex w-1/3 justify-end">
-            <Button>
-              {leftIcon}
-            </Button>
+            {leftIcon}
           </div>
         </Toolbar>
       </TopAppBar>

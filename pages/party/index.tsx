@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
-import { BottomNavigationAction } from '@material-ui/core';
+import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 import ListIcon from '@material-ui/icons/List';
 import AddIcon from '@material-ui/icons/Add';
@@ -23,7 +23,11 @@ const Party = () => {
       backTextButton='Restaurant'
       backRoute='/'
       middleText='Party'
-      leftIcon={<SortIcon />}
+      leftIcon={
+        <IconButton>
+          <SortIcon />
+        </IconButton>
+      }
       bottomNavigator={
         <>
           <div className="flex w-1/3 justify-center">
