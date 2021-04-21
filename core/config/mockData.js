@@ -86,33 +86,41 @@ export const mockPartyMember = [
   {
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    rating: 1
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    rating: 2
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    rating: 3
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    rating: 4
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    rating: 5
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    rating: 4
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    rating: 2
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    rating: 1
   },
 ]

@@ -13,6 +13,8 @@ const menuColors = ["bg-cusRegularYellow", "bg-cusDarkYellow"]
 const PartyPage = () => {
   const router = useRouter()
 
+  const partyName = router.query
+
   const menuItems = [
     { text: 'แก้ไชปาร์ตี้', menuFunc: () => { } },
     { text: 'ออกจากปาร์คี้', menuFunc: () => { router.push("/party") } },
@@ -34,10 +36,15 @@ const PartyPage = () => {
         bottomNavigator={
           <>
             <div className="flex w-1/2 justify-center">
-              <BottomNavigationAction label="สร้างปาร์ตี้ใหม่" icon={<PeopleAltOutlinedIcon />} showLabel />
+              <BottomNavigationAction 
+                label="คำร้อง" 
+                icon={<PeopleAltOutlinedIcon />} 
+                onClick={() => router.push(`/party/${partyName.party}/request`)}
+                showLabel 
+              />
             </div>
             <div className="flex w-1/2 justify-center">
-              <BottomNavigationAction label="ขอเข้าร่วม" icon={<ChatOutlinedIcon />} showLabel />
+              <BottomNavigationAction label="ข้อความ" icon={<ChatOutlinedIcon />} showLabel />
             </div>
           </>
         }

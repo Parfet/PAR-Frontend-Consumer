@@ -23,6 +23,7 @@ module.exports = {
       'cusLightOrange': '#FFA753',
       'cusDarkRed': '#9C4A55',
       'cusRed': '#AC3B31',
+      'cusBrown': '#AC5B31',
     }),
     borderColor: theme => ({
       ...theme('colors'),
