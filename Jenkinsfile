@@ -4,8 +4,9 @@ pipeline {
         stage("build") {
             steps {
                 echo ' Executing yarn '
-                nodejs(nodeJSInstallationName:'node-14.16.0') {
+                nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'yarn install'
+                    sh 'pm2 start yarn --name "[DEV]FE-Consumer" -- start'
                 }
             }
         }
