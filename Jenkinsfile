@@ -7,7 +7,7 @@ pipeline {
                 nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'yarn install'
                     sh 'yarn add --dev typescript'
-                    sh 'pm2 del ${JOB_NAME}'
+                    sh 'pm2 delete ${JOB_NAME} || :'
                     sh 'pm2 start yarn --name "${JOB_NAME}" -- dev'
                 }
             }
