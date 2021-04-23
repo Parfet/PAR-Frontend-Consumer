@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import CardRequest from '../components/CardRequest'
+import CardRequest from '../components/PartyPage/CardRequest'
 import { mockPartyMember } from '../../../core/config/mockData.js'
 import { SubHeader } from '../../../core/config/textStyle'
 

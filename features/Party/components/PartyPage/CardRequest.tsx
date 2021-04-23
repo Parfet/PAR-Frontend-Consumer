@@ -4,8 +4,8 @@ import { Card } from '@material-ui/core'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-import { SubHeader } from '../../../core/config/textStyle'
-import RatingStar from '../../../core/components/RatingStar'
+import { SubHeader } from '../../../../core/config/textStyle'
+import RatingStar from '../../../../core/components/RatingStar'
 
 interface Props {
   imageURL :string

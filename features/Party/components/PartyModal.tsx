@@ -11,7 +11,7 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
-import { partyType } from '../../../core/config/constant'
+import { partyType } from '../../../core/config/enum'
 import InputField from '../components/InputField'
 
 interface Props {

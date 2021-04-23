@@ -10,7 +10,8 @@ import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 
 import { aryPromotion, restaurantMock, interestTag } from '../../../core/config/mockData'
-import { partyType, partyTypeThai } from '../../../core/config/constant'
+import { partyType } from '../../../core/config/enum'
+import { partyTypeThai } from '../../../core/config/constant'
 import { SubHeader, NormalText } from '../../../core/config/textStyle'
 import { apiParty } from '../../../core/service/apiParty'
 import InputField from '../components/InputField'
