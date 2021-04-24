@@ -8,4 +8,9 @@ export enum adminPartyAction {
   KICK = "KICK"
 }
 
+export enum partyAction {
+  CLOSE_PARTY = "CLOSE_PARTY",
+  LEAVE_PARTY = "LEAVE_PARTY"
+}
+
 
