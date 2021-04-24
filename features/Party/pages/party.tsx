@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 
 import { mockPartyMember } from '../../../core/config/mockData.js'
 import { RegularText } from '../../../core/config/textStyle'
+import ConfirmModal from '../../../core/components/ConfirmModal'
 import PartyMember from '../components/PartyPage/PartyMember'
 import MemberModal from '../components/PartyPage/MemberModal'
 
@@ -15,20 +16,19 @@ type MemberDetail = {
 }
 
 const Party = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openMemberModal, setOpenMemberModal] = useState(false);
   const [memberDetail, setMemberDetail] = useState<MemberDetail>()
   const [indexMember, setIndexMember] = useState(undefined)
   const router = useRouter()
 
-  const handleClickOpen = (memberDetail, index) => {
+  const handleClickOpenMember = (memberDetail, index) => {
     setIndexMember(index)
     setMemberDetail(memberDetail)
-    setOpenModal(true)
-  };
-
+    setOpenMemberModal(true)
+  }
 
   const valueFromMemberModal = (value) => {
-    setOpenModal(value)
+    setOpenMemberModal(value)
   }
 
   const partyName = router.query
@@ -43,7 +43,7 @@ const Party = () => {
           admin
           imageURL={mockPartyMember[0].imageURL}
           username={mockPartyMember[0].username}
-          onClick={() => handleClickOpen(mockPartyMember[0], undefined)}
+          onClick={() => handleClickOpenMember(mockPartyMember[0], undefined)}
           />
       </div>
       <div className="ml-2 my-4">
@@ -57,16 +57,16 @@ const Party = () => {
               username={data.username}
               key={index}
               keyId={index}
-              onClick={() => handleClickOpen(data, index)}
+              onClick={() => handleClickOpenMember(data, index)}
               />
               ))
         }
       </div>
     </div>
     {
-      openModal ?
+      openMemberModal ?
         <MemberModal
-          showModal={openModal}
+          showModal={openMemberModal}
           callBackToMemberParty={valueFromMemberModal}
           memberDetail={memberDetail}
           indexMember={indexMember}
@@ -74,7 +74,6 @@ const Party = () => {
         : <></>
     }
     </>
-
   )
 }
 
