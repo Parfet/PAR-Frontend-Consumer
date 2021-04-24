@@ -31,7 +31,9 @@ interface Props {
 const JoinButton = withStyles(() => ({
   root: {
     backgroundColor: "#34C759",
+    color: "white",
     '&:hover': {
+      color: "white",
       backgroundColor: "#34C759",
     },
   },
