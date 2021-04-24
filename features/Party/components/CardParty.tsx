@@ -102,7 +102,7 @@ const CardParty = (props: Props) => {
                 <>
                   {
                     index < 3 ?
-                      <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-md px-3">
+                      <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3">
                         {index < 2 ? `${data}` : `+${data.length}`}
                       </TinyText>
                       : <></>

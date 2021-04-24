@@ -96,7 +96,7 @@ const PartyModal = (props: Props) => {
               </div>
             </div>
             <div className="flex flex-wrap justify-center h-8 mt-3">
-              <div className="flex items-center bg-cusDarkRed rounded-lg px-3">
+              <div className="flex items-center bg-cusDarkRed rounded-5 px-3">
                 <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }} />
                 <NormalText className="text-center " white>
                   {timeToGo}
@@ -104,7 +104,7 @@ const PartyModal = (props: Props) => {
               </div>
             </div>
             <div className="flex flex-wrap justify-center h-8 mt-3">
-              <div className="flex flex-col px-2 py-1 bg-cusRed text-center rounded-lg">
+              <div className="flex flex-col px-2 py-1 bg-cusRed text-center rounded-5">
                 <NormalText white>
                   Promotion
                 </NormalText >
@@ -116,7 +116,7 @@ const PartyModal = (props: Props) => {
             <div className="flex flex-wrap justify-center h-12 mt-3">
               {
                 interestTag.map((data) => (
-                  <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-md px-3 py-1 m-1 ">
+                  <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3 py-1 m-1 ">
                     {data}
                   </TinyText>
                 ))
