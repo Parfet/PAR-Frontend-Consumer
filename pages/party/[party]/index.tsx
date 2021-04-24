@@ -1,25 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
+import { partyAction } from '../../../core/config/enum'
 import Navigator from '../../../core/components/Navigator'
 import Meatball from '../../../core/components/Meatball'
+import ConfirmModal from '../../../core/components/ConfirmModal'
 import Party from '../../../features/Party/pages/party'
 
 const menuColors = ["bg-cusRegularYellow", "bg-cusDarkYellow"]
 
 const PartyPage = () => {
   const router = useRouter()
+  const [openConfirmModal, setOpenConfirmModal] = useState(false)
+  const [confirmText, setConfirmText] = useState("")
+  const [typeAction, setTypeAction] = useState("")
 
   const partyName = router.query
 
+  const closeParty = () => {
+    setConfirmText("ต้องการปิดปาร์ตี้")
+    setOpenConfirmModal(true)
+    setTypeAction(partyAction.CLOSE_PARTY)
+  }
+
+  const leaveParty = () => {
+    setConfirmText("ต้องการออกจากปาร์ตี้")
+    setOpenConfirmModal(true)
+    setTypeAction(partyAction.LEAVE_PARTY)
+  }
+
   const menuItems = [
     { text: 'แก้ไชปาร์ตี้', menuFunc: () => { } },
-    { text: 'ออกจากปาร์คี้', menuFunc: () => { router.push("/party") } },
-    { text: 'ปิดปาร์ตี้', menuFunc: () => { router.push("/party") } }
+    { text: 'ออกจากปาร์คี้', menuFunc: leaveParty },
+    { text: 'ปิดปาร์ตี้', menuFunc: closeParty }
   ]
+
+  const closePartyAPI = () => {
+    console.log(partyAction.CLOSE_PARTY)
+    //Do sth
+  }
+
+  const leavePartyAPI = () => {
+    console.log(partyAction.LEAVE_PARTY)
+    //Do sth
+  }
+
+  const callBackFromConfirm = (open, value) => {
+    setOpenConfirmModal(open)
+    if (value) {
+      if (typeAction === partyAction.CLOSE_PARTY) {
+        closePartyAPI()
+      } else if (typeAction === partyAction.LEAVE_PARTY) {
+        leavePartyAPI()
+      }
+    }
+  }
 
   return (  
       <Navigator
@@ -49,7 +87,18 @@ const PartyPage = () => {
           </>
         }
       >
-        <Party />
+        <>
+          <Party /> 
+          {
+            openConfirmModal ?
+              <ConfirmModal
+              confirmText={confirmText}
+                showModal={openConfirmModal}
+                callBackToParent={callBackFromConfirm}
+              />
+              : <></>
+          }
+        </>
       </Navigator>
   )
 }
