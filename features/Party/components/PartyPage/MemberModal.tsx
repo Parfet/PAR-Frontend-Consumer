@@ -29,6 +29,7 @@ const MemberModal = (props :Props) => {
   const [open, setOpen] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [typeAction, setTypeAction] = useState(undefined);
+  const [confirmText, setConfirmText] = useState("");
 
   const borderColor =
     indexMember % 3 === 0 ? 'border-cusLightOrange' :
@@ -41,26 +42,30 @@ const MemberModal = (props :Props) => {
 
   const handleClose = () => {
     setOpen(false);
-    callBackToMemberParty(false);
+    callBackToMemberParty(false)
   };
 
   const givePermission = () => {
+    setConfirmText("ต้องการให้สิทธิ " + memberDetail.username + " เป็นเจ้าของปาร์ตี้")
     setOpenConfirm(true)
     setTypeAction(adminPartyAction.GIVE_PERMISSION)
   }
-
+  
   const kickMember = () => {
+    setConfirmText("ต้องการลบ " + memberDetail.username + " ออกจากปาร์ตี้")
     setOpenConfirm(true)
     setTypeAction(adminPartyAction.KICK)
   }
 
   const givePermissionAPI = () => {
     console.log(memberDetail)
+    callBackToMemberParty(false)
     //Do sth
   }
 
   const kickMemberAPI = () => {
     console.log(memberDetail)
+    callBackToMemberParty(false)
     //Do sth
   }
 
@@ -107,7 +112,7 @@ const MemberModal = (props :Props) => {
           </div>
           <div className="flex justify-start mt-4">
             <div className="w-1/2 flex items-center">
-              <NormalText bold > ให้สิทธืเป็นหัวห้อง </NormalText>
+              <NormalText bold > ให้สิทธิเป็น <br /> เจ้าของปาร์ตี้ </NormalText>
             </div>
             <div className="w-1/2 flex justify-center">
               <Button variant="contained" disableElevation onClick={givePermission} color="secondary">ให้สิทธิ</Button>
@@ -115,10 +120,10 @@ const MemberModal = (props :Props) => {
           </div>
           <div className="flex justify-start mt-2">
             <div className="w-1/2 flex items-center">
-              <NormalText bold> เตะออก </NormalText>
+              <NormalText bold> ลบสมาชิก </NormalText>
             </div>
             <div className="w-1/2 flex justify-center">
-              <Button variant="contained" disableElevation onClick={kickMember} color="secondary">เตะ</Button>
+              <Button variant="contained" disableElevation onClick={kickMember} color="secondary">ลบ</Button>
             </div>
           </div>
           <div className="flex justify-center mt-5">
@@ -129,6 +134,7 @@ const MemberModal = (props :Props) => {
       {
         true ?
           <ConfirmModal
+            confirmText={confirmText}
             showModal={openConfirm}
             callBackToParent={callBackFromConfirm}
             />

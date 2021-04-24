@@ -5,7 +5,10 @@ import {
   } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles';
 
+import { SubHeader } from '../config/textStyle'
+
 interface Props {
+  confirmText :string
   showModal :boolean
   callBackToParent :(open, value) => void
 }
@@ -22,7 +25,7 @@ const AcceptButton = withStyles(() => ({
 }))(Button);
 
 const ConfirmModal = (props: Props) => {
-  const { callBackToParent, showModal } = props
+  const { callBackToParent, showModal, confirmText } = props
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -42,6 +45,9 @@ const ConfirmModal = (props: Props) => {
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth className="m-14">
       <div className="p-4">
+        <div className="flex justify-center text-center">
+          <SubHeader bold>{confirmText}</SubHeader>
+        </div>
         <div className="flex justify-around mt-5">
           <div className="w/2 justify-center">
             <Button variant="contained" disableElevation onClick={handleClose}>ยกเลิก</Button>
