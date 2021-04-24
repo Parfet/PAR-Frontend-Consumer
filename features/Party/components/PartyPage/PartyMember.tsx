@@ -3,17 +3,18 @@ import Image from 'next/image'
 import StarIcon from '@material-ui/icons/Star';
 import { IconButton } from '@material-ui/core';
 
-import { RegularText } from '../../../core/config/textStyle'
+import { RegularText } from '../../../../core/config/textStyle'
 
 interface Props {
-  imageURL: string
-  username: string
-  admin?: boolean
-  keyId?: number
+  imageURL :string
+  username :string
+  admin? :boolean
+  keyId? :number
+  onClick :() => void
 }
 
 const PartyMember = (props: Props) => {
-  const { username, imageURL, admin, keyId} = props
+  const { username, imageURL, admin, onClick, keyId} = props
 
   const borderColor = 
     keyId % 3 === 0 ? 'border-cusLightOrange' :
@@ -21,7 +22,7 @@ const PartyMember = (props: Props) => {
         keyId % 3 === 2 ? 'border-cusBrown' : 'border-cusYellow'
 
   return (
-    <div className="flex flex-col w-1/3 mb-2 pr-2">
+    <div className="flex flex-col w-1/3 mb-2 pr-2" onClick={onClick}>
       <div className={`text-center border-4 rounded-30 ${borderColor}`}>
         <Image
           alt={username}

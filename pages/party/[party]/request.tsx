@@ -17,11 +17,6 @@ const PartyPage = () => {
       backTextButton='Back'
       backRoute={`/party/${partyName.party}`}
       middleText="Request"
-      bottomNavigator={
-        <div className="flex flex-auto justify-center">
-          <BottomNavigationAction label="ข้อความ" icon={<ChatOutlinedIcon />} showLabel />
-        </div>
-      }
     >
       <PartyRequest />
     </Navigator>

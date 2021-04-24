@@ -84,43 +84,58 @@ export const mockParty = [
 
 export const mockPartyMember = [
   {
+    memberId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
     rating: 1
   },
   {
+    memberId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
     rating: 2
   },
   {
+    memberId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
     rating: 3
   },
   {
+    memberId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
     rating: 4
   },
   {
+    memberId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
     rating: 5
   },
   {
+    memberId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
     rating: 4
   },
   {
     imageURL: "/images/tidmun.webp",
     username: "Sun",
+    interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
     rating: 2
   },
   {
+    memberId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
     imageURL: "/images/tidmun.webp",
     username: "Zun",
+    interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
     rating: 1
   },
 ]

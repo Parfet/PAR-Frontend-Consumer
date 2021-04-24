@@ -33,6 +33,7 @@ module.exports = {
       'cusBrown': '#AC5B31',
     }),
     borderRadius: {
+      '5': '5px',
       '25': '25px',
       '30': '30px',
     }

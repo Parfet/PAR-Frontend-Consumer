@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { partyType } from '../../../core/config/constant'
+import { partyType } from '../../../core/config/enum'
 
 export const ValidationFormSchema = yup.object({
   partyName: yup

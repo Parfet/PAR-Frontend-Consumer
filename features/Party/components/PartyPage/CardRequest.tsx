@@ -4,8 +4,8 @@ import { Card } from '@material-ui/core'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-import { SubHeader } from '../../../core/config/textStyle'
-import RatingStar from '../../../core/components/RatingStar'
+import { SubHeader } from '../../../../core/config/textStyle'
+import RatingStar from '../../../../core/components/RatingStar'
 
 interface Props {
   imageURL :string
@@ -41,12 +41,12 @@ const CardRequest = (props: Props) => {
         <RatingStar white rating={rating} />
       </div>
       <div className="w-1/4 flex flex-wrap content-center space-x-1">
-        <CheckCircleIcon 
-          style={{ color:'white', fontSize:'28px'}}
+        <CheckCircleIcon
+          style={{ backgroundColor: '#34C759', color: 'white', fontSize: '28px', borderRadius: 30 }}
           onClick={acceptFunc}
-          />
+        />
         <CancelIcon 
-          style={{ color: '#DCDCDC', fontSize: '28px' }}
+          style={{ backgroundColor: '#F4757E', color: 'white', fontSize: '28px', borderRadius: 30 }}
           onClick={declineFunc}
           />
       </div>
