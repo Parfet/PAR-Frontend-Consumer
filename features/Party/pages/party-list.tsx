@@ -1,33 +1,33 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useObserver } from 'mobx-react-lite'
+import { toJS } from 'mobx';
+import _ from "lodash"
 
 import { mockParty } from '../../../core/config/mockData'
 import CardParty from '../components/CardParty'
+import { partyContext } from '../contexts/party_context'
 
 const BackgroundPartyList = styled.div`
   background-color: #F8CE28;
 `
 
 const PartyList = () => {
-  return (
+  const contextParty = useContext(partyContext)
+
+  useEffect(() => {
+    contextParty.getParties()
+  }, [contextParty])
+
+  return useObserver(() => (
     <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
-        {
-          mockParty.map((data, index) => (
-            <CardParty
-              partyId={data.partyId}
-              partyName={data.partyName}
-              restaurantName={data.restaurantName} 
-              timeToGo={data.timeToGo} 
-              promotion={data.promotion}
-              interestTag={data.interestTag}
-              currentMember={data.currentMember}
-              maxMember={data.maxMember}
-              partyType={data.partyType}
-            />
-          ))
-        }
+      {
+        _.map(contextParty.parties, (data) => (
+          <CardParty party={data} />
+        ))
+      }
     </BackgroundPartyList>
-  )
+  ))
 }
 
 export default PartyList
