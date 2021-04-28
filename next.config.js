@@ -10,6 +10,9 @@ const nextConfig = {
   devIndicators: {
     autoPrerender: false,
   },
+  images: {
+    domains: ['www.parfet.in.th'],
+  },
 };
 
 module.exports = withPlugins([
