@@ -7,16 +7,12 @@ pipeline {
             }
             steps {
                 echo ' Yarn installation for main '
-                nodejs(nodeJSInstallationName:'nodejs') {
-                    sh 'yarn install'
             }
             when {
                 branch 'staging'
             }
             steps {
                 echo ' Yarn installation for staging '
-                nodejs(nodeJSInstallationName:'nodejs') {
-                    sh 'yarn install'
             }
             when {
                 branch 'develop'
@@ -26,6 +22,7 @@ pipeline {
                 nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'yarn install'
                     sh 'yarn add --dev typescript'
+                }
             }
         }
         stage("build") {
@@ -53,3 +50,4 @@ pipeline {
             }
         }
     }
+}
