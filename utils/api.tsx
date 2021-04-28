@@ -3,16 +3,12 @@ import Cookies from 'universal-cookie'
 
 const cookies = new Cookies()
 
-import getConfig from 'next/config'
-
-const { publicRuntimeConfig } = getConfig()
-
 // eslint-disable-next-line no-unused-vars
 const createInstance = (headers) => {
   return axios.create({
-    baseURL: publicRuntimeConfig.API_URL,
+    baseURL: process.env.NEXT_PUBLIC_CONSUMER_API,
     headers: {
-      Authorization: `Bearer ${cookies.get('token')}`,
+      // Authorization: `Bearer ${cookies.get('token')}`,
       'Content-Type': 'application/json'
     }
   })
