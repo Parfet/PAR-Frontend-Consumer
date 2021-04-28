@@ -10,6 +10,7 @@ pipeline {
                 nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'yarn install'
                 }
+                echo ' Test automate deploy '
             }
         }
     }
