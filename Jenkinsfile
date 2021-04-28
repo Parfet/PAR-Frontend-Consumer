@@ -7,6 +7,7 @@ pipeline {
             }
             steps {
                 echo ' Executing command for main'
+                echo ' Test Jenkins trigger '
             }
         }
     }
