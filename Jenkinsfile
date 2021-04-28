@@ -7,7 +7,9 @@ pipeline {
             }
             steps {
                 echo ' Executing command for main'
-                echo ' Test Jenkins trigger '
+                nodejs(nodeJSInstallationName:'nodejs') {
+                    sh 'yarn install'
+                }
             }
         }
     }
