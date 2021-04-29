@@ -17,6 +17,7 @@
     "detect-browser": "^5.2.0",
     "detect-browser-language": "^0.0.2",
     "formik": "^2.2.6",
+    "http-status-codes": "^2.1.4",
     "lodash": "^4.17.21",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
