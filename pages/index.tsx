@@ -10,7 +10,7 @@ const Home = () => {
 
   if (browser.os === 'Android OS' || browser.os === 'iOS') {
     return (
-      <div onClick={() => router.push("/party")}>
+      <div onClick={() => router.push("/restaurant")}>
         Hi I'm Parfet
       </div>
     )
