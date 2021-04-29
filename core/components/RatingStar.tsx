@@ -18,13 +18,14 @@ interface IsWhite {
 }
 
 interface Props {
+  showEmpty? :boolean
   white? :boolean
   rating :number
 }
 
 const RatingStar = (props: Props) => {
   const [ratingStar, setRatingStar] = useState([])
-  const { rating, white } = props
+  const { rating = 5, white, showEmpty } = props
 
   useEffect(() => {
     addStarToRatingStar()
@@ -33,14 +34,19 @@ const RatingStar = (props: Props) => {
   const addStarToRatingStar = () => {
     let countStar
     for ( countStar = 0 ; countStar < rating ; countStar++ ) {
-      setRatingStar(ratingStar => [...ratingStar, <CusStarIcon white={white} />])
+      if (countStar >= 5){
+        break;
+      }
+      setRatingStar(ratingStar => [...ratingStar, <CusStarIcon white={white} key={countStar}/>])
     }
-    addEmptyStarToRatingStar(countStar)
+    if (showEmpty){
+      addEmptyStarToRatingStar(countStar)
+    }
   }
 
   const addEmptyStarToRatingStar = (countStar :number) => {
     for (countStar ; countStar < 5 ; countStar++) {
-      setRatingStar(ratingStar => [...ratingStar, <CusStarOutlineIcon white={white} />])
+      setRatingStar(ratingStar => [...ratingStar, <CusStarOutlineIcon white={white} key={countStar}/>])
     }
   }
 
