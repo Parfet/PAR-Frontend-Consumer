@@ -21,7 +21,7 @@ const Party = () => {
   return (
     <Navigator
       backTextButton='Restaurant'
-      backRoute='/'
+      backRoute='/restaurant'
       middleText='Party'
       leftIcon={
         <IconButton>
