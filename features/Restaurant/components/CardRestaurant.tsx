@@ -46,8 +46,10 @@ const RestaurantParty = (props: Props) => {
   const { restaurant } = props
 
   const selectRestaurant = () => {
-    contextParty.setCurrentRestaurant(restaurant)
-    router.push("/party")
+    if (restaurant.status === RestaurantStatus.RESTAURANT_OPEN){
+      contextParty.setCurrentRestaurant(restaurant)
+      router.push("/party")
+    }
   }
   return (
     <>

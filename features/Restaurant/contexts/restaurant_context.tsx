@@ -6,11 +6,11 @@ import { Restaurant } from '../../../core/constant/type'
 
 export class RestaurantContext {
   restaurant
-  currentRestaurant
+  currentRestaurant :Restaurant
 
   constructor() {
     this.restaurant = []
-    this.currentRestaurant = {}
+    this.currentRestaurant
 
     makeAutoObservable(this)
   }
