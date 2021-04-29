@@ -12,7 +12,7 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
-import { partyType } from '../../../core/constant/enum'
+import { PartyType } from '../../../core/constant/enum'
 import InputField from '../components/InputField'
 import { Party } from '../../../core/constant/type'
 interface Props {
@@ -121,7 +121,7 @@ const PartyModal = (props: Props) => {
             </div>
           </div>
           {
-            party.party_type === partyType.PUBLIC ? 
+            party.party_type === PartyType.PUBLIC ? 
               <InputField label="รหัสผ่าน" className="text-center">
                 <TextField
                   id="password"

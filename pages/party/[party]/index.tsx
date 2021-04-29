@@ -4,7 +4,7 @@ import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
-import { partyAction } from '../../../core/constant/enum'
+import { PartyAction } from '../../../core/constant/enum'
 import Navigator from '../../../core/components/Navigator'
 import Meatball from '../../../core/components/Meatball'
 import ConfirmModal from '../../../core/components/ConfirmModal'
@@ -23,13 +23,13 @@ const PartyPage = () => {
   const closeParty = () => {
     setConfirmText("ต้องการปิดปาร์ตี้")
     setOpenConfirmModal(true)
-    setTypeAction(partyAction.CLOSE_PARTY)
+    setTypeAction(PartyAction.CLOSE_PARTY)
   }
 
   const leaveParty = () => {
     setConfirmText("ต้องการออกจากปาร์ตี้")
     setOpenConfirmModal(true)
-    setTypeAction(partyAction.LEAVE_PARTY)
+    setTypeAction(PartyAction.LEAVE_PARTY)
   }
 
   const menuItems = [
@@ -39,21 +39,21 @@ const PartyPage = () => {
   ]
 
   const closePartyAPI = () => {
-    console.log(partyAction.CLOSE_PARTY)
+    console.log(PartyAction.CLOSE_PARTY)
     //Do sth
   }
 
   const leavePartyAPI = () => {
-    console.log(partyAction.LEAVE_PARTY)
+    console.log(PartyAction.LEAVE_PARTY)
     //Do sth
   }
 
   const callBackFromConfirm = (open, value) => {
     setOpenConfirmModal(open)
     if (value) {
-      if (typeAction === partyAction.CLOSE_PARTY) {
+      if (typeAction === PartyAction.CLOSE_PARTY) {
         closePartyAPI()
-      } else if (typeAction === partyAction.LEAVE_PARTY) {
+      } else if (typeAction === PartyAction.LEAVE_PARTY) {
         leavePartyAPI()
       }
     }

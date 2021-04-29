@@ -6,7 +6,7 @@ import {
   } from '@material-ui/core';
 
 import { SubHeader, NormalText } from '../../../../core/config/textStyle'
-import { adminPartyAction } from '../../../../core/constant/enum'
+import { AdminPartyAction } from '../../../../core/constant/enum'
 import ConfirmModal from '../../../../core/components/ConfirmModal'
 
 type MemberDetail = {
@@ -48,13 +48,13 @@ const MemberModal = (props :Props) => {
   const givePermission = () => {
     setConfirmText("ต้องการให้สิทธิ " + memberDetail.username + " เป็นเจ้าของปาร์ตี้")
     setOpenConfirm(true)
-    setTypeAction(adminPartyAction.GIVE_PERMISSION)
+    setTypeAction(AdminPartyAction.GIVE_PERMISSION)
   }
   
   const kickMember = () => {
     setConfirmText("ต้องการลบ " + memberDetail.username + " ออกจากปาร์ตี้")
     setOpenConfirm(true)
-    setTypeAction(adminPartyAction.KICK)
+    setTypeAction(AdminPartyAction.KICK)
   }
 
   const givePermissionAPI = () => {
@@ -72,9 +72,9 @@ const MemberModal = (props :Props) => {
   const callBackFromConfirm = (open, value) => {
     setOpenConfirm(open)
     if (value){
-      if (typeAction === adminPartyAction.GIVE_PERMISSION){
+      if (typeAction === AdminPartyAction.GIVE_PERMISSION){
         givePermissionAPI()
-      }else if (typeAction === adminPartyAction.KICK){
+      }else if (typeAction === AdminPartyAction.KICK){
         kickMemberAPI()
       }
     }

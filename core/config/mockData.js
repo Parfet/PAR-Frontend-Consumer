@@ -23,7 +23,7 @@ export const mockParty = [
     interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
     currentMember: 1,
     maxMember: 5,
-    partyType: "PUBLIC"
+    PartyType: "PUBLIC"
   },
   {
     partyId: "99729253-aea7-4729-a5c5-27e1e92675dd",
@@ -34,7 +34,7 @@ export const mockParty = [
     interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
     currentMember: 1,
     maxMember: 5,
-    partyType: "PRIVATE"
+    PartyType: "PRIVATE"
   },
   {
     partyId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
@@ -45,7 +45,7 @@ export const mockParty = [
     interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
     currentMember: 1,
     maxMember: 5,
-    partyType: "PRIVATE"
+    PartyType: "PRIVATE"
   },
   {
     partyId: "99729253-aea7-4729-a5c5-27e1e92675dd",
@@ -56,7 +56,7 @@ export const mockParty = [
     interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
     currentMember: 1,
     maxMember: 5,
-    partyType: "PUBLIC"
+    PartyType: "PUBLIC"
   },
   {
     partyId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
@@ -67,7 +67,7 @@ export const mockParty = [
     interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
     currentMember: 1,
     maxMember: 5,
-    partyType: "PUBLIC"
+    PartyType: "PUBLIC"
   },
   {
     partyId: "99729253-aea7-4729-a5c5-27e1e92675dd",
@@ -78,7 +78,7 @@ export const mockParty = [
     interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
     currentMember: 1,
     maxMember: 5,
-    partyType: "PUBLIC"
+    PartyType: "PUBLIC"
   },
 ]
 

@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { partyType } from '../../../core/constant/enum'
+import { PartyType } from '../../../core/constant/enum'
 
 export const ValidationFormSchema = yup.object({
   partyName: yup
@@ -24,7 +24,7 @@ export const ValidationFormSchema = yup.object({
   datetime: yup
     .date()
     .required('จำเป็นต้องกรอกวันและเวลาที่ต้องการไป'),
-  partyType: yup
+  PartyType: yup
     .string()
     .required('จำเป็นต้องกรอกประเภทของปาร์ตี้'),
   maxMember: yup
@@ -32,8 +32,8 @@ export const ValidationFormSchema = yup.object({
     .required('จำเป็นต้องกรอกจำนวนคนสูงสุดของปาร์ตี้'),
   password: yup
     .number()
-    .when("partyType", {
-      is: partyType.PRIVATE,
+    .when("PartyType", {
+      is: PartyType.PRIVATE,
       then: yup.number().required("จำเป็นต้องกรอกรหัสผ่าน")
     })
 });

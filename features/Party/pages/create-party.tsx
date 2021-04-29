@@ -10,8 +10,8 @@ import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 
 import { aryPromotion, restaurantMock, interestTag } from '../../../core/config/mockData'
-import { partyType } from '../../../core/constant/enum'
-import { partyTypeThai } from '../../../core/constant/constant'
+import { PartyType } from '../../../core/constant/enum'
+import { PartyTypeThai } from '../../../core/constant/constant'
 import { SubHeader, NormalText } from '../../../core/config/textStyle'
 import { apiParty } from '../../../core/service/apiParty'
 import InputField from '../components/InputField'
@@ -24,7 +24,7 @@ let dateAddHour = now.add(2, 'h').format("YYYY-MM-DDTHH:mm")
 const animatedComponents = makeAnimated();
 
 const aryMaxMember = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-const aryPartyType = [partyTypeThai.PUBLIC, partyTypeThai.PRIVATE]
+const aryPartyType = [PartyTypeThai.PUBLIC, PartyTypeThai.PRIVATE]
 
 const useStyles = makeStyles({
   root: {
@@ -95,7 +95,7 @@ const CreateParty = () => {
       restaurant: restaurantMock[0],
       promotion: aryPromotion[0],
       datetime: dateAddHour,
-      partyType: partyTypeThai.PUBLIC,
+      PartyType: PartyTypeThai.PUBLIC,
       maxMember: aryMaxMember[0],
       password: ''
     },
@@ -107,10 +107,10 @@ const CreateParty = () => {
         setCheckTags(false)
       }
 
-      if (values.partyType === partyTypeThai.PRIVATE){
-        values.partyType = partyType.PRIVATE
+      if (values.PartyType === PartyTypeThai.PRIVATE){
+        values.PartyType = PartyType.PRIVATE
       } else {
-        values.partyType = partyType.PUBLIC
+        values.PartyType = PartyType.PUBLIC
       }
 
       if (!checkTags && formik.values.tags.length != 0){
@@ -243,13 +243,13 @@ const CreateParty = () => {
       <div className="flex  space-x-2">
         <InputField label="ประเภทของปาร์ตี้" className="w-2/3">
           <TextField
-            id="partyType"
-            name="partyType"
+            id="PartyType"
+            name="PartyType"
             variant="outlined"
             size="small" 
             className={classes.root}
             select
-            value={formik.values.partyType}
+            value={formik.values.PartyType}
             onChange={formik.handleChange}
           >
             {
@@ -283,7 +283,7 @@ const CreateParty = () => {
         </InputField>
       </div>
       {
-        formik.values.partyType === partyType.PRIVATE ?
+        formik.values.PartyType === PartyType.PRIVATE ?
           <InputField label="รหัสผ่าน">
             <TextField 
               id="password" 
