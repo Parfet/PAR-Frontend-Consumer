@@ -8,6 +8,7 @@ import {
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
+import _ from "lodash"
 
 import {
   SubHeader,
@@ -15,6 +16,7 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
+import { Party } from '../../../core/constant/type'
 import PartyModal from './PartyModal'
 
 const useStyles = makeStyles(() =>
@@ -26,23 +28,14 @@ const useStyles = makeStyles(() =>
     },
   }),
 );
-
 interface Props {
-  partyId: string
-  partyName: string
-  restaurantName: string
-  timeToGo: string
-  promotion: string
-  interestTag: Array<string>
-  currentMember: number
-  maxMember: number
-  partyType: string
+  party :Party
 }
 
 const CardParty = (props: Props) => {
   const [openModal, setOpenModal] = useState(false);
   const classes = useStyles();
-  const { partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember, partyType } = props
+  const { party } = props
 
   const handleClickOpen = () => {
     setOpenModal(true)
@@ -56,7 +49,7 @@ const CardParty = (props: Props) => {
     <>
       <Paper className={classes.paper} onClick={handleClickOpen}>
         <SubHeader bold>
-          {partyName}
+          {party.party_name}
         </SubHeader>
         <div className="flex py-1">
           <div className="w-1/2">
@@ -71,9 +64,8 @@ const CardParty = (props: Props) => {
           <div className="w-1/2">
             <div className="flex flex-wrap justify-center h-9 bg-cusLightOrange rounded-tr-lg">
               <div className="flex items-center px-2 py-1">
-                <PinDropOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
                 <NormalText white>
-                  {restaurantName}
+                  {party.interested_topic}
                 </NormalText>
               </div>
             </div>
@@ -81,7 +73,7 @@ const CardParty = (props: Props) => {
               <div className="flex items-center px-2">
                 <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
                 <SmallText white>
-                  {timeToGo}
+                  {party.schedule_time}
                 </SmallText>
               </div>
             </div>
@@ -90,7 +82,7 @@ const CardParty = (props: Props) => {
                 Promotion
               </NormalText >
               <SmallText white>
-                {promotion}
+                {party.promotion || "Mock Promotion"}
               </SmallText>
             </div>
           </div>
@@ -98,7 +90,7 @@ const CardParty = (props: Props) => {
         <div className="flex justify-between">
           <div className="flex flex-row-1 space-x-1">
             {
-              interestTag.map((data, index) => (
+              _.map(party.interested_tag, (data, index) => (
                 <>
                   {
                     index < 3 ?
@@ -112,7 +104,7 @@ const CardParty = (props: Props) => {
             }
           </div>
           <NormalText>
-            {currentMember}/{maxMember}
+            {party.member.length}/{party.max_member}
             <PeopleAltOutlinedIcon />
           </NormalText>
         </div>
@@ -120,15 +112,7 @@ const CardParty = (props: Props) => {
       <PartyModal
         showModal={openModal}
         callBackToPartyList={valueFromPartyModal}
-        partyId={partyId}
-        partyName={partyName}
-        restaurantName={restaurantName}
-        timeToGo={timeToGo}
-        promotion={promotion}
-        interestTag={interestTag}
-        currentMember={currentMember}
-        maxMember={maxMember}
-        partyTypeProp={partyType}
+        party={party}
       />
     </>
   );

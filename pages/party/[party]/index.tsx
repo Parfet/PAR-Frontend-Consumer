@@ -4,7 +4,7 @@ import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
-import { partyAction } from '../../../core/config/enum'
+import { partyAction } from '../../../core/constant/enum'
 import Navigator from '../../../core/components/Navigator'
 import Meatball from '../../../core/components/Meatball'
 import ConfirmModal from '../../../core/components/ConfirmModal'

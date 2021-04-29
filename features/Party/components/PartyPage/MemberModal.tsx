@@ -6,7 +6,7 @@ import {
   } from '@material-ui/core';
 
 import { SubHeader, NormalText } from '../../../../core/config/textStyle'
-import { adminPartyAction } from '../../../../core/config/enum'
+import { adminPartyAction } from '../../../../core/constant/enum'
 import ConfirmModal from '../../../../core/components/ConfirmModal'
 
 type MemberDetail = {

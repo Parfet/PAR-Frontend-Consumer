@@ -4,6 +4,7 @@ import { TextField, Dialog, Button } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/styles';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
+import _ from "lodash"
 
 import {
   SubHeader,
@@ -11,19 +12,11 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
-import { partyType } from '../../../core/config/enum'
+import { partyType } from '../../../core/constant/enum'
 import InputField from '../components/InputField'
-
+import { Party } from '../../../core/constant/type'
 interface Props {
-  partyId: string
-  partyName: string
-  restaurantName: string
-  timeToGo: string
-  promotion: string
-  interestTag: Array<string>
-  currentMember: number
-  maxMember: number
-  partyTypeProp: string
+  party :Party
   showModal: boolean
   callBackToPartyList: Function
 }
@@ -57,7 +50,7 @@ const useStyles = makeStyles({
 });
 
 const PartyModal = (props: Props) => {
-  const { showModal, callBackToPartyList, partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember, partyTypeProp } = props
+  const { showModal, callBackToPartyList, party } = props
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [passcode, setPasscode] = useState('')
@@ -72,7 +65,7 @@ const PartyModal = (props: Props) => {
   };
 
   const handleClick = () => {
-    console.log(passcode)
+    console.log(party.passcode)
   }
 
   return (
@@ -81,7 +74,7 @@ const PartyModal = (props: Props) => {
         <div className="p-4">
           <div className="flex flex-col justify-center">
             <SubHeader bold className="text-left mb-2">
-              {partyName}
+              {party.party_name}
             </SubHeader>
             <Image
               width={"auto"}
@@ -90,18 +83,20 @@ const PartyModal = (props: Props) => {
               className="rounded-lg object-fill"
             />
             <div className="flex flex-wrap justify-center h-8 mt-3">
-              <div className="flex items-center">
-              <PinDropOutlinedIcon className="mr-2" />
-              <NormalText className="text-center">
-                {restaurantName}
-              </NormalText>
+              <div className="flex flex-col items-center">
+                <NormalText bold>
+                  หัวข้อที่สนใจ
+                </NormalText >
+                <NormalText className="text-center">
+                    {party.interested_topic}
+                </NormalText>
               </div>
             </div>
             <div className="flex flex-wrap justify-center h-8 mt-3">
               <div className="flex items-center bg-cusDarkRed rounded-5 px-3">
                 <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }} />
                 <NormalText className="text-center " white>
-                  {timeToGo}
+                  {party.schedule_time}
                 </NormalText>
               </div>
             </div>
@@ -111,13 +106,13 @@ const PartyModal = (props: Props) => {
                   Promotion
                 </NormalText >
                 <SmallText white>
-                  {promotion}
+                  {party.promotion || "Mock Promotion"}
                 </SmallText>
               </div>
             </div>
             <div className="flex flex-wrap justify-center h-12 mt-3">
               {
-                interestTag.map((data) => (
+                _.map(party.interested_topic, (data, index) => (
                   <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3 py-1 m-1 ">
                     {data}
                   </TinyText>
@@ -126,7 +121,7 @@ const PartyModal = (props: Props) => {
             </div>
           </div>
           {
-            partyTypeProp === partyType.PUBLIC ? 
+            party.party_type === partyType.PUBLIC ? 
               <InputField label="รหัสผ่าน" className="text-center">
                 <TextField
                   id="password"
