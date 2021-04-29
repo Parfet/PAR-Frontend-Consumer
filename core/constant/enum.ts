@@ -13,4 +13,9 @@ export enum partyAction {
   LEAVE_PARTY = "LEAVE_PARTY"
 }
 
+export enum RestaurantStatus {
+  RESTAURANT_OPEN = "OPEN",
+  RESTAURANT_CLOSED = "CLOSED"
+}
+
 
