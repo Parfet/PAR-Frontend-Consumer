@@ -104,7 +104,7 @@ const CardParty = (props: Props) => {
             }
           </div>
           <NormalText>
-            {party.member.length}/{party.max_member}
+            {party.members.length}/{party.max_member}
             <PeopleAltOutlinedIcon />
           </NormalText>
         </div>
