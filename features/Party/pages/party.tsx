@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useObserver } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import _ from 'lodash'
 
@@ -24,9 +25,11 @@ const Party = () => {
   const contextParty = useContext(partyContext)
   const router = useRouter()
   const query = router.query
-
+  
   useEffect(() => {
-    contextParty.getPartyByPartyId(query.party.toString())
+    console.log("🚀 ~ file: party.tsx ~ line 28 ~ Party ~ query", query)
+    console.log(contextParty.currentParty)
+    contextParty.getPartyByPartyId(query.party)
   }, [query.party, contextParty])
 
   const handleClickOpenMember = (memberDetail, index) => {
@@ -39,37 +42,46 @@ const Party = () => {
     setOpenMemberModal(value)
   }
 
-  return (
+  return useObserver(() => (
     <>
-    <div className="flex flex-col justify-center w-screen my-20 px-10">
-      <div className="ml-2 mb-4">
-          <RegularText bold className="text-gray-500">Party : {contextParty.currentParty.party_name}</RegularText>
-      </div>
-      <div>
-        <PartyMember 
-          admin
-          imageURL={mockPartyMember[0].imageURL}
-          username={contextParty.currentParty.members[0].username}
-          onClick={() => handleClickOpenMember(mockPartyMember[0], undefined)}
-          />
-      </div>
-      <div className="ml-2 my-4">
-        <RegularText bold className="text-gray-500">สมาชิก</RegularText>
-      </div>
-      <div className="flex flex-wrap">
-        {
-            _.map(contextParty.currentParty.members, (data, index) => (
+    {
+      contextParty.currentParty === undefined ?
+        <>
+          {/* 
+            TODO  handle loading
+          */}
+        </>
+        :
+        <div className="flex flex-col justify-center w-screen my-20 px-10">
+          <div className="ml-2 mb-4">
+              <RegularText bold className="text-gray-500">Party : {contextParty.currentParty.party_name}</RegularText>
+          </div>
+          <div>
             <PartyMember 
+              admin
               imageURL={mockPartyMember[0].imageURL}
-              username={data.username}
-              key={index}
-              keyId={index}
-              onClick={() => handleClickOpenMember(data, index)}
+              username={contextParty.currentParty.members[0].username}
+              onClick={() => handleClickOpenMember(mockPartyMember[0], undefined)}
               />
-              ))
-        }
-      </div>
-    </div>
+          </div>
+          <div className="ml-2 my-4">
+            <RegularText bold className="text-gray-500">สมาชิก</RegularText>
+          </div>
+          <div className="flex flex-wrap">
+            {
+              _.map(contextParty.currentParty.members, (data, index) => (
+              <PartyMember 
+                imageURL={mockPartyMember[0].imageURL}
+                username={data.username}
+                key={index}
+                keyId={index}
+                onClick={() => handleClickOpenMember(data, index)}
+                />
+                ))
+            }
+          </div>
+        </div>
+    }
     {
       openMemberModal ?
         <MemberModal
@@ -81,7 +93,7 @@ const Party = () => {
         : <></>
     }
     </>
-  )
+  ))
 }
 
 export default Party
