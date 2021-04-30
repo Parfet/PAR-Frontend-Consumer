@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { useFormik } from 'formik';
@@ -8,14 +8,19 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
+import { StatusCodes } from 'http-status-codes';
+import _ from 'lodash';
 
 import { aryPromotion, restaurantMock, interestTag } from '../../../core/config/mockData'
 import { PartyType } from '../../../core/constant/enum'
 import { PartyTypeThai } from '../../../core/constant/constant'
+import { authContext } from '../../../core/context/auth_context'
 import { SubHeader, NormalText } from '../../../core/config/textStyle'
-import { apiParty } from '../../../core/service/apiParty'
+import { restaurantContext } from '../../Restaurant/contexts/restaurant_context'
+import apiParty from '../services/apiParty'
 import InputField from '../components/InputField'
 import { ValidationFormSchema } from '../services/validationSchema'
+import { ContactSupportOutlined } from '@material-ui/icons';
 
 let now = dayjs()
 let dateNow = now.format("YYYY-MM-DDTHH:mm")
@@ -83,44 +88,56 @@ const DropdownIndicator = ({...props }) => {
 const CreateParty = () => {
   const router = useRouter()
   const classes = useStyles();
-  const [restaurant, setRestaurant] = useState<string | null>(restaurantMock[0]);
-  const [inputRestaurant, setInputRestaurant] = useState('');
   const [checkTags, setCheckTags] = useState(false);
+  const contextRestaurant = useContext(restaurantContext)
+  const contextUser = useContext(authContext)
+
+  useEffect(() => {
+    contextUser.getOneUser()
+  }, [contextUser])
+
+  const handleCreateParty = async (values) => {
+    const res = await apiParty.createParty(contextRestaurant.currentRestaurant.restaurant_id, values)
+    if (res.status === StatusCodes.OK){
+      router.push('/party/' + values.party_name)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
-      partyName: '',
-      partyTopic: '',
-      tags: [],
-      restaurant: restaurantMock[0],
+      party_name: '',
+      head_party: contextUser.userId,
+      interested_topic: '',
+      interested_tag: [],
       promotion: aryPromotion[0],
-      datetime: dateAddHour,
-      PartyType: PartyTypeThai.PUBLIC,
-      maxMember: aryMaxMember[0],
-      password: ''
+      schedule_time: dateAddHour,
+      party_type: PartyTypeThai.PUBLIC,
+      max_member: aryMaxMember[0],
+      passcode: ''
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-      if (formik.values.tags.length === 0){
+      console.log("🚀 ~ file: create-party.tsx ~ line 119 ~ CreateParty ~ formik.values.interested_tag", formik.values.interested_tag)
+      if (formik.values.interested_tag.length === 0){
         setCheckTags(true)
       }else{
         setCheckTags(false)
       }
-
-      if (values.PartyType === PartyTypeThai.PRIVATE){
-        values.PartyType = PartyType.PRIVATE
+      
+      if (values.party_type === PartyTypeThai.PRIVATE){
+        values.party_type = PartyType.PRIVATE
       } else {
-        values.PartyType = PartyType.PUBLIC
+        values.party_type = PartyType.PUBLIC
       }
-
-      if (!checkTags && formik.values.tags.length != 0){
+      
+      if (!checkTags && formik.values.interested_tag.length != 0){
+        console.log(5)
         let tagsValue = []
-        formik.values.tags.map((data) => {
+        formik.values.interested_tag.map((data) => {
           tagsValue.push(data.value)
         })
-        values.tags = tagsValue
-        apiParty.createParty(values)
-        router.push('/party/'+values.partyName)
+        values.interested_tag = tagsValue
+        handleCreateParty(values)
       }
     },
   });
@@ -129,28 +146,28 @@ const CreateParty = () => {
     <form className="flex flex-col justify-center w-screen my-14 px-10" onSubmit={formik.handleSubmit}>
       <InputField label="ชื่อปาร์ตี้">
         <TextField 
-          id="partyName" 
-          name="partyName" 
+          id="party_name"
+          name="party_name"
           variant="outlined" 
           size="small" 
           className={classes.root} 
-          value={formik.values.partyName} 
+          value={formik.values.party_name} 
           onChange={formik.handleChange}
-          error={formik.touched.partyName && Boolean(formik.errors.partyName)}
-          helperText={formik.touched.partyName && formik.errors.partyName}
+          error={formik.touched.party_name && Boolean(formik.errors.party_name)}
+          helperText={formik.touched.party_name && formik.errors.party_name}
           />
       </InputField>
       <InputField label="หัวข้อที่สนใจคุยในปาร์ตี้">
         <TextField 
-          id="partyTopic"
-          name="partyTopic"
+          id="interested_topic"
+          name="interested_topic"
           variant="outlined" 
           size="small" 
           className={classes.root} 
-          value={formik.values.partyTopic}
+          value={formik.values.interested_topic}
           onChange={formik.handleChange}
-          error={formik.touched.partyTopic && Boolean(formik.errors.partyTopic)}
-          helperText={formik.touched.partyTopic && formik.errors.partyTopic}
+          error={formik.touched.interested_topic && Boolean(formik.errors.interested_topic)}
+          helperText={formik.touched.interested_topic && formik.errors.interested_topic}
           />
       </InputField>
       <InputField label="Tag ที่สนใจ">
@@ -158,16 +175,16 @@ const CreateParty = () => {
           <Select
             styles={customStyles(checkTags)}
             closeMenuOnSelect={false}
-            inputId="tags"
+            inputId="interested_tag"
             placeholder="เลือกTag ที่เกี่ยวข้อง"
             className="rounded-lg"
             isMulti
             components={{ animatedComponents, DropdownIndicator }}
             options={interestTag}
-            onChange={(e) => { formik.setFieldValue('tags', e)}}
-            onBlur={() => { formik.values.tags.length === 0 ? setCheckTags(true) : setCheckTags(false)}}
-            error={formik.touched.tags && Boolean(formik.errors.tags)}
-            helperText={formik.touched.tags && formik.errors.tags}
+            onChange={(e) => { formik.setFieldValue('interested_tag', e)}}
+            onBlur={() => { formik.values.interested_tag.length === 0 ? setCheckTags(true) : setCheckTags(false)}}
+            error={formik.touched.interested_tag && Boolean(formik.errors.interested_tag)}
+            helperText={formik.touched.interested_tag && formik.errors.interested_tag}
           />
           {
             checkTags ? 
@@ -175,35 +192,6 @@ const CreateParty = () => {
               : <></>
           }
         </>
-      </InputField>
-      <InputField label="ร้านบุฟเฟต์">
-        <Autocomplete
-          value={restaurant}
-          onChange={(event: any, newRestaurant: string | null) => {
-              setRestaurant(newRestaurant)
-              formik.setFieldValue('restaurant', newRestaurant)
-            }
-          }
-          inputValue={inputRestaurant}
-          onInputChange={(event, newInputRestaurant) => {
-            setInputRestaurant(newInputRestaurant);
-          }}
-          id="controllable-states-demo"
-          options={restaurantMock}
-          className={classes.root}
-          size="small"
-          renderInput={(params) => 
-            <TextField 
-              {...params} 
-              variant="outlined" 
-              id="restaurant"
-              name="restaurant"
-              value={formik.values.restaurant}
-              error={formik.touched.restaurant && Boolean(formik.errors.restaurant)}
-              helperText={formik.touched.restaurant && formik.errors.restaurant}
-              />
-          }
-        />
       </InputField>
       <InputField label="โปรโมชั่น">
         <TextField
@@ -227,13 +215,13 @@ const CreateParty = () => {
       </InputField>
       <InputField label="วันและเวลาที่จะไป">
         <TextField
-          id="datetime"
-          name="datetime"
+          id="schedule_time"
+          name="schedule_time"
           type="datetime-local"
           variant="outlined"
           size="small" 
           className={classes.root}
-          value={formik.values.datetime}
+          value={formik.values.schedule_time}
           onChange={formik.handleChange}
           inputProps={{
             min: dateNow
@@ -243,13 +231,13 @@ const CreateParty = () => {
       <div className="flex  space-x-2">
         <InputField label="ประเภทของปาร์ตี้" className="w-2/3">
           <TextField
-            id="PartyType"
-            name="PartyType"
+            id="party_type"
+            name="party_type"
             variant="outlined"
             size="small" 
             className={classes.root}
             select
-            value={formik.values.PartyType}
+            value={formik.values.party_type}
             onChange={formik.handleChange}
           >
             {
@@ -263,13 +251,13 @@ const CreateParty = () => {
         </InputField>
         <InputField label="จำนวนคนสูงสุด" className="w-1/3">
           <TextField
-            id="maxMember"
-            name="maxMember"
+            id="max_member"
+            name="max_member"
             variant="outlined"
             size="small" 
             className={classes.root}
             select
-            value={formik.values.maxMember}
+            value={formik.values.max_member}
             onChange={formik.handleChange}
           >
             {
@@ -283,20 +271,20 @@ const CreateParty = () => {
         </InputField>
       </div>
       {
-        formik.values.PartyType === PartyType.PRIVATE ?
+        formik.values.party_type === PartyTypeThai.PRIVATE ?
           <InputField label="รหัสผ่าน">
             <TextField 
-              id="password" 
-              name="password" 
+              id="passcode" 
+              name="passcode" 
               variant="outlined" 
               size="small" 
               type="text"
               className={classes.root} 
               inputProps={{ minLength: "6", maxLength: "6", pattern: "[0-9]*" }}
-              value={formik.values.password}
+              value={formik.values.passcode}
               onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              error={formik.touched.passcode && Boolean(formik.errors.passcode)}
+              helperText={formik.touched.passcode && formik.errors.passcode}
             />
           </InputField>
         :<></>
