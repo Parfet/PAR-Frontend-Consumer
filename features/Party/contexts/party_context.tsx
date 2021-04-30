@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable, action } from 'mobx'
+import { makeAutoObservable  } from 'mobx'
 import { createContext } from 'react'
 import { StatusCodes } from 'http-status-codes';
 
@@ -17,10 +17,11 @@ export class PartyContext {
   getParties = async (restaurantId :string) => {
     try {
       const response = await apiParty.getPartyByRestaurantId(restaurantId)
-      if (response.status === StatusCodes.NO_CONTENT){
+      if (response.status === StatusCodes.OK){
+        this.parties = response.data.parties
+      }else{
         this.parties = []
       }
-      this.parties = response.data.parties
     } catch (error) {
       console.log(error)
     }
