@@ -26,7 +26,7 @@ const PartyList = () => {
   }, [contextParty])
 
   return useObserver(() => (
-    <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
+    <BackgroundPartyList className="overscroll-auto pt-4 pb-10 mb-6">
       {
         _.size(contextParty.parties) === 0 ? 
           <div className="flex justify-center flex-col w-full h-full">
