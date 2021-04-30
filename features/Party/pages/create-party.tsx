@@ -4,14 +4,13 @@ import dayjs from 'dayjs'
 import { useFormik } from 'formik';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { TextField, MenuItem, Button } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Select, { components } from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 
-import { aryPromotion, restaurantMock, interestTag } from '../../../core/config/mockData'
+import { aryPromotion, interestTag } from '../../../core/config/mockData'
 import { PartyType } from '../../../core/constant/enum'
 import { PartyTypeThai } from '../../../core/constant/constant'
 import { authContext } from '../../../core/context/auth_context'
@@ -20,7 +19,6 @@ import { restaurantContext } from '../../Restaurant/contexts/restaurant_context'
 import apiParty from '../services/apiParty'
 import InputField from '../components/InputField'
 import { ValidationFormSchema } from '../services/validationSchema'
-import { ContactSupportOutlined } from '@material-ui/icons';
 
 let now = dayjs()
 let dateNow = now.format("YYYY-MM-DDTHH:mm")
@@ -99,7 +97,7 @@ const CreateParty = () => {
   const handleCreateParty = async (values) => {
     const res = await apiParty.createParty(contextRestaurant.currentRestaurant.restaurant_id, values)
     if (res.status === StatusCodes.OK){
-      router.push('/party/' + values.party_name)
+      router.push('/party/' + res.data.party_id)
     }
   }
 
@@ -117,7 +115,6 @@ const CreateParty = () => {
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-      console.log("🚀 ~ file: create-party.tsx ~ line 119 ~ CreateParty ~ formik.values.interested_tag", formik.values.interested_tag)
       if (formik.values.interested_tag.length === 0){
         setCheckTags(true)
       }else{

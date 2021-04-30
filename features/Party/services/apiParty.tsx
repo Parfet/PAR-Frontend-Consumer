@@ -6,6 +6,11 @@ const apiParty = {
     const response = await api.get(`/party/${restaurantId}`)
     return response
   },
+  getPartyByPartyId: async (partyId :string) => {
+    const response = await api.get(`/party/info/${partyId}`)
+    console.log("🚀 ~ file: apiParty.tsx ~ line 11 ~ getPartyByPartyId: ~ response", response)
+    return response
+  },
   createParty: async (restaurantId :string, party :Party) => {
     const data = {
       "head_party": party.head_party,
@@ -17,7 +22,6 @@ const apiParty = {
       "max_member": party.max_member,
       "schedule_time": party.schedule_time
     }
-    // console.log("🚀 ~ file: apiParty.tsx ~ line 20 ~ createParty: ~ data", data)
     const response = await api.post(`/party/${restaurantId}`, data)
     return response
   },
