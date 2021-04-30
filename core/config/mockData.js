@@ -6,11 +6,11 @@ let datenow = dayjs().format("DD/MMM/YYYY HH:mm ")
 export const aryPromotion = ["มา 3 จ่าย 4", "มา 10 ลด 20 %"]
 export const restaurantMock = ["ติดมัน", "Animal", "นัดแซ่บ", "แจ่วแจ๋ว", "2get"]
 export const interestTag = [
-  { value: 'Technology', label: 'Technology' },
-  { value: 'Developer', label: 'Developer' },
-  { value: 'แมว', label: 'แมว' },
-  { value: 'หมา', label: 'หมา' },
-  { value: 'เรื่อยเปื่อย', label: 'เรื่อยเปื่อย' }
+  { value: '279385be-99d5-4926-af42-34d9c3a00ce8', label: 'Technology' },
+  { value: '279385be-99d5-4926-af42-34d9c3a00ce7', label: 'Developer' },
+  { value: '279385be-99d5-4926-af42-34d9c3a00ce6', label: 'แมว' },
+  { value: '279385be-99d5-4926-af42-34d9c3a00ce5', label: 'หมา' },
+  { value: '279385be-99d5-4926-af42-34d9c3a00ce4', label: 'เรื่อยเปื่อย' }
 ]
 
 export const mockParty = [
