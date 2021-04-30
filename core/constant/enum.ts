@@ -18,4 +18,9 @@ export enum RestaurantStatus {
   RESTAURANT_CLOSED = "CLOSED"
 }
 
+export const Errors = {
+  USER_NOT_FOUND: "User not found",
+  PARTY_NOT_FOUND: "Party not found",
+  PASSCODE_INCORRECT: "Passcode incorrect"
+}
 
