@@ -33,13 +33,10 @@ const Restaurant = () => {
       }
       bottomNavigator={
         <>
-          <div className="flex w-1/3 justify-center">
+          <div className="flex w-1/2 justify-center">
             <BottomNavigationAction label="ขอเข้าร่วม" icon={<ListIcon />} showLabel />
           </div>
-          <div className="flex w-1/3 justify-center">
-            <BottomNavigationAction label="สร้างปาร์ตี้ใหม่" icon={<AddIcon />} showLabel onClick={goToCreateParty} />
-          </div>
-          <div className="flex w-1/3 justify-center">
+          <div className="flex w-1/2 justify-center">
             <BottomNavigationAction label="ข้อความ" icon={<QuestionAnswerIcon />} showLabel />
           </div>
         </>
