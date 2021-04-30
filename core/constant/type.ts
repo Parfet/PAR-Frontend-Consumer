@@ -8,7 +8,7 @@ export type Party = {
   restaurant_name :string
   promotion :string
   passcode :string
-  members :Member[]
+  members: User[]
   max_member :number
   schedule_time :string
   created_at :string
@@ -31,6 +31,15 @@ export type Restaurant = {
   schedule_time :string
 }
 
-export type Member = {
-  member_id: string
+export type User = {
+  user_id: string
+  username: string
+  email: string
+  first_name_th: string
+  last_name_th: string
+  first_name_en: string
+  last_name_en: string
+  tel_no: string
+  verify_status: boolean
+  image_url: string
 }
