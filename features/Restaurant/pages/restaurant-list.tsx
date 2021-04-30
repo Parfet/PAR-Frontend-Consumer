@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { GetStaticProps } from 'next'
 import styled from 'styled-components'
 import { useObserver } from 'mobx-react-lite'
-import { toJS } from 'mobx';
 import _ from "lodash"
 
 import { mockParty } from '../../../core/config/mockData'
