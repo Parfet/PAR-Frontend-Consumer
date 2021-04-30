@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { TextField, Dialog, Button } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/styles';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
-import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
+import { StatusCodes } from 'http-status-codes';
 import _ from "lodash"
 
 import {
@@ -12,9 +13,12 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
-import { PartyType } from '../../../core/constant/enum'
-import InputField from '../components/InputField'
+import { ErrorMessage } from '../../../core/constant/constant'
+import { PartyType, Errors } from '../../../core/constant/enum'
 import { Party } from '../../../core/constant/type'
+import { authContext } from '../../../core/context/auth_context'
+import InputField from '../components/InputField'
+import apiParty from '../services/apiParty'
 interface Props {
   party :Party
   showModal: boolean
@@ -52,7 +56,10 @@ const useStyles = makeStyles({
 const PartyModal = (props: Props) => {
   const { showModal, callBackToPartyList, party } = props
   const classes = useStyles();
+  const router = useRouter()
+  const contextUser = useContext(authContext)
   const [open, setOpen] = useState(false);
+  const [alertText, setAlertText] = useState('')
   const [passcode, setPasscode] = useState('')
 
   useEffect(() => {
@@ -64,8 +71,21 @@ const PartyModal = (props: Props) => {
     callBackToPartyList(false);
   };
 
-  const handleClick = () => {
-    console.log(party.passcode)
+  const handleClick = async () => {
+    const res = await apiParty.joinParty(party.party_id, contextUser.userId,passcode)
+    if(res.status === StatusCodes.OK){
+      setOpen(false);
+    } else if (res.status === StatusCodes.BAD_REQUEST){
+      res.data.message.map(data => {
+        if (data === Errors.PASSCODE_INCORRECT){
+          setAlertText(ErrorMessage.PASSCODE_INCORRECT)
+        }else if (data === Errors.PARTY_NOT_FOUND) {
+          router.push('/party')
+        }else {
+          router.push('/')
+        }
+      })
+    }
   }
 
   return (
@@ -121,21 +141,28 @@ const PartyModal = (props: Props) => {
             </div>
           </div>
           {
-            party.party_type === PartyType.PUBLIC ? 
-              <InputField label="รหัสผ่าน" className="text-center">
-                <TextField
-                  id="password"
-                  name="password"
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  value={passcode}
-                  className={classes.root}
-                  onChange={(e) => setPasscode(e.target.value)}
-                  inputProps={{ minLength: "6", maxLength: "6", pattern: "[0-9]*" }}
-                  required
-                />
-              </InputField>
+            party.party_type === PartyType.PRIVATE ? 
+              <>
+                <InputField label="รหัสผ่าน" className="text-center">
+                  <TextField
+                    id="password"
+                    name="password"
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    value={passcode}
+                    className={classes.root}
+                    onChange={(e) => setPasscode(e.target.value)}
+                    inputProps={{ minLength: "6", maxLength: "6", pattern: "[0-9]*" }}
+                    required
+                    />
+                </InputField>
+                {
+                  alertText != '' ?
+                    <NormalText className="ml-3 mt-1" style={{ color: 'red' }}>{alertText}</NormalText>
+                    : <></>
+                }
+              </>
               : <></>
           }
           <div className="flex justify-between mt-5">
