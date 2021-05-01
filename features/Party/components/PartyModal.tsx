@@ -72,19 +72,27 @@ const PartyModal = (props: Props) => {
   };
 
   const handleClick = async () => {
-    const res = await apiParty.joinParty(party.party_id, contextUser.userId,passcode)
-    if(res.status === StatusCodes.OK){
-      setOpen(false);
-    } else if (res.status === StatusCodes.BAD_REQUEST){
-      res.data.message.map(data => {
-        if (data === Errors.PASSCODE_INCORRECT){
-          setAlertText(ErrorMessage.PASSCODE_INCORRECT)
-        }else if (data === Errors.PARTY_NOT_FOUND) {
-          router.push('/party')
-        }else {
-          router.push('/')
+    if (passcode.length === 6 ){
+      setAlertText('')
+      try {
+        const res = await apiParty.joinParty(party.party_id, contextUser.userId,passcode)
+        if (res.status === StatusCodes.OK) {
+          setOpen(false);
         }
-      })
+      } catch (error) {
+        if (error.response?.status === StatusCodes.BAD_REQUEST) {
+          const message = error.response?.data.message
+            if (message === Errors.PASSCODE_INCORRECT) {
+              setAlertText(ErrorMessage.PASSCODE_INCORRECT)
+            }else if (message === Errors.PARTY_NOT_FOUND) {
+              router.push('/party')
+            } else {
+              router.push('/')
+            }
+          }
+        }
+    }else {
+      setAlertText("รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร")
     }
   }
 
@@ -153,7 +161,7 @@ const PartyModal = (props: Props) => {
                     value={passcode}
                     className={classes.root}
                     onChange={(e) => setPasscode(e.target.value)}
-                    inputProps={{ minLength: "6", maxLength: "6", pattern: "[0-9]*" }}
+                    inputProps={{ maxLength: "6", pattern: "[0-9]*" }}
                     required
                     />
                 </InputField>
