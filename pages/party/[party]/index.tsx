@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
@@ -9,6 +9,7 @@ import Navigator from '../../../core/components/Navigator'
 import Meatball from '../../../core/components/Meatball'
 import ConfirmModal from '../../../core/components/ConfirmModal'
 import Party from '../../../features/Party/pages/party'
+import { partyContext } from '../../../features/Party/contexts/party_context'
 
 const menuColors = ["bg-cusRegularYellow", "bg-cusDarkYellow"]
 
@@ -17,9 +18,14 @@ const PartyPage = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [confirmText, setConfirmText] = useState("")
   const [typeAction, setTypeAction] = useState("")
+  const contextParty = useContext(partyContext)
 
-  const partyName = router.query
+  const query = router.query
 
+  useEffect (() => {
+    contextParty.getPartyByPartyId(query.party)
+  }, [query.party, contextParty]
+  )
   const closeParty = () => {
     setConfirmText("ต้องการปิดปาร์ตี้")
     setOpenConfirmModal(true)
@@ -77,7 +83,7 @@ const PartyPage = () => {
               <BottomNavigationAction 
                 label="คำร้อง" 
                 icon={<PeopleAltOutlinedIcon />} 
-                onClick={() => router.push(`/party/${partyName.party}/request`)}
+                onClick={() => router.push(`/party/${contextParty.currentParty.party_id}/request`)}
                 showLabel 
               />
             </div>

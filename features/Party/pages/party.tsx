@@ -26,12 +26,6 @@ const Party = () => {
   const router = useRouter()
   const query = router.query
   
-  useEffect(() => {
-    console.log("🚀 ~ file: party.tsx ~ line 28 ~ Party ~ query", query)
-    console.log(contextParty.currentParty)
-    contextParty.getPartyByPartyId(query.party)
-  }, [query.party, contextParty])
-
   const handleClickOpenMember = (memberDetail, index) => {
     setIndexMember(index)
     setMemberDetail(memberDetail)
