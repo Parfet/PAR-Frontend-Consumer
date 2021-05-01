@@ -21,6 +21,7 @@ export enum RestaurantStatus {
 export const Errors = {
   USER_NOT_FOUND: "User not found",
   PARTY_NOT_FOUND: "Party not found",
-  PASSCODE_INCORRECT: "Passcode incorrect"
+  PASSCODE_INCORRECT: "Passcode incorrect",
+  PERMISSION_DENIED: "Only party owner can view request join party"
 }
 
