@@ -36,6 +36,10 @@ const apiParty = {
     const response = await api.get(`/party/info/${partyId}/join`)
     return response
   },
+  archivedParty: async (partyId: string) => {
+    const response = await api.post(`/party/info/${partyId}`)
+    return response
+  }
 }
 
 export default apiParty

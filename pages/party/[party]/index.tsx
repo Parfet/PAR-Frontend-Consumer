@@ -1,15 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { StatusCodes } from 'http-status-codes';
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 
-import { PartyAction } from '../../../core/constant/enum'
+import { Errors, PartyAction } from '../../../core/constant/enum'
 import Navigator from '../../../core/components/Navigator'
 import Meatball from '../../../core/components/Meatball'
 import ConfirmModal from '../../../core/components/ConfirmModal'
 import Party from '../../../features/Party/pages/party'
 import { partyContext } from '../../../features/Party/contexts/party_context'
+import apiParty from '../../../features/Party/services/apiParty';
 
 const menuColors = ["bg-cusRegularYellow", "bg-cusDarkYellow"]
 
@@ -24,8 +26,8 @@ const PartyPage = () => {
 
   useEffect (() => {
     contextParty.getPartyByPartyId(query.party)
-  }, [query.party, contextParty]
-  )
+  }, [query.party, contextParty])
+
   const closeParty = () => {
     setConfirmText("ต้องการปิดปาร์ตี้")
     setOpenConfirmModal(true)
@@ -44,9 +46,22 @@ const PartyPage = () => {
     { text: 'ปิดปาร์ตี้', menuFunc: closeParty }
   ]
 
-  const closePartyAPI = () => {
-    console.log(PartyAction.CLOSE_PARTY)
-    //Do sth
+  const closePartyAPI = async () => {
+    try {
+      const res = await apiParty.archivedParty(contextParty.currentParty.party_id)
+      if (res.status === StatusCodes.OK) {
+        router.push('/restaurant')
+      }
+    } catch (error) {
+      if (error.response?.status === StatusCodes.FORBIDDEN) {
+        const message = error.response?.data.message
+        if (message === Errors.PERMISSION_DENIED) {
+          router.push('/party/' + contextParty.currentParty.party_id)
+        } else {
+          router.push('/')
+        }
+      }
+    }
   }
 
   const leavePartyAPI = () => {
