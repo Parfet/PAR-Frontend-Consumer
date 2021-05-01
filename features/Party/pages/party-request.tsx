@@ -25,12 +25,11 @@ const PartyRequest = () => {
       const res = await apiParty.getUserJoinParty(contextParty.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
         setUserList(res.data.request)
-        console.log("🚀 ~ file: party-request.tsx ~ line 35 ~ getUserJoinParty ~ res.data.request", res.data.request)
       } else if (res.status === StatusCodes.NO_CONTENT) {
         setUserList([])
       }
     } catch (error) {
-      if (error.response?.status === StatusCodes.BAD_REQUEST) {
+      if (error.response?.status === StatusCodes.FORBIDDEN) {
         const message = error.response?.data.message
         if (message === Errors.PERMISSION_DENIED) {
           router.push('/party/' + contextParty.currentParty.party_id)
