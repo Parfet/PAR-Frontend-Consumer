@@ -42,4 +42,5 @@ export type User = {
   tel_no: string
   verify_status: boolean
   image_url: string
+  rating: number
 }
