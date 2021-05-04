@@ -41,7 +41,7 @@ const PartyPage = () => {
   }
 
   const menuItems = [
-    { text: 'แก้ไชปาร์ตี้', menuFunc: () => { } },
+    { text: 'แก้ไชปาร์ตี้', menuFunc: () => router.push('/party/' + contextParty.currentParty.party_id + '/edit') },
     { text: 'ออกจากปาร์คี้', menuFunc: leaveParty },
     { text: 'ปิดปาร์ตี้', menuFunc: closeParty }
   ]
