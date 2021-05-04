@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
@@ -12,11 +11,6 @@ import PartyList from '../../features/Party/pages/party-list'
 
 const Party = () => {
   const router = useRouter()
-
-  const goToCreateParty = (e) => {
-    e.preventDefault()
-    router.push("/party/create")
-  }
 
   return (
     <Navigator
@@ -34,7 +28,7 @@ const Party = () => {
             <BottomNavigationAction label="ขอเข้าร่วม" icon={<ListIcon />} showLabel />
           </div>
           <div className="flex w-1/3 justify-center">
-            <BottomNavigationAction label="สร้างปาร์ตี้ใหม่" icon={<AddIcon />} showLabel onClick={goToCreateParty} />
+            <BottomNavigationAction label="สร้างปาร์ตี้ใหม่" icon={<AddIcon />} showLabel onClick={() => router.push("/party/create")} />
           </div>
           <div className="flex w-1/3 justify-center">
             <BottomNavigationAction label="ข้อความ" icon={<QuestionAnswerIcon />} showLabel />
