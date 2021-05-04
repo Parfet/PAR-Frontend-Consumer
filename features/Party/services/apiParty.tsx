@@ -10,7 +10,8 @@ const apiParty = {
     const response = await api.get(`/party/info/${partyId}`)
     return response
   },
-  createParty: async (restaurantId: string, party: Party) => {
+
+    createParty: async (restaurantId: string, party: Party) => {
     const data = {
       "head_party": party.head_party,
       "party_name": party.party_name,
@@ -46,6 +47,21 @@ const apiParty = {
       "status": status,
     }
     const response = await api.put(`/party/info/${partyId}/join`, data)
+    return response
+  },
+  updateParty: async (party: Party, partyId: string) => {
+    const data = {
+      "party_name": party.party_name,
+      "head_party": "198e8f2e-d224-48f3-8219-382cde90e6a5",
+      // "head_party": party.head_party,
+      "passcode": party.passcode,
+      "party_type": party.party_type,
+      "interested_topic": party.interested_topic,
+      "interested_tag": party.interested_tag,
+      "max_member": party.max_member,
+      "schedule_time": party.schedule_time
+    }
+    const response = await api.put(`/party/info/${partyId}`, data)
     return response
   },
 }
