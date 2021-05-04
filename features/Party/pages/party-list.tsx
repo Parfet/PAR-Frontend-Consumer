@@ -1,100 +1,42 @@
-import React from 'react'
-import dayjs from 'dayjs'
+import React, { useContext, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import { Box, ListItem } from '@material-ui/core';
+import { useObserver } from 'mobx-react-lite'
+import _ from "lodash"
 
+import NoContent from '../../../core/components/NoContent'
+import { restaurantContext } from '../../Restaurant/contexts/restaurant_context'
 import CardParty from '../components/CardParty'
+import { partyContext } from '../contexts/party_context'
 
 const BackgroundPartyList = styled.div`
   background-color: #F8CE28;
+  height: 100vh;
 `
 
-let datenow = dayjs().format("DD/MMM/YYYY HH:mm ")
-
-const mockParty = [
-  {
-    partyId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
-    partyName: "อะไรดี",
-    restaurantName: "ติดมัน",
-    timeToGo: datenow,
-    promotion: "มา 4 จ่าย 3 ลด 100 บาท",
-    interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
-    currentMember: 1,
-    maxMember: 5
-  },
-  {
-    partyId: "99729253-aea7-4729-a5c5-27e1e92675dd",
-    partyName: "อะไรดี",
-    restaurantName: "ติดมัน",
-    timeToGo: datenow,
-    promotion: "มา 4 จ่าย 3 ลด 100 บาท",
-    interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
-    currentMember: 1,
-    maxMember: 5
-  },
-  {
-    partyId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
-    partyName: "อะไรดี",
-    restaurantName: "ติดมัน",
-    timeToGo: datenow,
-    promotion: "มา 4 จ่าย 3 ลด 100 บาท",
-    interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
-    currentMember: 1,
-    maxMember: 5
-  },
-  {
-    partyId: "99729253-aea7-4729-a5c5-27e1e92675dd",
-    partyName: "อะไรดี",
-    restaurantName: "ติดมัน",
-    timeToGo: datenow,
-    promotion: "มา 4 จ่าย 3 ลด 100 บาท",
-    interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
-    currentMember: 1,
-    maxMember: 5
-  },
-  {
-    partyId: "95596c42-1c1d-4a6a-b7d0-188cae11e297",
-    partyName: "อะไรดี",
-    restaurantName: "ติดมัน",
-    timeToGo: datenow,
-    promotion: "มา 4 จ่าย 3 ลด 100 บาท",
-    interestTag: ["Technology", "Developer", "แมว", "หมา", "เรื่อยเปื่อย"],
-    currentMember: 1,
-    maxMember: 5
-  },
-  {
-    partyId: "99729253-aea7-4729-a5c5-27e1e92675dd",
-    partyName: "อะไรดี",
-    restaurantName: "ติดมัน",
-    timeToGo: datenow,
-    promotion: "มา 4 จ่าย 3 ลด 100 บาท",
-    interestTag: ["เรื่อยเปื่อย", "หมา", "แมว", "Technology", "Developer"],
-    currentMember: 1,
-    maxMember: 5
-  },
-]
-
 const PartyList = () => {
-  return (
-    <>
-      <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
-          {
-            mockParty.map((data, index) => (
-              <CardParty
-                partyId={data.partyId}
-                partyName={data.partyName}
-                restaurantName={data.restaurantName} 
-                timeToGo={data.timeToGo} 
-                promotion={data.promotion}
-                interestTag={data.interestTag}
-                currentMember={data.currentMember}
-                maxMember={data.maxMember}
-              />
-            ))
-          }
-      </BackgroundPartyList>
-    </>
-  )
+  const router = useRouter()
+  const contextParty = useContext(partyContext)
+  const contextRestaurant = useContext(restaurantContext)
+  
+  useEffect(() => {
+    contextParty.getParties(contextRestaurant.currentRestaurant.restaurant_id)
+  }, [contextParty])
+
+  return useObserver(() => (
+    <BackgroundPartyList className="overscroll-auto pt-4 pb-10 mb-6">
+      {
+        _.size(contextParty.parties) === 0 ? 
+        <div className="flex justify-center flex-col w-full h-full">
+          <NoContent text="ไม่มี Party ในร้านอาหารนี้" white />
+        </div>
+        :
+        _.map(contextParty.parties, (data) => (
+          <CardParty party={data} />
+        ))
+      }
+    </BackgroundPartyList>
+  ))
 }
 
 export default PartyList

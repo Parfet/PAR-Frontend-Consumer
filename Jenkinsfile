@@ -13,7 +13,6 @@ pipeline {
                     sh 'chmod 700 $WORKSPACE/.env.production || :'
                     sh 'rm -rf $WORKSPACE/.env.production || :'
                     sh 'cp $envProd $WORKSPACE'
-                    
                 }
                 nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'yarn install'
@@ -27,7 +26,7 @@ pipeline {
                 echo ' Executing yarn '
                 nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'pm2 delete ${JOB_NAME} || :'
-                    sh 'pm2 start yarn --name "${JOB_NAME}" -- start'
+                    sh 'pm2 start yarn --name "${JOB_NAME}" -- staging'
                 }
             }
         }

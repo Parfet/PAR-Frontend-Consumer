@@ -1,16 +1,16 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 import ListIcon from '@material-ui/icons/List';
 import AddIcon from '@material-ui/icons/Add';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import Navigator from '../../core/components/Navigator'
-import PartyList from '../../features/Party/pages/party-list'
+import Navigator from '../core/components/Navigator'
+import RestaurantList from '../features/Restaurant/pages/restaurant-list'
 
-const Party = () => {
+const Restaurant = () => {
   const router = useRouter()
 
   const goToCreateParty = (e) => {
@@ -20,9 +20,12 @@ const Party = () => {
 
   return (
     <Navigator
-      backTextButton='Restaurant'
-      backRoute='/restaurant'
-      middleText='Party'
+      middleText='Restaurant'
+      rightIcon={
+        <IconButton>
+          <AccountCircleIcon />
+        </IconButton>
+      }
       leftIcon={
         <IconButton>
           <SortIcon />
@@ -30,21 +33,18 @@ const Party = () => {
       }
       bottomNavigator={
         <>
-          <div className="flex w-1/3 justify-center">
+          <div className="flex w-1/2 justify-center">
             <BottomNavigationAction label="ขอเข้าร่วม" icon={<ListIcon />} showLabel />
           </div>
-          <div className="flex w-1/3 justify-center">
-            <BottomNavigationAction label="สร้างปาร์ตี้ใหม่" icon={<AddIcon />} showLabel onClick={goToCreateParty} />
-          </div>
-          <div className="flex w-1/3 justify-center">
+          <div className="flex w-1/2 justify-center">
             <BottomNavigationAction label="ข้อความ" icon={<QuestionAnswerIcon />} showLabel />
           </div>
         </>
       }
     >
-      <PartyList />
+      <RestaurantList />
     </Navigator>
   )
 }
 
-export default Party
+export default Restaurant

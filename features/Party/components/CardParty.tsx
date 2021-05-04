@@ -8,6 +8,7 @@ import {
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
 import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
+import _ from "lodash"
 
 import {
   SubHeader,
@@ -15,6 +16,7 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
+import { Party } from '../../../core/constant/type'
 import PartyModal from './PartyModal'
 
 const useStyles = makeStyles(() =>
@@ -26,22 +28,14 @@ const useStyles = makeStyles(() =>
     },
   }),
 );
-
 interface Props {
-  partyId: string
-  partyName: string
-  restaurantName: string
-  timeToGo: string
-  promotion: string
-  interestTag: Array<string>
-  currentMember: number
-  maxMember: number
+  party :Party
 }
 
 const CardParty = (props: Props) => {
   const [openModal, setOpenModal] = useState(false);
   const classes = useStyles();
-  const { partyId, partyName, restaurantName, timeToGo, promotion, interestTag, currentMember, maxMember } = props
+  const { party } = props
 
   const handleClickOpen = () => {
     setOpenModal(true)
@@ -55,7 +49,7 @@ const CardParty = (props: Props) => {
     <>
       <Paper className={classes.paper} onClick={handleClickOpen}>
         <SubHeader bold>
-          {partyName}
+          {party.party_name}
         </SubHeader>
         <div className="flex py-1">
           <div className="w-1/2">
@@ -68,28 +62,27 @@ const CardParty = (props: Props) => {
             />
           </div>
           <div className="w-1/2">
-            <div className="flex flex-wrap justify-start h-9 bg-cusGreen rounded-tr-lg">
+            <div className="flex flex-wrap justify-center h-9 bg-cusLightOrange rounded-tr-lg">
               <div className="flex items-center px-2 py-1">
-                <PinDropOutlinedIcon className="mr-2" />
-                <NormalText>
-                  {restaurantName}
+                <NormalText white>
+                  {party.interested_topic}
                 </NormalText>
               </div>
             </div>
-            <div className="flex flex-wrap justify-start h-7">
+            <div className="flex flex-wrap bg-cusDarkRed justify-center h-7">
               <div className="flex items-center px-2">
-                <QueryBuilderOutlinedIcon className="mr-2" />
-                <SmallText>
-                  {timeToGo}
+                <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
+                <SmallText white>
+                  {party.schedule_time}
                 </SmallText>
               </div>
             </div>
-            <div className="h-9 px-2 py-1 bg-cusPink rounded-br-lg">
-              <NormalText>
+            <div className="flex flex-col h-9 px-2 py-1 bg-cusRed text-center rounded-br-lg">
+              <NormalText white>
                 Promotion
-              </NormalText>
-              <SmallText className="text-right">
-                {promotion}
+              </NormalText >
+              <SmallText white>
+                {party.promotion || "Mock Promotion"}
               </SmallText>
             </div>
           </div>
@@ -97,11 +90,11 @@ const CardParty = (props: Props) => {
         <div className="flex justify-between">
           <div className="flex flex-row-1 space-x-1">
             {
-              interestTag.map((data, index) => (
+              _.map(party.interested_tag, (data, index) => (
                 <>
                   {
                     index < 3 ?
-                      <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-md px-3">
+                      <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3">
                         {index < 2 ? `${data}` : `+${data.length}`}
                       </TinyText>
                       : <></>
@@ -111,7 +104,7 @@ const CardParty = (props: Props) => {
             }
           </div>
           <NormalText>
-            {currentMember}/{maxMember}
+            {party.members.length}/{party.max_member}
             <PeopleAltOutlinedIcon />
           </NormalText>
         </div>
@@ -119,14 +112,7 @@ const CardParty = (props: Props) => {
       <PartyModal
         showModal={openModal}
         callBackToPartyList={valueFromPartyModal}
-        partyId={partyId}
-        partyName={partyName}
-        restaurantName={restaurantName}
-        timeToGo={timeToGo}
-        promotion={promotion}
-        interestTag={interestTag}
-        currentMember={currentMember}
-        maxMember={maxMember}
+        party={party}
       />
     </>
   );

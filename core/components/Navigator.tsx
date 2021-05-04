@@ -44,9 +44,10 @@ type IsYellow = {
 }
 
 interface Props {
-  backTextButton: string,
-  backRoute: string,
+  backTextButton?: string,
+  backRoute?: string,
   middleText: string,
+  rightIcon?: JSX.Element,
   leftIcon?: JSX.Element,
   children: JSX.Element,
   bottomNavigator?: JSX.Element,
@@ -54,7 +55,7 @@ interface Props {
 }
 
 const Navigator = (props: Props) => {
-  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, yellow } = props
+  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, rightIcon, yellow } = props
   const router = useRouter()
   const classes = useStyles();
 
@@ -63,20 +64,22 @@ const Navigator = (props: Props) => {
       <TopAppBar yellow={yellow}>
         <Toolbar style={{ padding: 0 }}>
           <div className="flex w-1/3">
-            <CusButton onClick={() => router.push(backRoute)} yellow={yellow}>
-              <CusNavigateBeforeIcon yellow={yellow}/>
-              <SubHeader>{backTextButton}</SubHeader>
-            </CusButton>
+            {
+              backTextButton && backRoute ?
+                <CusButton onClick={() => router.push(backRoute)} yellow={yellow}>
+                  <CusNavigateBeforeIcon yellow={yellow}/>
+                  <SubHeader white={yellow}>{backTextButton}</SubHeader>
+                </CusButton>
+                : <>{rightIcon}</>
+            }
           </div>
           <div className="flex w-1/3 justify-center">
-            <Title>
+            <Title white={yellow}>
               {middleText}
             </Title>
           </div>
           <div className="flex w-1/3 justify-end">
-            <Button>
-              {leftIcon}
-            </Button>
+            {leftIcon}
           </div>
         </Toolbar>
       </TopAppBar>

@@ -1,20 +1,25 @@
 {
   "name": "frontend-consumer",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start"
+    "staging": "next start -p 3001",
+    "start": "next start -p 3002"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/styles": "^4.11.3",
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
     "detect-browser": "^5.2.0",
     "detect-browser-language": "^0.0.2",
+    "formik": "^2.2.6",
+    "http-status-codes": "^2.1.4",
+    "lodash": "^4.17.21",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
     "mobx-react-lite": "^3.2.0",
@@ -24,8 +29,10 @@
     "next-pwa": "^5.0.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-select": "^4.3.0",
     "styled-components": "^5.2.1",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
