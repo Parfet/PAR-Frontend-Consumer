@@ -4,10 +4,12 @@ import {
   Button, 
   Dialog, 
   } from '@material-ui/core';
+  import _ from 'lodash'
 
 import { SubHeader, NormalText } from '../../../../core/config/textStyle'
 import { AdminPartyAction } from '../../../../core/constant/enum'
 import ConfirmModal from '../../../../core/components/ConfirmModal'
+import { mockPartyMember } from '../../../../core/config/mockData.js'
 
 type MemberDetail = {
   memberId :string
@@ -93,7 +95,7 @@ const MemberModal = (props :Props) => {
               alt={memberDetail.username}
               width={"80px"}
               height={"80px"}
-              src={memberDetail.imageURL}
+              src={memberDetail.imageURL || mockPartyMember[0].imageURL}
               layout="responsive"
               objectFit="cover"
               className="rounded-25"
@@ -104,7 +106,7 @@ const MemberModal = (props :Props) => {
           </div>
           <div className="flex flex-wrap justify-start">
             {
-              memberDetail.interestTag.map((data) => (
+              _.map(memberDetail.interestTag, (data) => (
                 <NormalText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-4 py-1 m-1 ">
                   {data}
                 </NormalText>
