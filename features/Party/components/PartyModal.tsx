@@ -64,7 +64,6 @@ const PartyModal = (props: Props) => {
   const [disable, setDisable] = useState(false)
   
   useEffect(() => {
-    console.log("🚀 ~ file: PartyModal.tsx ~ line 68 ~ useEffect ~ _.size(party.members)", _.size(party.members))
     if (_.size(party.members) >= party.max_member){
       setDisable(true)
     }
@@ -77,7 +76,6 @@ const PartyModal = (props: Props) => {
   };
   
   const handleClick = async () => {
-    console.log("🚀 ~ file: PartyModal.tsx ~ line 65 ~ PartyModal ~ disable", disable)
     if (passcode.length === 6 || party.party_type === PartyType.PUBLIC){
       setAlertText('')
       try {
