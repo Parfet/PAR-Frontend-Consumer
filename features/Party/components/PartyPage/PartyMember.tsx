@@ -17,9 +17,10 @@ const PartyMember = (props: Props) => {
   const { username, imageURL, admin, onClick, keyId} = props
 
   const borderColor = 
-    keyId % 3 === 0 ? 'border-cusLightOrange' :
-      keyId % 3 === 1 ? 'border-cusDarkRed' :
-        keyId % 3 === 2 ? 'border-cusBrown' : 'border-cusYellow'
+    keyId === -1 ? 'border-cusYellow':
+      keyId % 3 === 0 ? 'border-cusLightOrange' :
+        keyId % 3 === 1 ? 'border-cusDarkRed' :
+          keyId % 3 === 2 ? 'border-cusBrown' : ''
 
   return (
     <div className="flex flex-col w-1/3 mb-2 pr-2" onClick={onClick}>

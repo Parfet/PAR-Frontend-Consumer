@@ -32,9 +32,10 @@ const MemberModal = (props :Props) => {
   const [confirmText, setConfirmText] = useState("");
 
   const borderColor =
+    indexMember === -1 ? 'border-cusYellow' :
     indexMember % 3 === 0 ? 'border-cusLightOrange' :
       indexMember % 3 === 1 ? 'border-cusDarkRed' :
-        indexMember % 3 === 2 ? 'border-cusBrown' : 'border-cusYellow'
+        indexMember % 3 === 2 ? 'border-cusBrown' : ''
 
   useEffect(() => {
     setOpen(showModal)

@@ -6,12 +6,12 @@ import apiRestaurant from '../services/apiRestaurant'
 import { Restaurant } from '../../../core/constant/type'
 
 export class RestaurantContext {
-  restaurant
-  currentRestaurant :Restaurant
+  restaurant: Restaurant[]
+  currentRestaurant: Restaurant
 
   constructor() {
     this.restaurant = []
-    this.currentRestaurant
+    this.currentRestaurant = { restaurant_id:'' }
 
     makeAutoObservable(this)
   }

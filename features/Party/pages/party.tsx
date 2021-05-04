@@ -21,7 +21,7 @@ type MemberDetail = {
 const Party = () => {
   const [openMemberModal, setOpenMemberModal] = useState(false);
   const [memberDetail, setMemberDetail] = useState<MemberDetail>()
-  const [indexMember, setIndexMember] = useState(undefined)
+  const [indexMember, setIndexMember] = useState<any>()
   const contextParty = useContext(partyContext)
   const router = useRouter()
   const query = router.query
@@ -51,12 +51,12 @@ const Party = () => {
               <RegularText bold className="text-gray-500">Party : {contextParty.currentParty.party_name}</RegularText>
           </div>
           <div>
-            <PartyMember 
+            {/* <PartyMember 
               admin
               imageURL={mockPartyMember[0].imageURL}
               username={contextParty.currentParty.members[0].username}
-              onClick={() => handleClickOpenMember(mockPartyMember[0], undefined)}
-              />
+              onClick={() => handleClickOpenMember(mockPartyMember[0], 1)}
+              /> */}
           </div>
           <div className="ml-2 my-4">
             <RegularText bold className="text-gray-500">สมาชิก</RegularText>

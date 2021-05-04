@@ -22,26 +22,22 @@ const useStyles = makeStyles({
   },
 })
 
-const TopAppBar = styled(AppBar)<IsYellow>`
+const TopAppBar = styled(AppBar)`
   top: 0;
   bottom: 'auto';
-  background-color: ${(iy: IsYellow) => iy.yellow ? '#F8CE28' : 'white'};
-  color: ${(iy: IsYellow) => iy.yellow ? 'white' : 'black'};
+  background-color: ${(props) => props.yellow ? '#F8CE28' : 'white'};
+  color: ${(props) => props.yellow ? 'white' : 'black'};
 `
 
-const CusNavigateBeforeIcon = styled(NavigateBeforeIcon)<IsYellow>`
-  color: ${(iy: IsYellow) => iy.yellow ? 'white' : '#F8CE28'};
+const CusNavigateBeforeIcon = styled(NavigateBeforeIcon)`
+  color: ${(props) => props.yellow ? 'white' : '#F8CE28'};
   font-size:36px;
 `
 
-const CusButton = styled(Button)<IsYellow>`
-  color: ${(iy: IsYellow) => iy.yellow ? 'white' : 'black'} !important;
+const CusButton = styled(Button)`
+  color: ${(props) => props.yellow ? 'white' : 'black'} !important;
   text-transform: capitalize !important;
 `
-
-type IsYellow = {
-  yellow?: boolean
-}
 
 interface Props {
   backTextButton?: string,
