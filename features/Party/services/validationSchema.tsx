@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { PartyType } from '../../../core/constant/enum'
+import { PartyTypeThai } from '../../../core/constant/constant'
 
 export const ValidationFormSchema = yup.object({
   party_name: yup
@@ -29,8 +29,8 @@ export const ValidationFormSchema = yup.object({
     .required('จำเป็นต้องกรอกจำนวนคนสูงสุดของปาร์ตี้'),
   passcode: yup
     .number()
-    .when("PartyType", {
-      is: PartyType.PRIVATE,
+    .when("party_type", {
+      is: PartyTypeThai.PRIVATE,
       then: yup.number().required("จำเป็นต้องกรอกรหัสผ่าน")
     })
 });
