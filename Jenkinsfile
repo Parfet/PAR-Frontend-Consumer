@@ -4,19 +4,20 @@ pipeline {
         stage("build") {
             steps {
                 echo ' Executing yarn '
-                withCredentials([file(credentialsId: 'FEenv', variable: 'env')]){
+                withCredentials([file(credentialsId: 'FEenv' , variable: 'Env')]){
                     sh 'chmod 700 $WORKSPACE/.env || :'
                     sh 'rm -rf $WORKSPACE/.env || :'
-                    sh 'cp $env $WORKSPACE'
+                    sh 'cp $Env $WORKSPACE'                    
                 }
-                withCredentials([file(credentialsId: 'FEenvdev', variable: 'envFile')]){
-                    sh 'chmod 700 $WORKSPACE/.env.development || :'
-                    sh 'rm -rf $WORKSPACE/.env.development || :'
-                    sh 'cp $envFile $WORKSPACE'
+                withCredentials([file(credentialsId: 'FEenvprod', variable: 'envProd')]){
+                    sh 'chmod 700 $WORKSPACE/.env.production || :'
+                    sh 'rm -rf $WORKSPACE/.env.production || :'
+                    sh 'cp $envProd $WORKSPACE'
                 }
                 nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'yarn install'
                     sh 'yarn add --dev typescript'
+                    sh 'yarn build'
                 }
             }
         }
@@ -25,7 +26,7 @@ pipeline {
                 echo ' Executing yarn '
                 nodejs(nodeJSInstallationName:'nodejs') {
                     sh 'pm2 delete ${JOB_NAME} || :'
-                    sh 'pm2 start yarn --name "${JOB_NAME}" -- dev'
+                    sh 'pm2 start yarn --name "${JOB_NAME}" -- staging'
                 }
             }
         }
