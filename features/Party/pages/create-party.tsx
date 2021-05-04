@@ -17,6 +17,7 @@ import { authContext } from '../../../core/context/auth_context'
 import { SubHeader, NormalText } from '../../../core/config/textStyle'
 import { restaurantContext } from '../../Restaurant/contexts/restaurant_context'
 import apiParty from '../services/apiParty'
+import { partyContext } from '../contexts/party_context'
 import InputField from '../components/InputField'
 import { ValidationFormSchema } from '../services/validationSchema'
 
@@ -82,17 +83,36 @@ const DropdownIndicator = ({...props }) => {
     </components.DropdownIndicator>
   );
 };
+interface Prop {
+  edit?: boolean
+}
 
-const CreateParty = () => {
+const CreateParty = (prop :Prop) => {
+  const { edit } = prop
   const router = useRouter()
   const classes = useStyles();
   const [checkTags, setCheckTags] = useState(false);
   const contextRestaurant = useContext(restaurantContext)
   const contextUser = useContext(authContext)
+  const contextParty = useContext(partyContext)
 
   useEffect(() => {
+    //Mock head party
     contextUser.getOneUser()
   }, [contextUser])
+
+  const handleEditParty = async (values) => {
+    try {
+      const res = await apiParty.updateParty(values, contextParty.currentParty.party_id)
+      if (res.status === StatusCodes.OK) {
+        router.push('/party/' + res.data.party_id)
+      }
+    } catch (error) {
+      if (error.response?.status) {
+        router.push('/party')
+      }
+    }
+  }
 
   const handleCreateParty = async (values) => {
     const res = await apiParty.createParty(contextRestaurant.currentRestaurant.restaurant_id, values)
@@ -103,15 +123,17 @@ const CreateParty = () => {
 
   const formik = useFormik({
     initialValues: {
-      party_name: '',
+      party_name: contextParty.currentParty.party_name || '',
       head_party: contextUser.userId,
-      interested_topic: '',
+      interested_topic: contextParty.currentParty.party_name || '',
       interested_tag: [],
       promotion: aryPromotion[0],
-      schedule_time: dateAddHour,
-      party_type: PartyTypeThai.PUBLIC,
-      max_member: aryMaxMember[0],
-      passcode: ''
+      schedule_time: dayjs(contextParty.currentParty.schedule_time).format("YYYY-MM-DDTHH:mm")  || dateAddHour,
+      party_type: 
+        contextParty.currentParty.party_type === PartyType.PRIVATE ? PartyTypeThai.PRIVATE : PartyTypeThai.PUBLIC
+        || PartyTypeThai.PUBLIC,
+      max_member: contextParty.currentParty.max_member || aryMaxMember[0],
+      passcode: contextParty.currentParty.passcode || ''
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
@@ -134,7 +156,11 @@ const CreateParty = () => {
           tagsValue.push(data.value)
         })
         values.interested_tag = tagsValue
-        handleCreateParty(values)
+        if (edit){
+          handleEditParty(values)
+        }else {
+          handleCreateParty(values)
+        }
       }
     },
   });
@@ -288,7 +314,12 @@ const CreateParty = () => {
       }
       <div className="flex justify-center mt-5">
         <CreateButton variant="contained" type="submit">
-          <SubHeader className="text-white">สร้างปาร์ตี้</SubHeader>
+          <SubHeader className="text-white">
+            {
+              edit ? 'ยืนยันการแก้ไข'
+              : 'สร้างปาร์ตี้'
+            }
+          </SubHeader>
         </CreateButton>
       </div>
     </form>
