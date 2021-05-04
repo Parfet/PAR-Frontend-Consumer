@@ -72,8 +72,8 @@ const PartyRequest = () => {
                 imageURL={data.image_url}
                 username={data.username}
                 rating={data.rating}
-                  acceptFunc={() => handleRequest(data.user.user_id, PartyRequestStatus.STATUS_ACCEPT)}
-                  declineFunc={() => handleRequest(data.user.user_id, PartyRequestStatus.STATUS_DECLINE)}
+                  acceptFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_ACCEPT)}
+                  declineFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_DECLINE)}
                 keyId={index}
                 />
               ))
