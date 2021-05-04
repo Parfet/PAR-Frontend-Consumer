@@ -6,7 +6,7 @@ import Navigator from '../../../core/components/Navigator'
 import PartyRequest from '../../../features/Party/pages/party-request'
 import { partyContext } from '../../../features/Party/contexts/party_context'
 
-const PartyPage = () => {
+const RequestPage = () => {
   const contextParty = useContext(partyContext)
 
   return (
@@ -21,4 +21,4 @@ const PartyPage = () => {
   )
 }
 
-export default PartyPage
+export default RequestPage
