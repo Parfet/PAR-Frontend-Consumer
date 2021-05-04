@@ -61,31 +61,37 @@ const PartyModal = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [alertText, setAlertText] = useState('')
   const [passcode, setPasscode] = useState('')
-
+  const [disable, setDisable] = useState(false)
+  
   useEffect(() => {
+    console.log("🚀 ~ file: PartyModal.tsx ~ line 68 ~ useEffect ~ _.size(party.members)", _.size(party.members))
+    if (_.size(party.members) >= party.max_member){
+      setDisable(true)
+    }
     setOpen(showModal)
   })
-
+  
   const handleClose = () => {
     setOpen(false);
     callBackToPartyList(false);
   };
-
+  
   const handleClick = async () => {
-    if (passcode.length === 6 ){
+    console.log("🚀 ~ file: PartyModal.tsx ~ line 65 ~ PartyModal ~ disable", disable)
+    if (passcode.length === 6 || party.party_type === PartyType.PUBLIC){
       setAlertText('')
       try {
         const res = await apiParty.joinParty(party.party_id, contextUser.userId,passcode)
         if (res.status === StatusCodes.OK) {
-          setOpen(false);
+          handleClose();
         }
       } catch (error) {
         if (error.response?.status === StatusCodes.BAD_REQUEST) {
           const message = error.response?.data.message
             if (message === Errors.PASSCODE_INCORRECT) {
               setAlertText(ErrorMessage.PASSCODE_INCORRECT)
-            }else if (message === Errors.PARTY_NOT_FOUND) {
-              router.push('/party')
+            }else if (message === Errors.PARTY_NOT_FOUND || message === Errors.ALREADY_JOIN_PARTY) {
+              handleClose();
             } else {
               router.push('/')
             }
@@ -178,7 +184,7 @@ const PartyModal = (props: Props) => {
               <Button variant="contained" disableElevation onClick={handleClose}>ยกเลิก</Button>
             </div>
             <div className="w/2 justify-center">
-              <JoinButton variant="contained" onClick={handleClick}>เข้าร่วม</JoinButton>
+              <JoinButton variant="contained" onClick={handleClick} disabled={disable}>เข้าร่วม</JoinButton>
             </div>
           </div>
         </div>
