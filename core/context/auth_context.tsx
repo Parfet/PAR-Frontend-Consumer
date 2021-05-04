@@ -22,8 +22,8 @@ export class AuthContext {
     try {
       const response = await apiUser.getUser()
       if (response.status === StatusCodes.OK) {
-          this.user = response.data.users[0]
-          this.userId = response.data.users[0].user_id
+          this.user = response.data.users[3]
+          this.userId = response.data.users[3].user_id
       } else {
         this.user
       }
