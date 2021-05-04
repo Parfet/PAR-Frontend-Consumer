@@ -6,7 +6,7 @@ import _ from 'lodash'
 import NoContent from '../../../core/components/NoContent'
 import { SubHeader } from '../../../core/config/textStyle'
 import { User } from '../../../core/constant/type'
-import { Errors } from '../../../core/constant/enum'
+import { Errors, PartyRequestStatus } from '../../../core/constant/enum'
 import CardRequest from '../components/PartyPage/CardRequest'
 import { partyContext } from '../contexts/party_context'
 import apiParty from '../services/apiParty'
@@ -40,12 +40,17 @@ const PartyRequest = () => {
     }
   }
 
-  const acceptFunc = (index) => {
-    console.log(index)
-  }
-
-  const declineFunc = (index) => {
-    console.log(index)
+  const handleRequest = async (userId, status) => {
+    try {
+      const res = await apiParty.handleMemberRequest(contextParty.currentParty.party_id, userId, status)
+      if (res.status === StatusCodes.OK) {
+        getUserJoinParty()
+      }
+    } catch (error) {
+      if (error.response?.status) {
+        router.push('/party/' + contextParty.currentParty.party_id)
+      }
+    }
   }
 
   return (
@@ -67,8 +72,8 @@ const PartyRequest = () => {
                 imageURL={data.image_url}
                 username={data.username}
                 rating={data.rating}
-                acceptFunc={() => acceptFunc(index)}
-                declineFunc={() => declineFunc(index)}
+                  acceptFunc={() => handleRequest(data.user.user_id, PartyRequestStatus.STATUS_ACCEPT)}
+                  declineFunc={() => handleRequest(data.user.user_id, PartyRequestStatus.STATUS_DECLINE)}
                 keyId={index}
                 />
               ))

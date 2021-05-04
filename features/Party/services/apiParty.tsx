@@ -39,7 +39,15 @@ const apiParty = {
   archivedParty: async (partyId: string) => {
     const response = await api.post(`/party/info/${partyId}`)
     return response
-  }
+  },
+  handleMemberRequest: async (partyId: string, userId: string, status: string) => {
+    const data = {
+      "user_id": userId,
+      "status": status,
+    }
+    const response = await api.put(`/party/info/${partyId}/join`, data)
+    return response
+  },
 }
 
 export default apiParty
