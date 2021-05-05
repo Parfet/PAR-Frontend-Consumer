@@ -52,8 +52,7 @@ const apiParty = {
   updateParty: async (party: Party, partyId: string) => {
     const data = {
       "party_name": party.party_name,
-      "head_party": "198e8f2e-d224-48f3-8219-382cde90e6a5",
-      // "head_party": party.head_party,
+      "head_party": party.head_party,
       "passcode": party.passcode,
       "party_type": party.party_type,
       "interested_topic": party.interested_topic,
