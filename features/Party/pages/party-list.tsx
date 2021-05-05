@@ -11,7 +11,7 @@ import { partyContext } from '../contexts/party_context'
 
 const BackgroundPartyList = styled.div`
   background-color: #F8CE28;
-  height: 100vh;
+  height: auto;
 `
 
 const PartyList = () => {

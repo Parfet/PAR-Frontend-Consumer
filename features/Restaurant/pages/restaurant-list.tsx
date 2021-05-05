@@ -10,7 +10,7 @@ import CardRestaurant from '../components/CardRestaurant'
 
 const BackgroundPartyList = styled.div`
   background-color: #F8CE28;
-  height: 100vh;
+  height: auto;
 `
 
 const RestaurantList = () => {
