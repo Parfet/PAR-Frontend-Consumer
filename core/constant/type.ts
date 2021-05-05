@@ -41,6 +41,7 @@ export type User = {
   last_name_en: string
   tel_no: string
   verify_status: boolean
+  interested_tag?: string[]
   image_url: string
   rating: number
 }
