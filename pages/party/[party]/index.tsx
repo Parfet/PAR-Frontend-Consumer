@@ -84,7 +84,7 @@ const PartyPage = () => {
       <Navigator
         yellow
         backTextButton='Back'
-        backRoute='/party'
+        backRoute='/party/me'
         middleText="Party"
         leftIcon={
           <Meatball 
