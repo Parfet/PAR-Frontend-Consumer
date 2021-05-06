@@ -20,6 +20,17 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     color: 'black',
   },
+  floatingButton: {
+    top: 'auto',
+    bottom: 0,
+    marginRight:'0.75em',
+    paddingTop: '0.25rem',
+    paddingBottom: '0.5rem',
+    backgroundColor: 'transparent',
+    width:'auto',
+    color: 'black',
+    boxShadow: 'none'
+  },
 })
 
 const TopAppBar = styled(AppBar)`
@@ -47,11 +58,12 @@ interface Props {
   leftIcon?: JSX.Element,
   children: JSX.Element,
   bottomNavigator?: JSX.Element,
+  floatingButton?: JSX.Element,
   yellow?: boolean
 }
 
 const Navigator = (props: Props) => {
-  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, rightIcon, yellow } = props
+  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, rightIcon, yellow, floatingButton } = props
   const router = useRouter()
   const classes = useStyles();
 
@@ -85,10 +97,17 @@ const Navigator = (props: Props) => {
       </div>
       {
         bottomNavigator ?
-          <AppBar color="primary" className={classes.bottomAppBar}>
+          <AppBar className={classes.bottomAppBar}>
             <Toolbar>
               {bottomNavigator}
             </Toolbar>
+          </AppBar>
+        :<></>
+      }
+      {
+        floatingButton ?
+          <AppBar className={classes.floatingButton}>
+              {floatingButton}
           </AppBar>
         :<></>
       }
