@@ -19,23 +19,28 @@ const useStyles = makeStyles({
     paddingBottom: '0.5rem',
     backgroundColor: 'white',
     color: 'black',
+    position: 'fixed',
+    zIndex: 1400,
   },
   floatingButton: {
     top: 'auto',
     bottom: 0,
-    marginRight:'0.75em',
-    paddingTop: '0.25rem',
-    paddingBottom: '0.5rem',
+    marginRight:'1.5em',
+    marginBottom: '10%',
     backgroundColor: 'transparent',
     width:'auto',
     color: 'black',
-    boxShadow: 'none'
+    boxShadow: 'none',
+    position: 'fixed',
+    zIndex: 1400,
   },
 })
 
 const TopAppBar = styled(AppBar)`
   top: 0;
   bottom: 'auto';
+  position: fixed;
+  z-index:  1400;
   background-color: ${(props) => props.yellow ? '#F8CE28' : 'white'};
   color: ${(props) => props.yellow ? 'white' : 'black'};
 `
@@ -92,7 +97,7 @@ const Navigator = (props: Props) => {
         </Toolbar>
       </TopAppBar>
 
-      <div className="mt-12">
+      <div>
         {children}
       </div>
       {
