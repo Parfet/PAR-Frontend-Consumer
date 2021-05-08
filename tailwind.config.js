@@ -20,6 +20,7 @@ module.exports = {
       'cusRegularYellow': '#FFCA62',
       'cusYellow': '#FFD700',
       'cusDarkYellow': '#F4B740',
+      'cusPastelOrange': '##FFDC97',
       'cusLightOrange': '#FFA753',
       'cusDarkRed': '#9C4A55',
       'cusRed': '#AC3B31',
