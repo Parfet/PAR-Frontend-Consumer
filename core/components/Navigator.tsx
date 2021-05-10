@@ -97,7 +97,7 @@ const Navigator = (props: Props) => {
         </Toolbar>
       </TopAppBar>
 
-      <div>
+      <div className="mt-10">
         {children}
       </div>
       {
