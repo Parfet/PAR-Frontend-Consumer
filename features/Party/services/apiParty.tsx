@@ -10,15 +10,18 @@ const apiParty = {
     const response = await api.get(`/party/info/${partyId}`)
     return response
   },
-
-    createParty: async (restaurantId: string, party: Party) => {
+  getAllTag: async () => {
+    const response = await api.get(`/party/tags`)
+    return response
+  },
+  createParty: async (restaurantId: string, party: Party) => {
     const data = {
       "head_party": party.head_party,
       "party_name": party.party_name,
       "party_type": party.party_type,
       "passcode": party.passcode,
       "interested_topic": party.interested_topic,
-      "interested_tag": party.interested_tag,
+      "interest_tags": party.interest_tags,
       "max_member": party.max_member,
       "schedule_time": party.schedule_time
     }
@@ -56,7 +59,7 @@ const apiParty = {
       "passcode": party.passcode,
       "party_type": party.party_type,
       "interested_topic": party.interested_topic,
-      "interested_tag": party.interested_tag,
+      "interest_tags": party.interest_tags,
       "max_member": party.max_member,
       "schedule_time": party.schedule_time
     }

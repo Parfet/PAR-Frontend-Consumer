@@ -90,12 +90,12 @@ const CardParty = (props: Props) => {
         <div className="flex justify-between">
           <div className="flex flex-row-1 space-x-1">
             {
-              _.map(party.interested_tag, (data, index) => (
+              _.map(party.interest_tags, (data, index) => (
                 <>
                   {
                     index < 3 ?
                       <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3">
-                        {index < 2 ? `${data}` : `+${data.length}`}
+                        {index < 2 ? `${data.label}` : `+${party.interest_tags.length - 2}`}
                       </TinyText>
                       : <></>
                   }

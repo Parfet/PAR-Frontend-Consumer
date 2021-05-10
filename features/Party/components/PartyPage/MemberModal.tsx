@@ -115,7 +115,7 @@ const MemberModal = (props :Props) => {
           </div>
           <div className="flex flex-wrap justify-start">
             {
-              _.map(memberDetail.interested_tag, (data) => (
+              _.map(memberDetail.interest_tags, (data) => (
                 <NormalText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-4 py-1 m-1 ">
                   {data}
                 </NormalText>

@@ -126,7 +126,7 @@ const CreateParty = (prop :Prop) => {
       party_name: contextParty.currentParty.party_name || '',
       head_party: contextUser.userId,
       interested_topic: contextParty.currentParty.party_name || '',
-      interested_tag: [],
+      interest_tags: contextParty.currentParty.interest_tags || [],
       promotion: aryPromotion[0],
       schedule_time: dayjs(contextParty.currentParty.schedule_time).format("YYYY-MM-DDTHH:mm")  || dateAddHour,
       party_type: 
@@ -137,7 +137,8 @@ const CreateParty = (prop :Prop) => {
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-      if (formik.values.interested_tag.length === 0){
+    console.log("🚀 ~ file: create-party.tsx ~ line 140 ~ CreateParty ~ values", values)
+      if (formik.values.interest_tags.length === 0){
         setCheckTags(true)
       }else{
         setCheckTags(false)
@@ -149,13 +150,12 @@ const CreateParty = (prop :Prop) => {
         values.party_type = PartyType.PUBLIC
       }
       
-      if (!checkTags && formik.values.interested_tag.length != 0){
-        console.log(5)
+      if (!checkTags && formik.values.interest_tags.length != 0){
         let tagsValue = []
-        formik.values.interested_tag.map((data) => {
+        formik.values.interest_tags.map((data) => {
           tagsValue.push(data.value)
         })
-        values.interested_tag = tagsValue
+        values.interest_tags = tagsValue
         if (edit){
           handleEditParty(values)
         }else {
@@ -198,16 +198,16 @@ const CreateParty = (prop :Prop) => {
           <Select
             styles={customStyles(checkTags)}
             closeMenuOnSelect={false}
-            inputId="interested_tag"
+            inputId="interest_tags"
             placeholder="เลือกTag ที่เกี่ยวข้อง"
             className="rounded-lg"
             isMulti
+            options={contextParty.allTag}
             components={{ animatedComponents, DropdownIndicator }}
-            options={interestTag}
-            onChange={(e) => { formik.setFieldValue('interested_tag', e)}}
-            onBlur={() => { formik.values.interested_tag.length === 0 ? setCheckTags(true) : setCheckTags(false)}}
-            error={formik.touched.interested_tag && Boolean(formik.errors.interested_tag)}
-            helperText={formik.touched.interested_tag && formik.errors.interested_tag}
+            onChange={(e) => { formik.setFieldValue('interest_tags', e)}}
+            onBlur={() => { formik.values.interest_tags.length === 0 ? setCheckTags(true) : setCheckTags(false)}}
+            error={formik.touched.interest_tags && Boolean(formik.errors.interest_tags)}
+            helperText={formik.touched.interest_tags && formik.errors.interest_tags}
           />
           {
             checkTags ? 

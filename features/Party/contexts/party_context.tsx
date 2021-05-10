@@ -2,16 +2,18 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { createContext } from 'react'
 import { StatusCodes } from 'http-status-codes';
 
-import { Party } from '../../../core/constant/type'
+import { Party, Tag } from '../../../core/constant/type'
 import apiParty from '../services/apiParty'
 
 export class PartyContext {
   parties: Party[]
   currentParty: Party
+  allTag: Tag[]
 
   constructor() {
     this.parties = [{ party_id: "" }]
     this.currentParty = { party_id: "" }
+    this.allTag = [{ value: "", label: "" }]
 
     makeAutoObservable(this)
   }
@@ -37,6 +39,20 @@ export class PartyContext {
           this.currentParty = response.data.party
       }else{
         this.currentParty = { party_id: "" }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  getAllTag = async () => {
+    try {
+      const response = await apiParty.getAllTag()
+      if (response.status === StatusCodes.OK){
+        this.allTag = response.data.tags
+        console.log("🚀 ~ file: party_context.tsx ~ line 53 ~ PartyContext ~ getAllTag= ~ response.data.tags", response.data.tags)
+      }else{
+        this.allTag = [{ value: "", label: "" }]
       }
     } catch (error) {
       console.log(error)
