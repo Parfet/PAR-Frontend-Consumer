@@ -33,17 +33,17 @@ export type Restaurant = {
 
 export type User = {
   user_id: string
-  username: string
-  email: string
-  first_name_th: string
-  last_name_th: string
-  first_name_en: string
-  last_name_en: string
-  tel_no: string
-  verify_status: boolean
+  username?: string
+  email?: string
+  first_name_th?: string
+  last_name_th?: string
+  first_name_en?: string
+  last_name_en?: string
+  tel_no?: string
+  verify_status?: boolean
   interest_tags?: string[]
-  image_url: string
-  rating: number
+  image_url?: string
+  rating?: number,
 }
 
 export type Tag = {
