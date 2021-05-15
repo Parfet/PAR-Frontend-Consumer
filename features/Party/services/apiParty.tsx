@@ -10,6 +10,10 @@ const apiParty = {
     const response = await api.get(`/party/info/${partyId}`)
     return response
   },
+  getPartyByUserId: async () => {
+    const response = await api.get(`/party/me`)
+    return response
+  },
   getAllTag: async () => {
     const response = await api.get(`/party/tags`)
     return response

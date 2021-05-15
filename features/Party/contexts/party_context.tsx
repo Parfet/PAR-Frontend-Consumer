@@ -7,11 +7,13 @@ import apiParty from '../services/apiParty'
 
 export class PartyContext {
   parties: Party[]
+  allMyParty: Party[]
   currentParty: Party
   allTag: Tag[]
 
   constructor() {
-    this.parties = [{ party_id: "" }]
+    this.parties = []
+    this.allMyParty = []
     this.currentParty = { party_id: "" }
     this.allTag = [{ value: "", label: "" }]
 
@@ -25,7 +27,7 @@ export class PartyContext {
       if (response.status === StatusCodes.OK){
         this.parties = response.data.parties
       }else{
-        this.parties = [{ party_id: "" }]
+        this.parties = []
       }
     } catch (error) {
       console.log(error)
@@ -50,9 +52,21 @@ export class PartyContext {
       const response = await apiParty.getAllTag()
       if (response.status === StatusCodes.OK){
         this.allTag = response.data.tags
-        console.log("🚀 ~ file: party_context.tsx ~ line 53 ~ PartyContext ~ getAllTag= ~ response.data.tags", response.data.tags)
       }else{
         this.allTag = [{ value: "", label: "" }]
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  getPartyByUserId = async () => {
+    try {
+      const response = await apiParty.getPartyByUserId()
+      if (response.status === StatusCodes.OK) {
+        this.allMyParty = response.data.parties
+      } else {
+        this.allMyParty = []
       }
     } catch (error) {
       console.log(error)
