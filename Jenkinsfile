@@ -1,34 +1,46 @@
 pipeline {
-     agent any
-     stages {
-        stage("build") {
+
+    agent any
+
+    stages {
+        stage("Preparing environment") {
             steps {
-                echo ' Executing yarn '
+
+                echo ' Executing command for preparing '
+
                 withCredentials([file(credentialsId: 'FEenv' , variable: 'Env')]){
                     sh 'chmod 700 $WORKSPACE/.env || :'
                     sh 'rm -rf $WORKSPACE/.env || :'
                     sh 'cp $Env $WORKSPACE'                    
-                }
-                withCredentials([file(credentialsId: 'FEenvprod', variable: 'envProd')]){
-                    sh 'chmod 700 $WORKSPACE/.env.production || :'
-                    sh 'rm -rf $WORKSPACE/.env.production || :'
-                    sh 'cp $envProd $WORKSPACE'
-                }
-                nodejs(nodeJSInstallationName:'nodejs') {
-                    sh 'yarn install'
-                    sh 'yarn add --dev typescript'
-                    sh 'yarn build'
-                }
-            }
-        }
-        stage("Deploy"){
+                } // End .env step
+
+                withCredentials([file(credentialsId: 'FEenvdev', variable: 'envDev')]){
+                    sh 'chmod 700 $WORKSPACE/.env.development || :'
+                    sh 'rm -rf $WORKSPACE/.env.development || :'
+                    sh 'cp $envDev $WORKSPACE'
+                } // End .env.production step
+
+                echo ' ------------------------------ '
+                
+            } // End steps
+            
+        } // End stage preparing environment
+
+        stage("Deployment"){
             steps{
-                echo ' Executing yarn '
-                nodejs(nodeJSInstallationName:'nodejs') {
-                    sh 'pm2 delete ${JOB_NAME} || :'
-                    sh 'pm2 start yarn --name "${JOB_NAME}" -- staging'
-                }
-            }
-        }
-    }
-}
+
+                echo ' Executing command for deployment '
+
+                sh 'docker-compose down --rmi local || :'
+                sh 'docker-compose up -d --build'
+                sh 'docker ps -a'
+
+                echo ' ------------------------------ '
+
+            } // End steps
+
+        }// End stage deployment
+
+    } // End stages
+    
+} // End pipeline
