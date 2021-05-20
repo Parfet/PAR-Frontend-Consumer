@@ -33,9 +33,10 @@ export class AuthContext {
         const response = await apiAuth.getJWTToken({ user_id: currentUser.user_id})
         if (response.status === StatusCodes.OK) {
           this.user = currentUser
+          this.userId = currentUser.user_id
           cookies.set('access_token', response.data.access_token, { path: '/', maxAge: 3600 })
           cookies.set('refresh_token', response.data.refresh_token, { path: '/', maxAge: 3600 })
-          Router.prototype.push('/restaurant')
+          Router.prototype.replace('/restaurant')
         }
       }
     } catch (error) {
