@@ -43,10 +43,11 @@ export type User = {
   verify_status?: boolean
   interest_tags?: string[]
   image_url?: string
-  rating?: number,
+  rating?: number
 }
 
 export type Tag = {
   value: string
   label: string
+  selected?: boolean
 }
