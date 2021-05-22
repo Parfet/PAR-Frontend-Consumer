@@ -18,19 +18,21 @@ const MyParty = () => {
   const contextParty = useContext(partyContext)
 
   useEffect(() => {
-    contextParty.getParties("0e9ec195-6a9d-42c7-89b8-6df582723af0")
+    contextParty.getPartyByUserId()
   }, [contextParty])
 
   return useObserver(() => (
-    <BackgroundPartyList className="overscroll-auto pt-4 pb-10" height={_.size(contextParty.parties)}>
+    <BackgroundPartyList className="overscroll-auto pt-4 pb-10" height={_.size(contextParty.allMyParty)}>
       {
-        _.size(contextParty.parties) === 0 ?
+        _.size(contextParty.allMyParty) === 0 ?
           <div className="flex justify-center flex-col w-full h-full">
             <NoContent text="คุณไม่มี Party ที่เข้าร่วมในตอนนี้" white />
           </div>
           :
-          _.map(contextParty.parties, (data) => (
-            <CardMyParty party={data} />
+          _.map(contextParty.allMyParty, (data, index) => (
+            <>
+              <CardMyParty party={data} key={index}/>
+            </>
           ))
       }
     </BackgroundPartyList>
