@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
@@ -7,18 +7,32 @@ import AddIcon from '@material-ui/icons/Add';
 import FolderIcon from '@material-ui/icons/Folder';
 
 import Navigator from '../../core/components/Navigator'
+import FilterParty from '../../features/Party/components/FilterParty'
 import PartyList from '../../features/Party/pages/party-list'
 
 const Party = () => {
   const router = useRouter()
+  const [open, setOpen] = useState(false)
 
+  const callBackFormFilter = (value) => {
+    setOpen(value)
+  }
+
+  const handleOpenFilter = () => {
+    if (open) {
+      setOpen(!open)
+    } else {
+      setOpen(!open)
+    }
+  }
+  
   return (
     <Navigator
       backTextButton='Restaurant'
       backRoute='/restaurant'
       middleText='Party'
       leftIcon={
-        <IconButton>
+        <IconButton onClick={handleOpenFilter} >
           <SortIcon />
         </IconButton>
       }
@@ -41,7 +55,10 @@ const Party = () => {
         </>
       }
     >
-      <PartyList />
+      <>
+        <FilterParty open={open} callBackFormFilter={callBackFormFilter} />
+        <PartyList />
+      </>
     </Navigator>
   )
 }

@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   paper: {
     marginTop: "4em",
     paddingTop: "3em",
-    width: "180px",
+    width: "250px",
     background: "#FFDC97"
   }
 })
