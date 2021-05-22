@@ -97,9 +97,7 @@ const CreateParty = (prop :Prop) => {
   const contextParty = useContext(partyContext)
 
   useEffect(() => {
-    //Mock head party
-    contextUser.getOneUser()
-  }, [contextUser])
+  }, [contextUser, contextUser, contextRestaurant])
 
   const handleEditParty = async (values) => {
     try {
@@ -137,7 +135,6 @@ const CreateParty = (prop :Prop) => {
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-    console.log("🚀 ~ file: create-party.tsx ~ line 140 ~ CreateParty ~ values", values)
       if (formik.values.interest_tags.length === 0){
         setCheckTags(true)
       }else{
