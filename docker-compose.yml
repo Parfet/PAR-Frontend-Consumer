@@ -1,7 +1,7 @@
 version: '3.8'
 services:
  par-fe:
-    container_name: parfet-fe-consumer
+    container_name: parfet-fe-consumer-staging
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,7 +9,7 @@ services:
       - '.:/usr/src/app'
       - '/usr/src/app/node_modules'
     ports:
-      - '3000:3000'
+      - '3001:3001'
     env_file:
       - .env
       - .env.development
