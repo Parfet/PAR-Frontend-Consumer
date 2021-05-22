@@ -21,7 +21,6 @@ const PartyList = () => {
   
   useEffect(() => {
     contextParty.getParties(contextRestaurant.currentRestaurant.restaurant_id)
-    contextParty.getAllTag()
   }, [contextParty])
 
   return useObserver(() => (

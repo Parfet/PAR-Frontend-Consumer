@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import dayjs from 'dayjs'
 import _ from 'lodash'
 
@@ -13,12 +15,6 @@ interface Props {
   open: boolean
   callBackFormFilter: (value) => void
 }
-
-// interface SelectedTag {
-//   value: string,
-//   label: string,
-//   selected: boolean
-// }
 
 let now = dayjs()
 let dateNow = now.format("YYYY-MM-DDTHH:mm")
@@ -36,9 +32,9 @@ const useStyles = makeStyles({
     borderRadius: 25,
     borderColor: "#F8CE28",
     backgroundColor: "#FFFFFF",
-    height: '55px',
+    height: '40px',
     [`& fieldset`]: {
-      height: '60px',
+      height: '45px',
       borderRadius: 25,
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -53,7 +49,7 @@ const useStyles = makeStyles({
   },
   resize: {
     textAlign: 'center',
-    height: '60px',
+    height: '40px',
     fontSize: '16px'
   },
 });
@@ -69,8 +65,7 @@ const FilterParty = (props: Props) => {
   const [testTag, setTestTag] = useState([])
 
   useEffect(() => {
-      setTestTag(contextParty.allTag)
-    // }
+    // setTestTag(contextParty.allTag)
   })
   
   const handleChangeValue = (event: any) => {
@@ -96,7 +91,7 @@ const FilterParty = (props: Props) => {
         data.selected = !data.selected
       }
     })
-    setTestTag(contextParty.allTag)
+    // setTestTag(contextParty.allTag)
   }
 
   const seeTagMore = () => {
@@ -131,8 +126,23 @@ const FilterParty = (props: Props) => {
               : <></>
               ))
           }
-          <Button variant="contained" color="primary" onClick={() => seeTagMore()}>
-            {clickSeeTagMore ? "แสดงน้อยลง ^ " : "ดูแท็กเพิ่มเติม V" }
+          <Button variant="contained" onClick={() => seeTagMore()} style={{backgroundColor:'#AC5B31'}}>
+            {
+              clickSeeTagMore ? 
+              <>
+                <NormalText white>
+                  แสดงน้อยลง 
+                </NormalText>
+                <ArrowDropUpIcon style={{ color:'white' }} /> 
+              </>
+              : 
+              <>
+                <NormalText white>
+                  ดูแท็กเพิ่มเติม
+                </NormalText>
+                <ArrowDropDownIcon style={{ color:'white' }} />
+              </>
+            }
           </Button>
         </div>
         <div className="flex flex-col space-y-2 px-3">
