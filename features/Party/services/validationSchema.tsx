@@ -12,7 +12,7 @@ export const ValidationFormSchema = yup.object({
     .min(2, 'ชื่อหัวข้อที่ต้องการคุยความยาวอย่างน้อย 2 ตัวอักษร')
     .max(30, 'ชื่อหัวข้อที่ต้องการคุยยาวที่สุด 30 ตัวอักษร')
     .required('จำเป็นต้องกรอกหัวข้อที่ต้องการคุย'),
-  interested_tag: yup
+  interest_tags: yup
     .array()
     .required('จำเป็นต้องกรอกแท็กที่เกี่ยวข้อง'),
   promotion: yup

@@ -4,6 +4,7 @@ import StarIcon from '@material-ui/icons/Star';
 import { IconButton } from '@material-ui/core';
 
 import { RegularText } from '../../../../core/config/textStyle'
+import { mockPartyMember } from '../../../../core/config/mockData.js'
 
 interface Props {
   imageURL :string
@@ -29,7 +30,7 @@ const PartyMember = (props: Props) => {
           alt={username}
           width={"80px"}
           height={"80px"}
-          src={imageURL}
+          src={imageURL || mockPartyMember[0].imageURL}
           layout="responsive"
           objectFit="cover"
           className="rounded-25"

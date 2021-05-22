@@ -8,3 +8,9 @@ export const ErrorMessage = {
   PARTY_NOT_FOUND: "ไม่พบปาร์ตี้",
   PASSCODE_INCORRECT: "รหัสผ่านไม่ถูกต้อง"
 }
+
+export const UIDateLayout = {
+  DATE: "DD/MM/YYYY",
+  TIMESTAMP: "DD/MM/YYYY HH:mm",
+  TIMESTAMP_WITH_DAY: "ddd DD/MMM HH:mm",
+}

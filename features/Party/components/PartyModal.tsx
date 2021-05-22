@@ -6,6 +6,7 @@ import { withStyles, makeStyles } from '@material-ui/styles';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import { StatusCodes } from 'http-status-codes';
 import _ from "lodash"
+import dayjs from 'dayjs'
 
 import {
   SubHeader,
@@ -19,6 +20,8 @@ import { Party } from '../../../core/constant/type'
 import { authContext } from '../../../core/context/auth_context'
 import InputField from '../components/InputField'
 import apiParty from '../services/apiParty'
+import { UIDateLayout } from '../../../core/constant/constant'
+
 interface Props {
   party :Party
   showModal: boolean
@@ -64,7 +67,6 @@ const PartyModal = (props: Props) => {
   const [disable, setDisable] = useState(false)
   
   useEffect(() => {
-    console.log("🚀 ~ file: PartyModal.tsx ~ line 68 ~ useEffect ~ _.size(party.members)", _.size(party.members))
     if (_.size(party.members) >= party.max_member){
       setDisable(true)
     }
@@ -77,7 +79,6 @@ const PartyModal = (props: Props) => {
   };
   
   const handleClick = async () => {
-    console.log("🚀 ~ file: PartyModal.tsx ~ line 65 ~ PartyModal ~ disable", disable)
     if (passcode.length === 6 || party.party_type === PartyType.PUBLIC){
       setAlertText('')
       try {
@@ -112,7 +113,7 @@ const PartyModal = (props: Props) => {
             </SubHeader>
             <Image
               width={"auto"}
-              height={"auto"}
+              height={"120px"}
               src="/images/tidmun.webp"
               className="rounded-lg object-fill"
             />
@@ -130,7 +131,7 @@ const PartyModal = (props: Props) => {
               <div className="flex items-center bg-cusDarkRed rounded-5 px-3">
                 <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }} />
                 <NormalText className="text-center " white>
-                  {party.schedule_time}
+                  {dayjs(party.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}
                 </NormalText>
               </div>
             </div>
@@ -146,9 +147,9 @@ const PartyModal = (props: Props) => {
             </div>
             <div className="flex flex-wrap justify-center h-12 mt-3">
               {
-                _.map(party.interested_topic, (data, index) => (
+                _.map(party.interest_tags, (data) => (
                   <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3 py-1 m-1 ">
-                    {data}
+                    {data.label}
                   </TinyText>
                 ))
               }
@@ -179,7 +180,7 @@ const PartyModal = (props: Props) => {
               </>
               : <></>
           }
-          <div className="flex justify-between mt-5">
+          <div className="flex justify-between mt-3">
             <div className="w/2 justify-center">
               <Button variant="contained" disableElevation onClick={handleClose}>ยกเลิก</Button>
             </div>

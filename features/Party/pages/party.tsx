@@ -6,27 +6,25 @@ import _ from 'lodash'
 import { partyContext } from '../contexts/party_context'
 import { mockPartyMember } from '../../../core/config/mockData.js'
 import { RegularText } from '../../../core/config/textStyle'
-import ConfirmModal from '../../../core/components/ConfirmModal'
+import { User } from '../../../core/constant/type'
 import PartyMember from '../components/PartyPage/PartyMember'
 import MemberModal from '../components/PartyPage/MemberModal'
 
-type MemberDetail = {
-  memberId: string
-  imageURL: string
-  username: string
-  interestTag: string[]
-  rating: number
-}
-
 const Party = () => {
   const [openMemberModal, setOpenMemberModal] = useState(false);
-  const [memberDetail, setMemberDetail] = useState<MemberDetail>()
+  const [memberDetail, setMemberDetail] = useState<User>()
   const [indexMember, setIndexMember] = useState<any>()
+  const [isAdmin, setIsAdmin] = useState(false);
   const contextParty = useContext(partyContext)
   const router = useRouter()
   const query = router.query
   
   const handleClickOpenMember = (memberDetail, index) => {
+    if (memberDetail.user_id === contextParty.currentParty.head_party){
+      setIsAdmin(true)
+    }else{
+      setIsAdmin(false)
+    }
     setIndexMember(index)
     setMemberDetail(memberDetail)
     setOpenMemberModal(true)
@@ -51,12 +49,13 @@ const Party = () => {
               <RegularText bold className="text-gray-500">Party : {contextParty.currentParty.party_name}</RegularText>
           </div>
           <div>
-            {/* <PartyMember 
+            <PartyMember 
               admin
               imageURL={mockPartyMember[0].imageURL}
-              username={contextParty.currentParty.members[0].username}
-              onClick={() => handleClickOpenMember(mockPartyMember[0], 1)}
-              /> */}
+              username={mockPartyMember[0].username}
+              onClick={() => handleClickOpenMember(mockPartyMember[0], -1)}
+              keyId={-1}
+              />
           </div>
           <div className="ml-2 my-4">
             <RegularText bold className="text-gray-500">สมาชิก</RegularText>
@@ -65,7 +64,7 @@ const Party = () => {
             {
               _.map(contextParty.currentParty.members, (data, index) => (
               <PartyMember 
-                imageURL={mockPartyMember[0].imageURL}
+                imageURL={data.image_url}
                 username={data.username}
                 key={index}
                 keyId={index}
@@ -79,6 +78,7 @@ const Party = () => {
     {
       openMemberModal ?
         <MemberModal
+          isAdmin={isAdmin}
           showModal={openMemberModal}
           callBackToMemberParty={valueFromMemberModal}
           memberDetail={memberDetail}

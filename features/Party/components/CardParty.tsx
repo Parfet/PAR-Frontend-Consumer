@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Image from 'next/image'
+import dayjs from 'dayjs'
 import {
   makeStyles,
   createStyles,
   Paper,
 } from '@material-ui/core';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-import PinDropOutlinedIcon from '@material-ui/icons/PinDropOutlined';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import _ from "lodash"
 
@@ -16,6 +16,7 @@ import {
   SmallText,
   TinyText
 } from '../../../core/config/textStyle'
+import { UIDateLayout } from '../../../core/constant/constant'
 import { Party } from '../../../core/constant/type'
 import PartyModal from './PartyModal'
 
@@ -27,7 +28,8 @@ const useStyles = makeStyles(() =>
       height: '180px'
     },
   }),
-);
+)
+
 interface Props {
   party :Party
 }
@@ -73,7 +75,7 @@ const CardParty = (props: Props) => {
               <div className="flex items-center px-2">
                 <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
                 <SmallText white>
-                  {party.schedule_time}
+                  {dayjs(party.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}
                 </SmallText>
               </div>
             </div>
@@ -90,12 +92,12 @@ const CardParty = (props: Props) => {
         <div className="flex justify-between">
           <div className="flex flex-row-1 space-x-1">
             {
-              _.map(party.interested_tag, (data, index) => (
+              _.map(party.interest_tags, (data, index) => (
                 <>
                   {
                     index < 3 ?
                       <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3">
-                        {index < 2 ? `${data}` : `+${data.length}`}
+                        {index < 2 ? `${data.label}` : `+${party.interest_tags.length - 2}`}
                       </TinyText>
                       : <></>
                   }
@@ -104,7 +106,7 @@ const CardParty = (props: Props) => {
             }
           </div>
           <NormalText>
-            {party.members.length}/{party.max_member}
+            {_.size(party.members)}/{party.max_member}
             <PeopleAltOutlinedIcon />
           </NormalText>
         </div>

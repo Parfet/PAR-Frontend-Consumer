@@ -1,35 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { 
   Button, 
   Dialog, 
   } from '@material-ui/core';
+  import _ from 'lodash'
 
+import { User } from '../../../../core/constant/type'
 import { SubHeader, NormalText } from '../../../../core/config/textStyle'
 import { AdminPartyAction } from '../../../../core/constant/enum'
 import ConfirmModal from '../../../../core/components/ConfirmModal'
-
-type MemberDetail = {
-  memberId :string
-  imageURL :string
-  username :string
-  interestTag :string[]
-  rating :number
-}
+import { mockPartyMember } from '../../../../core/config/mockData.js'
+import { partyContext }  from '../../contexts/party_context'
+import apiParty  from '../../services/apiParty'
+import { StatusCodes } from 'http-status-codes';
 
 interface Props {
-  memberDetail :MemberDetail
-  showModal :boolean
+  memberDetail: User
+  isAdmin?: boolean
+  showModal: boolean
   indexMember: number
-  callBackToMemberParty :(value) => void
+  callBackToMemberParty: (value) => void
 }
-
 const MemberModal = (props :Props) => {
-  const { indexMember, memberDetail, callBackToMemberParty, showModal } = props
+  const router = useRouter()
+  const { indexMember, memberDetail, callBackToMemberParty, showModal, isAdmin } = props
   const [open, setOpen] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [typeAction, setTypeAction] = useState(undefined);
   const [confirmText, setConfirmText] = useState("");
+  const contextParty = useContext(partyContext)
 
   const borderColor =
     indexMember === -1 ? 'border-cusYellow' :
@@ -58,10 +59,20 @@ const MemberModal = (props :Props) => {
     setTypeAction(AdminPartyAction.KICK)
   }
 
-  const givePermissionAPI = () => {
-    console.log(memberDetail)
-    callBackToMemberParty(false)
-    //Do sth
+  const givePermissionAPI = async () => {
+    contextParty.currentParty.head_party = memberDetail.user_id
+    try {
+      const res = await apiParty.updateParty(contextParty.currentParty, contextParty.currentParty.party_id)
+      if (res.status === StatusCodes.OK) {
+        callBackToMemberParty(false)
+        router.push('/party/' + contextParty.currentParty.party_id)
+      }
+    } catch (error) {
+      if (error.response?.status) {
+        callBackToMemberParty(false)
+        router.push('/party')
+      }
+    }
   }
 
   const kickMemberAPI = () => {
@@ -93,7 +104,7 @@ const MemberModal = (props :Props) => {
               alt={memberDetail.username}
               width={"80px"}
               height={"80px"}
-              src={memberDetail.imageURL}
+              src={memberDetail.image_url || mockPartyMember[0].imageURL}
               layout="responsive"
               objectFit="cover"
               className="rounded-25"
@@ -104,29 +115,35 @@ const MemberModal = (props :Props) => {
           </div>
           <div className="flex flex-wrap justify-start">
             {
-              memberDetail.interestTag.map((data) => (
+              _.map(memberDetail.interest_tags, (data) => (
                 <NormalText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-4 py-1 m-1 ">
                   {data}
                 </NormalText>
               ))
             }
           </div>
-          <div className="flex justify-start mt-4">
-            <div className="w-1/2 flex items-center">
-              <NormalText bold > ให้สิทธิเป็น <br /> เจ้าของปาร์ตี้ </NormalText>
-            </div>
-            <div className="w-1/2 flex justify-center">
-              <Button variant="contained" disableElevation onClick={givePermission} color="secondary">ให้สิทธิ</Button>
-            </div>
-          </div>
-          <div className="flex justify-start mt-2">
-            <div className="w-1/2 flex items-center">
-              <NormalText bold> ลบสมาชิก </NormalText>
-            </div>
-            <div className="w-1/2 flex justify-center">
-              <Button variant="contained" disableElevation onClick={kickMember} color="secondary">ลบ</Button>
-            </div>
-          </div>
+          {
+            isAdmin ? <></>
+            :
+            <>
+                <div className="flex justify-start mt-4">
+                  <div className="w-1/2 flex items-center">
+                    <NormalText bold > ให้สิทธิเป็น <br /> เจ้าของปาร์ตี้ </NormalText>
+                  </div>
+                  <div className="w-1/2 flex justify-center">
+                    <Button variant="contained" disableElevation onClick={givePermission} color="secondary">ให้สิทธิ</Button>
+                  </div>
+                </div>
+                <div className="flex justify-start mt-2">
+                  <div className="w-1/2 flex items-center">
+                    <NormalText bold> ลบสมาชิก </NormalText>
+                  </div>
+                  <div className="w-1/2 flex justify-center">
+                    <Button variant="contained" disableElevation onClick={kickMember} color="secondary">ลบ</Button>
+                  </div>
+                </div>
+            </>
+          }
           <div className="flex justify-center mt-5">
             <Button variant="contained" disableElevation onClick={handleClose} >ปิด</Button>
           </div>

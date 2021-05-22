@@ -1,10 +1,10 @@
 export type Party = {
   party_id: string
   party_name?: string
-  head_party?: string
+  head_party?: User | string
   party_type?: string
   interested_topic?: string
-  interested_tag?: string[]
+  interest_tags?: Tag[]
   restaurant_name?: string
   promotion?: string
   passcode?: string
@@ -33,14 +33,21 @@ export type Restaurant = {
 
 export type User = {
   user_id: string
-  username: string
-  email: string
-  first_name_th: string
-  last_name_th: string
-  first_name_en: string
-  last_name_en: string
-  tel_no: string
-  verify_status: boolean
-  image_url: string
-  rating: number
+  username?: string
+  email?: string
+  first_name_th?: string
+  last_name_th?: string
+  first_name_en?: string
+  last_name_en?: string
+  tel_no?: string
+  verify_status?: boolean
+  interest_tags?: string[]
+  image_url?: string
+  rating?: number
+}
+
+export type Tag = {
+  value: string
+  label: string
+  selected?: boolean
 }

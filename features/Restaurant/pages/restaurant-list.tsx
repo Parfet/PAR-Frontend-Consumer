@@ -8,26 +8,26 @@ import { mockParty } from '../../../core/config/mockData'
 import { restaurantContext } from '../contexts/restaurant_context'
 import CardRestaurant from '../components/CardRestaurant'
 
-const BackgroundPartyList = styled.div`
+const BackgroundRestaurantList = styled.div`
   background-color: #F8CE28;
-  height: 100vh;
+  height: ${ props => props.height > 3 ? "auto" : '100vh'};
 `
 
 const RestaurantList = () => {
-  const contextParty = useContext(restaurantContext)
+  const contextRestaurant = useContext(restaurantContext)
 
   useEffect(() => {
-    contextParty.getRestaurants()
-  }, [contextParty])
+    contextRestaurant.getRestaurants()
+  }, [contextRestaurant])
 
   return useObserver(() => (
-    <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
+    <BackgroundRestaurantList className="overscroll-auto pt-4 pb-10" height={_.size(contextRestaurant.restaurant)}>
       {
-        _.map(contextParty.restaurant, (data, index) => (
+        _.map(contextRestaurant.restaurant, (data, index) => (
           <CardRestaurant restaurant={data} key={index} />
         ))
       }
-    </BackgroundPartyList>
+    </BackgroundRestaurantList>
   ))
 }
 

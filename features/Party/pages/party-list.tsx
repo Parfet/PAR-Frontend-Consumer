@@ -11,7 +11,7 @@ import { partyContext } from '../contexts/party_context'
 
 const BackgroundPartyList = styled.div`
   background-color: #F8CE28;
-  height: 100vh;
+  height: ${ props => props.height > 3 ? "auto" : '100vh'};
 `
 
 const PartyList = () => {
@@ -21,10 +21,11 @@ const PartyList = () => {
   
   useEffect(() => {
     contextParty.getParties(contextRestaurant.currentRestaurant.restaurant_id)
+    contextParty.getAllTag()
   }, [contextParty])
 
   return useObserver(() => (
-    <BackgroundPartyList className="overscroll-auto pt-4 pb-10 mb-6">
+    <BackgroundPartyList className="overscroll-auto pt-4 pb-10 mb-6" height={_.size(contextParty.parties)}>
       {
         _.size(contextParty.parties) === 0 ? 
         <div className="flex justify-center flex-col w-full h-full">
