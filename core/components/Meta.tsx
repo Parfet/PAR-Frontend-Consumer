@@ -13,8 +13,8 @@ const Meta = () => (
     <meta name='description' content='Party Buffet Management' />
     <meta name='theme-color' content='#000000' />
     <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover' />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
+    {/* <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> */}
+    {/* <meta http-equiv="Pragma" content="no-cache" /> */}
     <link rel='icon' type='image/png' href='/images/favicon.png' />
     <link rel='manifest' href='/manifest.json' />
   </Head>

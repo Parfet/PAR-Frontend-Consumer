@@ -1,12 +1,13 @@
 {
   "name": "frontend-consumer",
-  "version": "0.5.0",
+  "version": "0.5.5",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
     "staging": "next start -p 3001",
-    "start": "next start -p 3002"
+    "start": "next start -p 3002",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -17,6 +18,7 @@
     "dayjs": "^1.10.4",
     "detect-browser": "^5.2.0",
     "detect-browser-language": "^0.0.2",
+    "firebase": "^8.5.0",
     "formik": "^2.2.6",
     "http-status-codes": "^2.1.4",
     "lodash": "^4.17.21",
