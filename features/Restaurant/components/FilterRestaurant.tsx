@@ -88,14 +88,14 @@ const FilterRestaurant = (props: Props) => {
         <div className="flex flex-col px-2">
           <div className="flex flex-row">
             <div className="w-1/3 pt-2 text-right"><RegularText>ร้านเปิด</RegularText></div>
-            <div className="w-1/3">
+            <div className="w-1/3 flex justify-center">
               <Switch
                 checked={toggleSwitch.available}
                 onChange={handleChangeSwitch}
                 name="available"
               />
             </div>
-            <div className="w-1/3 pt-2 text-center"><RegularText>ปิด</RegularText></div>
+            <div className="w-1/3 pt-2 text-left"><RegularText>ปิด</RegularText></div>
           </div>
           <div className="flex flex-col mt-2">
             <div className="text-center">
