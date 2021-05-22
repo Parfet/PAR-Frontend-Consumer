@@ -97,7 +97,9 @@ const CreateParty = (prop :Prop) => {
   const contextParty = useContext(partyContext)
 
   useEffect(() => {
-  }, [contextUser, contextUser, contextRestaurant])
+    console.log(contextUser.userId)
+    console.log(contextUser.user.user_id)
+  }, [contextUser, contextParty, contextRestaurant])
 
   const handleEditParty = async (values) => {
     try {
@@ -122,7 +124,7 @@ const CreateParty = (prop :Prop) => {
   const formik = useFormik({
     initialValues: {
       party_name: contextParty.currentParty.party_name || '',
-      head_party: contextUser.userId,
+      head_party: contextUser.user.user_id,
       interested_topic: contextParty.currentParty.party_name || '',
       interest_tags: contextParty.currentParty.interest_tags || [],
       promotion: aryPromotion[0],

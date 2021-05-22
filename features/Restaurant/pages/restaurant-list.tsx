@@ -5,6 +5,7 @@ import { useObserver } from 'mobx-react-lite'
 import _ from "lodash"
 
 import { mockParty } from '../../../core/config/mockData'
+import { authContext } from '../../../core/context/auth_context'
 import { restaurantContext } from '../contexts/restaurant_context'
 import CardRestaurant from '../components/CardRestaurant'
 
@@ -14,10 +15,12 @@ const BackgroundRestaurantList = styled.div`
 `
 
 const RestaurantList = () => {
+  const contextAuth = useContext(authContext)
   const contextRestaurant = useContext(restaurantContext)
 
   useEffect(() => {
     contextRestaurant.getRestaurants()
+    contextAuth.getUser()
   }, [contextRestaurant])
 
   return useObserver(() => (

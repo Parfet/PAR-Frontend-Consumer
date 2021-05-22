@@ -33,12 +33,20 @@ export class AuthContext {
         const response = await apiAuth.getJWTToken({ user_id: currentUser.user_id})
         if (response.status === StatusCodes.OK) {
           this.user = currentUser
-          this.userId = currentUser.user_id
+          cookies.set('user', currentUser, { path: '/', maxAge: 3600 })
           cookies.set('access_token', response.data.access_token, { path: '/', maxAge: 3600 })
           cookies.set('refresh_token', response.data.refresh_token, { path: '/', maxAge: 3600 })
           Router.prototype.replace('/restaurant')
         }
       }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  getUser = async () => {
+    try {
+      this.user = cookies.get('user')
     } catch (error) {
       console.log(error)
     }
