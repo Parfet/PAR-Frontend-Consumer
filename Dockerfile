@@ -10,4 +10,5 @@ RUN yarn add --dev typescript
 
 COPY . ./
 
-CMD ["yarn","dev"]
+CMD ["yarn","build"]
+CMD ["yarn","start"]
