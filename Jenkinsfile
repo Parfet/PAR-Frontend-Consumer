@@ -14,10 +14,10 @@ pipeline {
                     sh 'cp $Env $WORKSPACE'                    
                 } // End .env step
 
-                withCredentials([file(credentialsId: 'FEenvprod', variable: 'envStaging')]){
+                withCredentials([file(credentialsId: 'FEenvprod', variable: 'envProd')]){
                     sh 'chmod 700 $WORKSPACE/.env.production || :'
                     sh 'rm -rf $WORKSPACE/.env.production || :'
-                    sh 'cp $envStaging $WORKSPACE'
+                    sh 'cp $envProd $WORKSPACE'
                 }// End .env.production step
 
                 echo ' ------------------------------ '
