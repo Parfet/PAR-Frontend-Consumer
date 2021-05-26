@@ -19,6 +19,9 @@ const MyParty = () => {
 
   useEffect(() => {
     contextParty.getPartyByUserId()
+    return () => {
+      contextParty.allMyParty = []
+    }
   }, [contextParty])
 
   return useObserver(() => (

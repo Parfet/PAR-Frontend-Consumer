@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { useObserver } from 'mobx-react-lite'
 import _ from "lodash"
 
-import { mockParty } from '../../../core/config/mockData'
 import { authContext } from '../../../core/context/auth_context'
 import { restaurantContext } from '../contexts/restaurant_context'
 import CardRestaurant from '../components/CardRestaurant'
@@ -21,6 +20,10 @@ const RestaurantList = () => {
   useEffect(() => {
     contextRestaurant.getRestaurants()
     contextAuth.getUser()
+    return () => {
+      contextRestaurant.restaurant = []
+      contextAuth.user={ user_id: ""}
+    }
   }, [contextRestaurant])
 
   return useObserver(() => (

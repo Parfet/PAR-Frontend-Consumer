@@ -1,5 +1,5 @@
 export type Party = {
-  party_id: string
+  party_id?: string
   party_name?: string
   head_party?: User | string
   party_type?: string
@@ -16,7 +16,7 @@ export type Party = {
 }
 
 export type Restaurant = {
-  restaurant_id: string
+  restaurant_id?: string
   restaurant_name?: string
   email?: string
   tel_no?: string
@@ -32,7 +32,7 @@ export type Restaurant = {
 }
 
 export type User = {
-  user_id: string
+  user_id?: string
   username?: string
   email?: string
   first_name_th?: string

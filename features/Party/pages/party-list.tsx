@@ -21,6 +21,10 @@ const PartyList = () => {
   
   useEffect(() => {
     contextParty.getParties(contextRestaurant.currentRestaurant.restaurant_id)
+    return () => {
+      contextRestaurant.currentRestaurant = { restaurant_id:"" }
+      contextParty.parties = []
+    }
   }, [contextParty])
 
   return useObserver(() => (

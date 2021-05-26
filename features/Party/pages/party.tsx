@@ -19,6 +19,9 @@ const Party = () => {
   const router = useRouter()
   const query = router.query
   
+  useEffect(() => {
+  }, [contextParty])
+
   const handleClickOpenMember = (memberDetail, index) => {
     if (memberDetail.user_id === contextParty.currentParty.head_party){
       setIsAdmin(true)
