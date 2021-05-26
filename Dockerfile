@@ -2,6 +2,7 @@ FROM node:14.16.0-alpine AS base
 WORKDIR /base
 COPY package*.json ./
 RUN yarn
+RUN yarn add --dev typescript
 COPY . .
 
 FROM base AS build
