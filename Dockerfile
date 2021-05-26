@@ -19,5 +19,6 @@ COPY --from=build /build/.next ./.next
 COPY --from=build /build/public ./public
 RUN yarn add next
 
-EXPOSE 3001
-CMD yarn staging
+EXPOSE 3002
+CMD yarn start
+

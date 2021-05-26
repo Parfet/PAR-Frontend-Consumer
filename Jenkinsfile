@@ -18,7 +18,9 @@ pipeline {
                     sh 'chmod 700 $WORKSPACE/.env.production || :'
                     sh 'rm -rf $WORKSPACE/.env.production || :'
                     sh 'cp $envProd $WORKSPACE'
-                }// End .env.production step
+
+                } // End .env.production step
+
 
                 echo ' ------------------------------ '
                 
