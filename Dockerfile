@@ -20,5 +20,5 @@ COPY --from=build /build/public ./public
 COPY --form=build /build/node_modules ./node_modules
 RUN yarn add next
 
-EXPOSE 3001
+CMD ["yarn","build"]
 CMD ["yarn","staging"]
