@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import Navigator from '../../../core/components/Navigator'
 import CreateParty from '../../../features/Party/pages/create-party'
 import { partyContext } from '../../../features/Party/contexts/party_context'
 
 const EditParty = () => {
-    const contextParty = useContext(partyContext)
+  const contextParty = useContext(partyContext)
 
   return (
     <Navigator

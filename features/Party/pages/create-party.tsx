@@ -97,8 +97,7 @@ const CreateParty = (prop :Prop) => {
   const contextParty = useContext(partyContext)
 
   useEffect(() => {
-    console.log(contextUser.userId)
-    console.log(contextUser.user.user_id)
+    contextUser.getUser()
   }, [contextUser, contextParty, contextRestaurant])
 
   const handleEditParty = async (values) => {
