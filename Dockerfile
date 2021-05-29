@@ -2,6 +2,7 @@ FROM node:14.16.0-alpine AS base
 WORKDIR /base
 COPY package*.json ./
 RUN yarn
+RUN yarn add --dev typescript
 COPY . .
 
 FROM base AS build
@@ -9,7 +10,7 @@ ENV NODE_ENV=production
 WORKDIR /build
 COPY --from=base /base ./
 RUN yarn build
-RUN yarn add --dev typescript
+
 
 FROM node:14.16.0-alpine AS production
 ENV NODE_ENV=production
