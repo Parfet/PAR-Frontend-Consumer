@@ -38,24 +38,25 @@ const Home = () => {
 
   if (browser.os === 'Android OS' || browser.os === 'iOS') {
     return (
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          id="username"
-          name="username"
-          variant="outlined"
-          size="small"
-          value={formik.values.username}
-          onChange={formik.handleChange}
-          required
-        />
-        <Button type="submit"> เข้าสู่ระบบ</Button>
-      </form>
+      <div className="flex items-center justify-center p-4 h-screen">
+        <form className="flex flex-col" onSubmit={formik.handleSubmit}>
+          <TextField
+            id="username"
+            name="username"
+            variant="outlined"
+            size="small"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            required
+          />
+          <Button type="submit"> เข้าสู่ระบบ</Button>
+        </form>
+      </div>
     )
   }
   else {
     return <InCorrectDevice />
   }
-
 }
 
 export default Home
