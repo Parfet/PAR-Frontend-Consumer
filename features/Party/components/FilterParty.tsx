@@ -85,13 +85,14 @@ const FilterParty = (props: Props) => {
   }
 
   const handleClickTag = (selected) => {
-    // contextParty.setSelectedTag(selected)
-    _.map(contextParty.allTag, data => {
-      if (data.value === selected.value){
-        data.selected = !data.selected
-      }
-    })
-    // setTestTag(contextParty.allTag)
+  console.log("🚀 ~ file: FilterParty.tsx ~ line 88 ~ handleClickTag ~ selected", selected)
+  //   // contextParty.setSelectedTag(selected)
+  //   _.map(contextParty.allTag, data => {
+  //     if (data.value === selected.value){
+  //       data.selected = !data.selected
+  //     }
+  //   })
+  //   // setTestTag(contextParty.allTag)
   }
 
   const seeTagMore = () => {
