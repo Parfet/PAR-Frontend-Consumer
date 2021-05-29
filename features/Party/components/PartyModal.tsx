@@ -70,6 +70,7 @@ const PartyModal = (props: Props) => {
     if (_.size(party.members) >= party.max_member){
       setDisable(true)
     }
+    contextUser.getUser()
     setOpen(showModal)
   })
   

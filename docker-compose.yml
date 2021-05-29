@@ -2,10 +2,9 @@ version: '3.8'
 
 services:
  par-fe:
-  container_name: PAR-Frontend-Consumer-Production
+  container_name: PAR-Frontend-Consumer-staging
   ports:
-   - 3002:3002
-
+   - 3001:3001
   build:
    context: .
    dockerfile: Dockerfile

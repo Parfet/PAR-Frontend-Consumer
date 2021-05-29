@@ -21,4 +21,3 @@ RUN yarn add next
 
 EXPOSE 3002
 CMD yarn start
-
