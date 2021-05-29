@@ -1,15 +1,17 @@
 version: '3.8'
+
 services:
  par-fe:
-    container_name: parfet-fe-consumer-development
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - '.:/usr/src/app'
-      - '/usr/src/app/node_modules'
-    ports:
-      - '3000:3000'
-    env_file:
-      - .env
-      - .env.development
+  container_name: PAR-Frontend-Consumer-staging
+  ports:
+   - 3001:3001
+  build:
+   context: .
+   dockerfile: Dockerfile
+  volumes:
+   - /app:/usr/src/app/       
+   - /usr/src/app/node_modules
+   - /usr/src/app/.next
+  env_file:
+   - .env
+   - .env.production
