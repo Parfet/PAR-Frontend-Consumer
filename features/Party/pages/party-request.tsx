@@ -17,7 +17,6 @@ const PartyRequest = () => {
   const [userList, setUserList] = useState<User[]>()
 
   useEffect(() => {
-    console.log("🚀 ~ file: party-request.tsx ~ line 27 ~ getUserJoinParty ~ contextParty.currentParty", contextParty.currentParty)
     getUserJoinParty()
   }, [])
 

@@ -11,7 +11,6 @@ WORKDIR /build
 COPY --from=base /base ./
 RUN yarn build
 
-
 FROM node:14.16.0-alpine AS production
 ENV NODE_ENV=production
 WORKDIR /app
@@ -20,5 +19,5 @@ COPY --from=build /build/.next ./.next
 COPY --from=build /build/public ./public
 RUN yarn add next
 
-EXPOSE 3001
-CMD yarn staging
+EXPOSE 3002
+CMD yarn start
