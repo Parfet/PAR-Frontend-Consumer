@@ -111,7 +111,7 @@ const FilterParty = (props: Props) => {
           <RegularText> แท็กปาร์ตี้ที่ต้องการ </RegularText>
         </div>
         <div className="flex flex-wrap justify-center px-3 mb-3">
-          {
+          {/* {
             _.map(contextParty.allTag, (data, index) => (
               index < countTag ?
               <div className="w-1/2 mb-2 px-0.5 py-0.5">
@@ -126,7 +126,7 @@ const FilterParty = (props: Props) => {
               </div>
               : <></>
               ))
-          }
+          } */}
           <Button variant="contained" onClick={() => seeTagMore()} style={{backgroundColor:'#AC5B31'}}>
             {
               clickSeeTagMore ? 
