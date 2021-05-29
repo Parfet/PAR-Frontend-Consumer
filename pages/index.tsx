@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { detect } from 'detect-browser'
 import { TextField, Button } from '@material-ui/core'
+import { useFormik } from 'formik';
 
 import InCorrectDevice from '../core/components/Error/InCorrectDevice'
 import { authContext } from '../core/context/auth_context'
@@ -12,7 +13,6 @@ const Home = () => {
   const contextUser = useContext(authContext)
   // const [latitude, setLatitude] = useState(0)
   // const [longitude, setLongitude] = useState(0)
-  const [username, setUsername] = useState<string>()
 
   useEffect(() => {
     // if (navigator.geolocation) {
@@ -26,23 +26,30 @@ const Home = () => {
     contextUser.getAllUser()
   }, [contextUser])
 
+  const formik = useFormik({
+    initialValues: {
+      username: ''
+    },
+    onSubmit: (values) => {
+      contextUser.login(values.username)
+    },
+  });
+
+
   if (browser.os === 'Android OS' || browser.os === 'iOS') {
     return (
-      <div>
-        <form>
-          <TextField
-            id="party_name"
-            name="party_name"
-            variant="outlined"
-            size="small"
-            value={username}
-            onBlur={(e) => setUsername(e.target.value)}
-            required
-          />
-          <Button type="submit" onClick={() => contextUser.login(username)}> เข้าสู่ระบบ</Button>
-        </form>
-        Hi I'm Parfet
-      </div>
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          id="username"
+          name="username"
+          variant="outlined"
+          size="small"
+          value={formik.values.username}
+          onChange={formik.handleChange}
+          required
+        />
+        <Button type="submit"> เข้าสู่ระบบ</Button>
+      </form>
     )
   }
   else {
