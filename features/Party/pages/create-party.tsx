@@ -97,6 +97,7 @@ const CreateParty = (prop :Prop) => {
   const contextParty = useContext(partyContext)
 
   useEffect(() => {
+    console.log(contextRestaurant.currentRestaurant)
     contextParty.getAllTag()
     contextUser.getUser()
   }, [contextUser, contextParty, contextRestaurant])

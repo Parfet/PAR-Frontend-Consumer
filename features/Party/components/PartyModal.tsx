@@ -83,7 +83,6 @@ const PartyModal = (props: Props) => {
     if (passcode.length === 6 || party.party_type === PartyType.PUBLIC){
       setAlertText('')
       try {
-        console.log("🚀 ~ file: PartyModal.tsx ~ line 87 ~ handleClick ~ contextUser.user.user_id", contextUser.user.user_id)
         const res = await apiParty.joinParty(party.party_id, contextUser.user.user_id,passcode)
         if (res.status === StatusCodes.OK) {
           handleClose();
