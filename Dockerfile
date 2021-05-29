@@ -9,6 +9,7 @@ ENV NODE_ENV=production
 WORKDIR /build
 COPY --from=base /base ./
 RUN yarn build
+RUN yarn add --dev typescript
 
 FROM node:14.16.0-alpine AS production
 ENV NODE_ENV=production
