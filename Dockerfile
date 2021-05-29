@@ -2,7 +2,6 @@ FROM node:14.16.0-alpine AS base
 WORKDIR /base
 COPY package*.json ./
 RUN yarn
-RUN yarn add --dev typescript
 COPY . .
 
 FROM base AS build
@@ -19,6 +18,5 @@ COPY --from=build /build/.next ./.next
 COPY --from=build /build/public ./public
 RUN yarn add next
 
-EXPOSE 3002
-CMD yarn start
-
+EXPOSE 3001
+CMD yarn staging
