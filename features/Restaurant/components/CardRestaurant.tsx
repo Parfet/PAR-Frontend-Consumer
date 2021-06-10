@@ -6,7 +6,9 @@ import {
   makeStyles,
   createStyles,
   Paper,
+  IconButton
 } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
 
 import {
   SubTitle,
@@ -51,14 +53,24 @@ const RestaurantParty = (props: Props) => {
       router.push("/party")
     }
   }
+
+  const selectRestaurantInfo = () => {
+    contextParty.setCurrentRestaurant(restaurant)
+    router.push("/restaurant/info")
+  }
   return (
     <>
       <Paper className={classes.paper} onClick={selectRestaurant}>
         <div className="relative">
+          <div className="z-50 absolute flex right-0 mr-2 mt-1">
+            <IconButton size="small" onClick={() => selectRestaurantInfo()}>
+              <InfoIcon className="rounded-25 bg-white"/>
+            </IconButton>
+          </div>
           {
             restaurant.status === RestaurantStatus.RESTAURANT_OPEN ? 
               <></>
-            : <div className="absolute z-50 flex justify-center w-full h-full">
+            : <div className="absolute z-40 flex justify-center w-full h-full">
                 <SubTitle className="flex items-center" white bold>
                   Close
                 </SubTitle>
