@@ -60,13 +60,13 @@ const RestaurantParty = (props: Props) => {
   }
   return (
     <>
-      <Paper className={classes.paper} onClick={selectRestaurant}>
-        <div className="relative">
-          <div className="z-50 absolute flex right-0 mr-2 mt-1">
-            <IconButton size="small" onClick={() => selectRestaurantInfo()}>
-              <InfoIcon className="rounded-25 bg-white"/>
-            </IconButton>
-          </div>
+      <Paper className={classes.paper} >
+        <div className="z-50 absolute flex right-7" onClick={() => selectRestaurantInfo()}>
+          <IconButton size="medium">
+            <InfoIcon className="rounded-25 bg-white"/>
+          </IconButton>
+        </div>
+        <div className="relative" onClick={selectRestaurant}>
           {
             restaurant.status === RestaurantStatus.RESTAURANT_OPEN ? 
               <></>
