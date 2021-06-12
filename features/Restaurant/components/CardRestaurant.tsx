@@ -42,20 +42,20 @@ interface Props {
 }
 
 const RestaurantParty = (props: Props) => {
-  const contextParty = useContext(restaurantContext)
+  const contextRestaurant = useContext(restaurantContext)
   const router = useRouter()
   const classes = useStyles();
   const { restaurant } = props
 
   const selectRestaurant = () => {
     if (restaurant.status === RestaurantStatus.RESTAURANT_OPEN){
-      contextParty.setCurrentRestaurant(restaurant)
+      contextRestaurant.setCurrentRestaurant(restaurant)
       router.push("/party")
     }
   }
 
   const selectRestaurantInfo = () => {
-    contextParty.setCurrentRestaurant(restaurant)
+    contextRestaurant.setCurrentRestaurant(restaurant)
     router.push("/restaurant/info")
   }
   return (
