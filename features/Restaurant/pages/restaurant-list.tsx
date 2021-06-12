@@ -53,11 +53,11 @@ const RestaurantList = () => {
 
   const formik = useFormik({
     initialValues: {
-      restaurant: ''
+      restaurantName: ''
     },
     onSubmit: (values) => {
-      setNoContentWord("ไม่พบร้าน " + values.restaurant)
-      console.log("🚀 ~ file: restaurant-list.tsx ~ line 58 ~ RestaurantList ~ values", values.restaurant)
+      setNoContentWord("ไม่พบร้าน " + values.restaurantName)
+      contextRestaurant.getRestaurants("name", values.restaurantName)
     },
   });
 
@@ -66,14 +66,14 @@ const RestaurantList = () => {
       <form onSubmit={formik.handleSubmit}>
         <Paper className={classes.root}>
           <InputBase
-            id="restaurant"
-            name="restaurant"
+            id="restaurantName"
+            name="restaurantName"
             className={classes.input}
             placeholder="ค้นหาร้านอาหาร"
             inputProps={{ 'aria-label': 'ค้นหาร้านอาหาร' }}
-            value={formik.values.restaurant}
+            value={formik.values.restaurantName}
             onChange={formik.handleChange}
-            error={formik.touched.restaurant && Boolean(formik.errors.restaurant)}
+            error={formik.touched.restaurantName && Boolean(formik.errors.restaurantName)}
           />
           <IconButton type="submit" className={classes.iconButton} aria-label="search">
             <SearchIcon />
