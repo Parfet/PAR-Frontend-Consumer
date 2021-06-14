@@ -1,7 +1,7 @@
 export type Party = {
   party_id?: string
   party_name?: string
-  head_party?: User | string
+  head_party?: User
   party_type?: string
   interested_topic?: string
   interest_tags?: Tag[]
