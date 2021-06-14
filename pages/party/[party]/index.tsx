@@ -22,12 +22,6 @@ const PartyPage = () => {
   const [typeAction, setTypeAction] = useState("")
   const contextParty = useContext(partyContext)
 
-  const query = router.query
-
-  useEffect (() => {
-    contextParty.getPartyByPartyId(query.party)
-  }, [query.party, contextParty])
-
   const closeParty = () => {
     setConfirmText("ต้องการปิดปาร์ตี้")
     setOpenConfirmModal(true)
