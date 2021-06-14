@@ -16,13 +16,9 @@ const Party = () => {
   const [indexMember, setIndexMember] = useState<any>()
   const [isAdmin, setIsAdmin] = useState(false);
   const contextParty = useContext(partyContext)
-  const router = useRouter()
-  const query = router.query
   
   useEffect(() => {
-    console.log("🚀 ~ file: party.tsx ~ line 28 ~ useEffect ~ query.party", query.party)
-    contextParty.getPartyByPartyId(query.party)
-  }, [query.party, contextParty])
+  }, [contextParty])
 
   const handleClickOpenMember = (memberDetail, index) => {
     if (memberDetail.user_id === contextParty.currentParty.head_party){
