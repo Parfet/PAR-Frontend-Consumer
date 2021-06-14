@@ -152,7 +152,7 @@ const RestaurantInfo = () => {
             <RegularText>126 ถนนประชาอุทิศ แขวงบางมด เขตทุ่งครุ กรุงเทพฯ 10140</RegularText>
           </div>
         </div>
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mb-5">
           <a href={`tel://${contextRestaurant.currentRestaurant.tel_no}}`}>
             <PhoneIcon style={{ fontSize: '30px' }} />
             <RegularText className="pl-2">{contextRestaurant.currentRestaurant.tel_no}</RegularText>
