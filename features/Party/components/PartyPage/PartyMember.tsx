@@ -7,11 +7,11 @@ import { RegularText } from '../../../../core/config/textStyle'
 import { mockPartyMember } from '../../../../core/config/mockData.js'
 
 interface Props {
-  imageURL :string
-  username :string
-  admin? :boolean
-  keyId? :number
-  onClick :() => void
+  imageURL: string
+  username: string
+  admin?: boolean
+  keyId?: number
+  onClick: () => void
 }
 
 const PartyMember = (props: Props) => {
@@ -27,7 +27,7 @@ const PartyMember = (props: Props) => {
     <div className="flex flex-col w-1/3 mb-2 pr-2" onClick={onClick}>
       <div className={`text-center border-4 rounded-30 ${borderColor}`}>
         <Image
-          alt={username}
+          alt={username|| ""}
           width={"80px"}
           height={"80px"}
           src={imageURL || mockPartyMember[0].imageURL}
@@ -43,7 +43,7 @@ const PartyMember = (props: Props) => {
             : <></>
         }
         <RegularText className={`${admin ? 'mr-5 ml-1' : ''}`}>
-          {username}
+          {username || ""}
         </RegularText>
       </div>
     </div>
