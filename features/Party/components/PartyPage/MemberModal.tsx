@@ -67,19 +67,30 @@ const MemberModal = (props :Props) => {
       const res = await apiParty.updateParty(contextParty.currentParty, contextParty.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
         callBackToMemberParty(false)
-        router.push('/party/' + contextParty.currentParty.party_id)
+        router.reload()
       }
     } catch (error) {
       if (error.response?.status) {
         callBackToMemberParty(false)
-        router.push('/party')
+        router.push('/party/me')
       }
     }
   }
 
-  const kickMemberAPI = () => {
+  const kickMemberAPI = async () => {
     console.log(memberDetail)
-    callBackToMemberParty(false)
+    try {
+      const res = await apiParty.kickMember(contextParty.currentParty.party_id, memberDetail.user_id)
+      if (res.status === StatusCodes.OK) {
+        callBackToMemberParty(false)
+        router.reload()
+      }
+    } catch (error) {
+      if (error.response?.status) {
+        callBackToMemberParty(false)
+        router.push('/party/me')
+      }
+    }
     //Do sth
   }
 

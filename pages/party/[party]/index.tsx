@@ -28,7 +28,6 @@ const PartyPage = () => {
   const query = router.query
   
   useEffect(() => {
-    console.log("🚀 ~ file: index.tsx ~ line 26 ~ PartyPage ~ contextAuth", contextAuth.user)
     contextParty.getPartyByPartyId(query.party)
   }, [query.party, contextParty])
   
@@ -57,7 +56,7 @@ const PartyPage = () => {
     try {
       const res = await apiParty.archivedParty(contextParty.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
-        router.push('/restaurant')
+        router.push('/party/me')
       }
     } catch (error) {
       if (error.response?.status === StatusCodes.FORBIDDEN) {
@@ -71,9 +70,19 @@ const PartyPage = () => {
     }
   }
 
-  const leavePartyAPI = () => {
-    console.log(PartyAction.LEAVE_PARTY)
-    //Do sth
+  const leavePartyAPI = async () => {
+    try {
+      const res = await apiParty.leaveParty(contextParty.currentParty.party_id)
+      if (res.status === StatusCodes.OK) {
+        router.push('/restaurant')
+      }
+    } catch (error) {
+      if (error.response?.status === StatusCodes.BAD_REQUEST) {
+        router.push('/party/' + contextParty.currentParty.party_id)
+      }else if (error.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
+        router.push('/')
+      }
+    }
   }
 
   const callBackFromConfirm = (open, value) => {
