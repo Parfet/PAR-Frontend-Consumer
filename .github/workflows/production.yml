@@ -15,7 +15,6 @@ jobs:
           echo ${{ secrets.ENV }} >> .env
           touch .env.production
           echo ${{ secrets.ENV_PRODUCTION }} >> .env.production
-          scp -i ${{ secrets.SSH_PEM_KEY }} .env* ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }}:~/PAR-Frontend-Consumer/
   Deployment :  
     runs-on: ubuntu-latest
     steps:  
@@ -28,6 +27,7 @@ jobs:
           script: |
            rm -rf PAR-Frontend-Consumer || :
            git clone https://nattaphonmek:Mek.11530@github.com/Parfet/PAR-Frontend-Consumer.git
+           scp -i ${{ secrets.SSH_PEM_KEY }} .env* ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }}:~/PAR-Frontend-Consumer/
            cd PAR-Frontend-Consumer
            docker-compose down --rmi local || :
            docker-compose up -d --build
