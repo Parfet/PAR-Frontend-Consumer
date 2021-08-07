@@ -25,4 +25,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{secrets.SSH_PEM_KEY}}
           script: |
-           echo "HELLO WORLD!!"
+           git clone https://nattaphonmek:Mek.11530@github.com/Parfet/PAR-Frontend-Consumer.git
+           scp -i ${{ secrets.SSH_PEM_KEY }} .env* ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }}:~/PAR-Frontend-Consumer/
+           cd PAR-Frontend-Consumer
+           docker-compose down --rmi local || :
+           docker-compose up -d --build
+           docker ps -a
