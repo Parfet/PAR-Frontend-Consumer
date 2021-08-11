@@ -6,11 +6,13 @@ import { useFormik } from 'formik';
 
 import InCorrectDevice from '../core/components/Error/InCorrectDevice'
 import { authContext } from '../core/context/auth_context'
+import { useAuth } from '../core/config/auth';
 
 const Home = () => {
   const browser = detect();
   const router = useRouter()
   const contextUser = useContext(authContext)
+  const auth = useAuth();
   // const [latitude, setLatitude] = useState(0)
   // const [longitude, setLongitude] = useState(0)
 
@@ -47,9 +49,12 @@ const Home = () => {
             size="small"
             value={formik.values.username}
             onChange={formik.handleChange}
-            required
+            // required
           />
           <Button type="submit"> เข้าสู่ระบบ</Button>
+          <Button type="submit" onClick={() => auth.signinWithGoogle('/') }> เข้าสู่ระบบด้วย google</Button>
+          <Button type="submit" onClick={() => auth.signinWithFacebook('/') }> เข้าสู่ระบบด้วย facebook</Button>
+          <Button type="submit" onClick={() => auth.signinWithTwitter('/') }> เข้าสู่ระบบด้วย twitter</Button>
         </form>
       </div>
     )
