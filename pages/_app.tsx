@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Meta from '../core/components/Meta'
+import { AuthProvider } from '../core/config/auth'
 
 const MyApp = ({ Component, pageProps }) => {
 
@@ -16,11 +17,11 @@ const MyApp = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <>
+    <AuthProvider>
       <Meta />
       <CssBaseline />
       <Component {...pageProps} />
-    </>
+    </AuthProvider>
   )
 }
 
