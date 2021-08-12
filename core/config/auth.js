@@ -1,8 +1,11 @@
-//Ref https://docs.react2025.com/firebase/use-auth
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import Router from 'next/router';
 import firebase from './firebase';
-// import { createUser } from './db';
+import Cookies from 'universal-cookie'
+
+import api from '../../utils/api'
+
+const cookies = new Cookies()
 
 const authContext = createContext();
 
@@ -24,8 +27,16 @@ function useFirebaseAuth() {
     if (rawUser) {
       const user = await formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
+      
+      cookies.set('access_token', token, { path: '/', maxAge: 60 })
 
-      // createUser(user.uid, userWithoutToken);
+      api.post('/auth/check').then( (response) =>{
+        console.log("🚀 ~ file: auth.js ~ line 34 ~ handleUser ~ response", response)
+        Router.push('/');
+      }).catch((error) =>
+        console.log("🚀 ~ file: auth.js ~ line 36 ~ handleUser ~ error", error)
+      )
+
       setUser(user);
 
       setLoading(false);
@@ -46,9 +57,9 @@ function useFirebaseAuth() {
         console.log("🚀 ~ file: auth.js ~ line 74 ~ .then ~ response", response)
         handleUser(response.user);
 
-        if (redirect) {
-          Router.push(redirect);
-        }
+        // if (redirect) {
+        //   Router.push(redirect);
+        // }
       });
   };
 
@@ -61,9 +72,9 @@ function useFirebaseAuth() {
         console.log("🚀 ~ file: auth.js ~ line 74 ~ .then ~ response", response)
         handleUser(response.user);
 
-        if (redirect) {
-          Router.push(redirect);
-        }
+        // if (redirect) {
+        //   Router.push(redirect);
+        // }
       });
   };
 
@@ -76,9 +87,9 @@ function useFirebaseAuth() {
         console.log("🚀 ~ file: auth.js ~ line 88 ~ .then ~ response", response)
         handleUser(response.user);
 
-        if (redirect) {
-          Router.push(redirect);
-        }
+        // if (redirect) {
+        //   Router.push(redirect);
+        // }
       });
   };
 
