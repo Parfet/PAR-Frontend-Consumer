@@ -15,7 +15,7 @@ const Home = () => {
   const auth = useAuth();
   // const [latitude, setLatitude] = useState(0)
   // const [longitude, setLongitude] = useState(0)
-
+  
   useEffect(() => {
     // if (navigator.geolocation) {
     //   navigator.geolocation.watchPosition((position) => {
@@ -25,8 +25,11 @@ const Home = () => {
     //   function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
     //   { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
     // }
+    if (auth.user === null || !auth.user) {
+      router.push('/signin')
+    }
     contextUser.getAllUser()
-  }, [contextUser])
+  }, [contextUser, auth])
 
   const formik = useFormik({
     initialValues: {
@@ -52,9 +55,10 @@ const Home = () => {
             // required
           />
           <Button type="submit"> เข้าสู่ระบบ</Button>
-          <Button type="submit" onClick={() => auth.signinWithGoogle('/') }> เข้าสู่ระบบด้วย google</Button>
-          <Button type="submit" onClick={() => auth.signinWithFacebook('/') }> เข้าสู่ระบบด้วย facebook</Button>
-          <Button type="submit" onClick={() => auth.signinWithTwitter('/') }> เข้าสู่ระบบด้วย twitter</Button>
+          {
+            auth.user != null ?
+              <> {auth.user.name} </> : <></>
+          }
         </form>
       </div>
     )
