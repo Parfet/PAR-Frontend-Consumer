@@ -30,7 +30,7 @@ function useFirebaseAuth() {
       
       cookies.set('access_token', token, { path: '/', maxAge: 60 })
 
-      api.post('/auth/check').then( (response) =>{
+      api.get('/auth/check').then( (response) =>{
         console.log("🚀 ~ file: auth.js ~ line 34 ~ handleUser ~ response", response)
         Router.push('/');
       }).catch((error) =>
