@@ -16,8 +16,8 @@ const SignIn = () => {
   const auth = useAuth();
 
   return (
-    <Background className="pt-20">
-      <div className="flex justify-center mb-16">
+    <Background className="pt-10">
+      <div className="flex justify-center mb-16 pl-6">
         <Image
           alt="Parfet Logo"
           src="/images/logo_parfet_192.png"
