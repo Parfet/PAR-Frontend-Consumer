@@ -18,7 +18,7 @@ import { SubHeader, NormalText } from '../../../core/config/textStyle'
 import { restaurantContext } from '../../Restaurant/contexts/restaurant_context'
 import apiParty from '../services/apiParty'
 import { partyContext } from '../contexts/party_context'
-import InputField from '../components/InputField'
+import InputField from '../../../core/components/InputField'
 import { ValidationFormSchema } from '../services/validationSchema'
 
 let now = dayjs()

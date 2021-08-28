@@ -18,7 +18,7 @@ import { ErrorMessage } from '../../../core/constant/constant'
 import { PartyType, Errors } from '../../../core/constant/enum'
 import { Party } from '../../../core/constant/type'
 import { authContext } from '../../../core/context/auth_context'
-import InputField from '../components/InputField'
+import InputField from '../../../core/components/InputField'
 import apiParty from '../services/apiParty'
 import { UIDateLayout } from '../../../core/constant/constant'
 
