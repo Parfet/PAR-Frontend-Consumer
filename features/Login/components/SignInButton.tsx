@@ -34,7 +34,7 @@ const SignInButton = (props: Props) => {
       onClick={onClick} 
       onMouseOver={() => handleMouseOver()}
       onMouseOut={() => handleMouseOut()}
-      className="flex rounded-5 w-72 justify-start pl-4"
+      className="flex rounded-5 w-64 justify-center"
       bgColor={bgColor}
       >
       <Image
@@ -42,11 +42,11 @@ const SignInButton = (props: Props) => {
         src={image}
         width={"32px"}
         height={"32px"}
-      />
+        />
       <NormalText
         className="ml-4"
         white={bgColor ? textBlack : false}
-      >
+        >
         {text}
       </NormalText>
     </ButtonWithColor>

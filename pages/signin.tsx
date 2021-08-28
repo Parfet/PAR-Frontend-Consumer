@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import SignIn from '../features/Login/pages/sign-in';
+import SignIn from '../features/Login/pages';
 
 const Background = styled.div`
   background-color: white;
@@ -11,7 +11,7 @@ const Background = styled.div`
 const SignInPages = () => {
 
   return (
-    <Background className="pt-20">
+    <Background>
       <SignIn />
     </Background>
   )
