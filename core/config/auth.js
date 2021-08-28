@@ -3,7 +3,7 @@ import Router from 'next/router';
 import firebase from './firebase';
 import Cookies from 'universal-cookie'
 
-import api from '../../utils/api'
+import apiAuth from '../services/apiAuth'
 
 const cookies = new Cookies()
 
@@ -27,18 +27,18 @@ function useFirebaseAuth() {
     if (rawUser) {
       const user = await formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
-      
       cookies.set('access_token', token, { path: '/', maxAge: 60 })
-
-      api.get('/auth/check').then( (response) =>{
-        console.log("🚀 ~ file: auth.js ~ line 34 ~ handleUser ~ response", response)
-        Router.push('/');
+      apiAuth.checkUser().then((response) => {
+        console.log("🚀 ~ file: auth.js ~ line 32 ~ api.get ~ response", response)
+        if (response.data.is_user_existed) {
+          Router.push('/');
+        }else {
+        Router.push('/register');
+        }
       }).catch((error) =>
         console.log("🚀 ~ file: auth.js ~ line 36 ~ handleUser ~ error", error)
       )
-
       setUser(user);
-
       setLoading(false);
       return user;
     } else {
