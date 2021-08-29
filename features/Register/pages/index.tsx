@@ -55,11 +55,15 @@ const Register = () => {
   const [lastName, setLastName] = useState('')
   const [provider, setProvider] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
+  const [disabled, setDisabled] = useState(false)
   
   useEffect(() => {
     console.log("🚀 ~ file: index.tsx ~ line 50 ~ Register ~ auth", auth)
     if(auth.user){
-      setEmail(auth.user.email)
+      if(auth.user.email){
+        setDisabled(true)
+        setEmail(auth.user.email)
+      }
       let aryName = auth.user.name.split(/(\s+)/)
       setFirstName(aryName[0])
       setLastName(aryName[aryName.length-1])
@@ -92,6 +96,15 @@ const Register = () => {
     <> waiting </>  
     : (
     <form className="flex flex-col justify-center w-screen my-14 px-10" onSubmit={formik.handleSubmit}>
+      <div className="flex justify-center">
+        <Image
+          alt={firstName + " Photo"}
+          src={photoUrl || "/images/logo_parfet_192.png"}
+          width={"50px"}
+          height={"50px"}
+          className="rounded-50"
+        />
+      </div>
       <InputField label="ชื่อผู้ใช้งาน">
         <TextField
           id="username"
@@ -132,6 +145,7 @@ const Register = () => {
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
+            disabled={disabled}
         >
         </TextField>
       </InputField>
