@@ -1,21 +1,19 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
-import { detect } from 'detect-browser'
-import { TextField, Button } from '@material-ui/core'
-import { useFormik } from 'formik';
 
-import InCorrectDevice from '../core/components/Error/InCorrectDevice'
+import Loading from '../core/components/Loading'
 import { authContext } from '../core/context/auth_context'
 import { useAuth } from '../core/config/auth';
+import Navigator from '../core/components/Navigator'
 
 const Home = () => {
-  const browser = detect();
   const router = useRouter()
   const contextUser = useContext(authContext)
   const auth = useAuth();
+  const [loading, setLoading] = useState(true)
   // const [latitude, setLatitude] = useState(0)
   // const [longitude, setLongitude] = useState(0)
-  
+
   useEffect(() => {
     // if (navigator.geolocation) {
     //   navigator.geolocation.watchPosition((position) => {
@@ -27,45 +25,22 @@ const Home = () => {
     // }
     if (auth.user === null || !auth.user) {
       router.push('/signin')
+    }else if(auth.user){
+      setLoading(false)
     }
     contextUser.getAllUser()
   }, [contextUser, auth])
 
-  const formik = useFormik({
-    initialValues: {
-      username: ''
-    },
-    onSubmit: (values) => {
-      contextUser.login(values.username)
-    },
-  });
+  return loading ?
+    <Loading />
+  : (
+      <Navigator 
+        middleText="Mock"
+        >
+      <> Home {auth.user.name} </>
+    </Navigator>
+  )
 
-
-  if (browser.os === 'Android OS' || browser.os === 'iOS') {
-    return (
-      <div className="flex items-center justify-center p-4 h-screen">
-        <form className="flex flex-col" onSubmit={formik.handleSubmit}>
-          <TextField
-            id="username"
-            name="username"
-            variant="outlined"
-            size="small"
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            // required
-          />
-          <Button type="submit"> เข้าสู่ระบบ</Button>
-          {
-            auth.user != null ?
-              <> {auth.user.name} </> : <></>
-          }
-        </form>
-      </div>
-    )
-  }
-  else {
-    return <InCorrectDevice />
-  }
 }
 
 export default Home
