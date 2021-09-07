@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as loadingData from "../config/loading.json";
+import * as loadingData from "../config/animations/loading.json";
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
