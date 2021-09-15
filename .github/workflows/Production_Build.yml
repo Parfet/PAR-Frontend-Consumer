@@ -1,4 +1,4 @@
-name: [Production] Parfet-Frontend-Consumer Deployment
+name: Parfet-Frontend-Consumer Deployment [Production] 
 
 on:
   push:
