@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useObserver } from 'mobx-react-lite'
+import { useObserver, Observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import _ from 'lodash'
 
@@ -16,8 +16,6 @@ const Party = () => {
   const [indexMember, setIndexMember] = useState<any>()
   const [isAdmin, setIsAdmin] = useState(false);
   const contextParty = useContext(partyContext)
-  const router = useRouter()
-  const query = router.query
   
   useEffect(() => {
   }, [contextParty])
@@ -54,9 +52,9 @@ const Party = () => {
           <div>
             <PartyMember 
               admin
-              imageURL={mockPartyMember[0].imageURL}
-              username={mockPartyMember[0].username}
-              onClick={() => handleClickOpenMember(mockPartyMember[0], -1)}
+                imageURL={_.get(contextParty.currentParty.head_party, 'image_url')}
+              username={_.get(contextParty.currentParty.head_party, 'username')}
+              onClick={() => handleClickOpenMember(contextParty.currentParty.head_party, -1)}
               keyId={-1}
               />
           </div>
@@ -66,13 +64,16 @@ const Party = () => {
           <div className="flex flex-wrap">
             {
               _.map(contextParty.currentParty.members, (data, index) => (
-              <PartyMember 
-                imageURL={data.image_url}
-                username={data.username}
-                key={index}
-                keyId={index}
-                onClick={() => handleClickOpenMember(data, index)}
-                />
+                data.user_id === contextParty.currentParty.head_party.user_id ?
+                <></>
+                :
+                <PartyMember 
+                  imageURL={data.image_url}
+                  username={data.username}
+                  key={index}
+                  keyId={index}
+                  onClick={() => handleClickOpenMember(data, index)}
+                  />
                 ))
             }
           </div>

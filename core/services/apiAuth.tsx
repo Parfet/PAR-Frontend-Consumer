@@ -9,6 +9,10 @@ const apiUser = {
     const response = await api.post('/auth/token', data)
     return response
   },
+  checkUser: async () => {
+    const response = await api.get('/auth/check')
+    return response
+  },
 }
 
 export default apiUser

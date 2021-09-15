@@ -14,7 +14,7 @@ export class PartyContext {
   constructor() {
     this.parties = []
     this.allMyParty = []
-    this.currentParty = { party_id: "" }
+    this.currentParty = { party_id: "", head_party: { user_id: "" } }
     this.allTag = [{ value: "", label: "" }]
 
     makeAutoObservable(this)
@@ -40,7 +40,7 @@ export class PartyContext {
       if (response.status === StatusCodes.OK){
           this.currentParty = response.data.party
       }else{
-        this.currentParty = { party_id: "" }
+        this.currentParty = { party_id: "", head_party: { user_id: "" } }
       }
     } catch (error) {
       console.log(error)

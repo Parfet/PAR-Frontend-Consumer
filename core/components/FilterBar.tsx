@@ -3,9 +3,10 @@ import Drawer from '@material-ui/core/Drawer';
 import { makeStyles} from '@material-ui/styles';
 
 interface Props {
-  children :JSX.Element
-  open :boolean
-  callBackToParent :(value) => void
+  children: JSX.Element
+  open: boolean
+  handleCloseFromParent: () => void
+  callBackToParent: (value) => void
 }
 
 const useStyles = makeStyles({
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
 })
 
 const FilterBar = (props: Props) => {
-  const { children, open, callBackToParent } = props
+  const { children, open, handleCloseFromParent, callBackToParent } = props
   const classes = useStyles()
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
@@ -39,7 +40,12 @@ const FilterBar = (props: Props) => {
 
     callBackToParent(false);
     setOpenDrawer(open);
+    
+    if (!open) {
+      handleCloseFromParent()
+    }
   };
+
 
   return (
     <Drawer

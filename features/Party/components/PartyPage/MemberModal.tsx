@@ -12,6 +12,7 @@ import { SubHeader, NormalText } from '../../../../core/config/textStyle'
 import { AdminPartyAction } from '../../../../core/constant/enum'
 import ConfirmModal from '../../../../core/components/ConfirmModal'
 import { mockPartyMember } from '../../../../core/config/mockData.js'
+import { authContext } from '../../../../core/context/auth_context'
 import { partyContext }  from '../../contexts/party_context'
 import apiParty  from '../../services/apiParty'
 import { StatusCodes } from 'http-status-codes';
@@ -31,6 +32,7 @@ const MemberModal = (props :Props) => {
   const [typeAction, setTypeAction] = useState(undefined);
   const [confirmText, setConfirmText] = useState("");
   const contextParty = useContext(partyContext)
+  const contextAuth= useContext(authContext)
 
   const borderColor =
     indexMember === -1 ? 'border-cusYellow' :
@@ -60,24 +62,35 @@ const MemberModal = (props :Props) => {
   }
 
   const givePermissionAPI = async () => {
-    contextParty.currentParty.head_party = memberDetail.user_id
+    contextParty.currentParty.head_party.user_id = memberDetail.user_id
     try {
       const res = await apiParty.updateParty(contextParty.currentParty, contextParty.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
         callBackToMemberParty(false)
-        router.push('/party/' + contextParty.currentParty.party_id)
+        router.reload()
       }
     } catch (error) {
       if (error.response?.status) {
         callBackToMemberParty(false)
-        router.push('/party')
+        router.push('/party/me')
       }
     }
   }
 
-  const kickMemberAPI = () => {
+  const kickMemberAPI = async () => {
     console.log(memberDetail)
-    callBackToMemberParty(false)
+    try {
+      const res = await apiParty.kickMember(contextParty.currentParty.party_id, memberDetail.user_id)
+      if (res.status === StatusCodes.OK) {
+        callBackToMemberParty(false)
+        router.reload()
+      }
+    } catch (error) {
+      if (error.response?.status) {
+        callBackToMemberParty(false)
+        router.push('/party/me')
+      }
+    }
     //Do sth
   }
 
@@ -123,7 +136,7 @@ const MemberModal = (props :Props) => {
             }
           </div>
           {
-            isAdmin ? <></>
+            contextAuth.user.user_id === contextParty.currentParty.head_party.user_id ? <></>
             :
             <>
                 <div className="flex justify-start mt-4">

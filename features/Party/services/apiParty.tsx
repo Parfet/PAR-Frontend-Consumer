@@ -8,6 +8,7 @@ const apiParty = {
   },
   getPartyByPartyId: async (partyId: string) => {
     const response = await api.get(`/party/info/${partyId}`)
+    console.log("🚀 ~ file: apiParty.tsx ~ line 11 ~ getPartyByPartyId: ~ response", response)
     return response
   },
   getPartyByUserId: async () => {
@@ -70,6 +71,17 @@ const apiParty = {
     const response = await api.put(`/party/info/${partyId}`, data)
     return response
   },
+  leaveParty: async (partyId: string) => {
+    const response = await api.delete(`/party/${partyId}`)
+    return response
+  },
+  kickMember: async (partyId: string, userId: string) => {
+    const data = {
+      "user_id": userId,
+    }
+    const response = await api.delete(`/party/info/${partyId}/member`,data)
+    return response
+  }
 }
 
 export default apiParty
