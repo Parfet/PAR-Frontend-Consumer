@@ -8,7 +8,7 @@ const createInstance = (headers) => {
   return axios.create({
     baseURL: process.env.NEXT_PUBLIC_CONSUMER_API,
     headers: {
-      Authorization: `Bearer ${cookies.get('access_token')}`,
+      Authorization: `${cookies.get('access_token')}`,
       'Content-Type': 'application/json'
     }
   })

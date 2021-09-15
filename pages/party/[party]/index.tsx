@@ -4,11 +4,13 @@ import { StatusCodes } from 'http-status-codes';
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
+import InfoIcon from '@material-ui/icons/Info';
 
 import { Errors, PartyAction } from '../../../core/constant/enum'
 import Navigator from '../../../core/components/Navigator'
 import Meatball from '../../../core/components/Meatball'
 import ConfirmModal from '../../../core/components/ConfirmModal'
+import { authContext } from '../../../core/context/auth_context'
 import Party from '../../../features/Party/pages/party'
 import { partyContext } from '../../../features/Party/contexts/party_context'
 import apiParty from '../../../features/Party/services/apiParty';
@@ -21,13 +23,14 @@ const PartyPage = () => {
   const [confirmText, setConfirmText] = useState("")
   const [typeAction, setTypeAction] = useState("")
   const contextParty = useContext(partyContext)
-
+  const contextAuth = useContext(authContext)
+  
   const query = router.query
-
-  useEffect (() => {
+  
+  useEffect(() => {
     contextParty.getPartyByPartyId(query.party)
   }, [query.party, contextParty])
-
+  
   const closeParty = () => {
     setConfirmText("ต้องการปิดปาร์ตี้")
     setOpenConfirmModal(true)
@@ -41,8 +44,11 @@ const PartyPage = () => {
   }
 
   const menuItems = [
+    { text: 'ออกจากปาร์ตี้', menuFunc: leaveParty },
+  ]
+
+  const menuAdmin = [
     { text: 'แก้ไขปาร์ตี้', menuFunc: () => router.push('/party/' + contextParty.currentParty.party_id + '/edit') },
-    { text: 'ออกจากปาร์คี้', menuFunc: leaveParty },
     { text: 'ปิดปาร์ตี้', menuFunc: closeParty }
   ]
 
@@ -50,7 +56,7 @@ const PartyPage = () => {
     try {
       const res = await apiParty.archivedParty(contextParty.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
-        router.push('/restaurant')
+        router.push('/party/me')
       }
     } catch (error) {
       if (error.response?.status === StatusCodes.FORBIDDEN) {
@@ -64,9 +70,19 @@ const PartyPage = () => {
     }
   }
 
-  const leavePartyAPI = () => {
-    console.log(PartyAction.LEAVE_PARTY)
-    //Do sth
+  const leavePartyAPI = async () => {
+    try {
+      const res = await apiParty.leaveParty(contextParty.currentParty.party_id)
+      if (res.status === StatusCodes.OK) {
+        router.push('/restaurant')
+      }
+    } catch (error) {
+      if (error.response?.status === StatusCodes.BAD_REQUEST) {
+        router.push('/party/' + contextParty.currentParty.party_id)
+      }else if (error.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
+        router.push('/')
+      }
+    }
   }
 
   const callBackFromConfirm = (open, value) => {
@@ -88,20 +104,34 @@ const PartyPage = () => {
         middleText="Party"
         leftIcon={
           <Meatball 
-            menuItems={menuItems}
+            menuItems={
+              contextAuth.user.user_id === contextParty.currentParty.head_party.user_id 
+              ? menuAdmin : menuItems
+            }
             menuColors={menuColors}
           />
         }
         bottomNavigator={
           <>
-            <div className="flex w-1/2 justify-center">
-              <BottomNavigationAction 
-                label="คำร้อง" 
-                icon={<PeopleAltOutlinedIcon />} 
-                onClick={() => router.push(`/party/${contextParty.currentParty.party_id}/request`)}
-                showLabel 
-              />
-            </div>
+            {
+              contextAuth.user.user_id === contextParty.currentParty.head_party.user_id ?
+              <div className="flex w-1/2 justify-center">
+                <BottomNavigationAction 
+                  label="คำร้อง" 
+                  icon={<PeopleAltOutlinedIcon />} 
+                  onClick={() => router.push(`/party/${contextParty.currentParty.party_id}/request`)}
+                  showLabel 
+                />
+              </div>
+              : 
+              <div className="flex w-1/2 justify-center">
+                <BottomNavigationAction
+                  label="รายละเอียด"
+                  icon={<InfoIcon />}
+                  showLabel
+                />
+              </div>
+            }
             <div className="flex w-1/2 justify-center">
               <BottomNavigationAction label="ข้อความ" icon={<ChatOutlinedIcon />} showLabel />
             </div>

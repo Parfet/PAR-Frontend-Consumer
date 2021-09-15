@@ -7,9 +7,9 @@ import AddIcon from '@material-ui/icons/Add';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import FolderIcon from '@material-ui/icons/Folder';
 
-import Navigator from '../core/components/Navigator'
-import RestaurantList from '../features/Restaurant/pages/restaurant-list'
-import FilterRestaurant from '../features/Restaurant/components/FilterRestaurant'
+import Navigator from '../../core/components/Navigator'
+import RestaurantList from '../../features/Restaurant/pages/restaurant-list'
+import FilterRestaurant from '../../features/Restaurant/components/FilterRestaurant'
 
 const Restaurant = () => {
   const router = useRouter()

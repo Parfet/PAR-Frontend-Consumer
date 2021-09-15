@@ -28,7 +28,7 @@ export const RegularText = styled.span`
   font-size: 14px;
   font-weight: ${props => props.bold ? 'bold' : 'normal'};
   color: ${ props => props.white ? 'white' : 'black'};
-  `
+`
 
 export const NormalText = styled.span`
   font-size: 12px;

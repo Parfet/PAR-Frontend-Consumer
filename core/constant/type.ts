@@ -1,7 +1,7 @@
 export type Party = {
   party_id?: string
   party_name?: string
-  head_party?: User | string
+  head_party?: User
   party_type?: string
   interested_topic?: string
   interest_tags?: Tag[]
@@ -26,7 +26,7 @@ export type Restaurant = {
   price?: number
   opened_time?: string
   closed_time?: string
-  promotion?: string[]
+  promotions?: Promotion
   max_member?: number
   schedule_time?: string
 }
@@ -50,3 +50,11 @@ export type Tag = {
   value: string
   label: string
 }
+
+export type Promotion = {
+  promotion_id?: string
+  promotion_title?: string
+  promotion_description?: string
+  promotion_condition?: string
+}
+

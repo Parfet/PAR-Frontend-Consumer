@@ -16,7 +16,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/?source=pwa",
+  "start_url": "/",
   "background_color": "#1d2020",
   "orientation": "portrait",
   "display": "standalone",
