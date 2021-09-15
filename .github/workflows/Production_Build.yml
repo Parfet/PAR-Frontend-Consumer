@@ -17,14 +17,15 @@ jobs:
       - name: Create .env file
         run : |
           touch .env
+          touch .env.production
           echo $ENV_CONSUMER_API >> .env
-          echo $ENV_PROD_CONSUMER_API >> .env
-          echo $ENV_PROD_FIREBASE_API_KEY >> .env
-          echo $ENV_PROD_FIREBASE_APP_ID >> .env
-          echo $ENV_PROD_FIREBASE_AUTH_DOMAIN >> .env
-          echo $ENV_PROD_FIREBASE_MESSAGING_SENDER_ID >> .env
-          echo $ENV_PROD_FIREBASE_PROJECT_ID >> .env
-          echo $ENV_PROD_FIREBASE_STORAGE_BUCKET >> .env
+          echo $ENV_PROD_CONSUMER_API >> .env.production
+          echo $ENV_PROD_FIREBASE_API_KEY >> .env.production
+          echo $ENV_PROD_FIREBASE_APP_ID >> .env.production
+          echo $ENV_PROD_FIREBASE_AUTH_DOMAIN >> .env.production
+          echo $ENV_PROD_FIREBASE_MESSAGING_SENDER_ID >> .env.production
+          echo $ENV_PROD_FIREBASE_PROJECT_ID >> .env.production
+          echo $ENV_PROD_FIREBASE_STORAGE_BUCKET >> .env.production
         shell : bash
         env :
           ENV_CONSUMER_API : ${{secrets.ENV_CONSUMER_API}}
@@ -60,7 +61,7 @@ jobs:
       - name: COPY .env 
         run : |
           ls -la
-          scp -i "aws.pem" .env ${{ secrets.SSH_USERNAME }}@${{secrets.SSH_HOST}}:~/PAR-Frontend-Consumer/
+          scp -i "aws.pem" .env .env.production ${{ secrets.SSH_USERNAME }}@${{secrets.SSH_HOST}}:~/PAR-Frontend-Consumer/
 
       - name: Deploy Application
         uses: appleboy/ssh-action@v0.1.4
