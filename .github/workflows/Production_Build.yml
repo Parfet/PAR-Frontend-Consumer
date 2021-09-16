@@ -71,7 +71,7 @@ jobs:
           key: ${{secrets.SSH_PEM_KEY}}
           script: |
            cd PAR-Frontend-Consumer
-           git checkout PRODelop
+           git checkout main
            docker-compose down --rmi local || :
            docker-compose up -d --build
            docker ps -a
