@@ -26,6 +26,7 @@ import NoContent from '../../../core/components/NoContent'
 import { SubHeader, RegularText } from '../../../core/config/textStyle'
 import { restaurantContext } from '../contexts/restaurant_context'
 import TabPanel from '../components/TabPanel'
+import { Promotion } from '../../../core/constant/type';
 
 function a11yProps(index: any) {
   return {
@@ -124,7 +125,7 @@ const RestaurantInfo = () => {
                   <NoContent text="ไม่มีโปรโมชั่นในตอนนี้" />
                 </div>
                 :
-                _.map(contextRestaurant.currentRestaurant.promotions, (data, index) => (
+                _.map(contextRestaurant.currentRestaurant.promotions, (data: Promotion, index: Number) => (
                   <Accordion expanded={expanded === 'panel1'} onChange={changeExpand('panel1')}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
