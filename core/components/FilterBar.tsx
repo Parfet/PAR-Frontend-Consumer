@@ -5,7 +5,7 @@ import { makeStyles} from '@material-ui/styles';
 interface Props {
   children: JSX.Element
   open: boolean
-  handleCloseFromParent: () => void
+  handleCloseFromParent?: () => void
   callBackToParent: (value) => void
 }
 
