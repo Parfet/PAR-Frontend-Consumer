@@ -37,8 +37,8 @@ const MyApp = ({ Component, pageProps }) => {
         checkMobile ? 
           checkPWA ?
           <Component {...pageProps} />
-            : <InstallPWA/>
-          : <InCorrectDevice />
+            :<InstallPWA/>
+          :<InCorrectDevice />
       }
     </AuthProvider>
   )
