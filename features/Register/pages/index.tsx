@@ -92,9 +92,7 @@ const Register = () => {
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-      apiRegister.register(values).then(data =>
-        console.log("🚀 ~ file: index.tsx ~ line 87 ~ Register ~ data", data)
-      )
+      apiRegister.register(values).then(() => router.push('/') )
     },
   });
   return auth.loading && auth.user ?
