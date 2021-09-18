@@ -68,7 +68,12 @@ const Register = () => {
       setFirstName(aryName[0])
       setLastName(aryName[aryName.length-1])
       setProvider(auth.user.provider)
-      setPhotoUrl(auth.user.photoUrl)
+      if (auth.user.provider === "twitter.com"){
+        let aryProfile = auth.user.photoUrl.split('_normal')
+        setPhotoUrl(aryProfile[0] + aryProfile[1])
+      }else {
+        setPhotoUrl(auth.user.photoUrl)
+      }
     }else{
       router.push('/signin')
     }
@@ -100,8 +105,8 @@ const Register = () => {
         <Image
           alt={firstName + " Photo"}
           src={photoUrl || "/images/logo_parfet_192.png"}
-          width={"50px"}
-          height={"50px"}
+          width={"200px"}
+          height={"200px"}
           className="rounded-50"
         />
       </div>
