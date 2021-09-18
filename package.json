@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build",
+    "build": "NODE_OPTIONS=\"--max_old_space_size=1024\" next build",
     "staging": "next start -p 3001",
     "start": "next start -p 3002"
   },
