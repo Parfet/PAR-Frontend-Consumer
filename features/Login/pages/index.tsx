@@ -17,10 +17,10 @@ const SignIn = () => {
 
   return (
     <Background className="pt-10">
-      <div className="flex justify-center mb-16 pl-6">
+      <div className="flex justify-center mb-16">
         <Image
           alt="Parfet Logo"
-          src="/images/logo_parfet_192.png"
+          src="/images/tran_logo_parfet_512.png"
           width={"192px"}
           height={"192px"}
         />
