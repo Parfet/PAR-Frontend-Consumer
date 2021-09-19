@@ -58,7 +58,6 @@ const Register = () => {
   const [disabled, setDisabled] = useState(false)
   
   useEffect(() => {
-    console.log("🚀 ~ file: index.tsx ~ line 50 ~ Register ~ auth", auth)
     if(auth.user){
       if(auth.user.email){
         setDisabled(true)
@@ -78,6 +77,12 @@ const Register = () => {
       router.push('/signin')
     }
   }, [])
+
+  useEffect(() => {
+    return () => {
+      auth.signout()
+    };
+  }, []);
 
   const formik = useFormik({
     enableReinitialize: true,
