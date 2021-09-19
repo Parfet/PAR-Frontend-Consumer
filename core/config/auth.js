@@ -29,7 +29,6 @@ function useFirebaseAuth() {
       const { token, ...userWithoutToken } = user;
       cookies.set('access_token', token, { path: '/', maxAge: 60 })
       apiAuth.checkUser().then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 32 ~ api.get ~ response", response)
         if (response.data.is_user_existed) {
           Router.push('/');
         }else {
@@ -54,7 +53,6 @@ function useFirebaseAuth() {
       .auth()
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
       .then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 74 ~ .then ~ response", response)
         handleUser(response.user);
 
         // if (redirect) {
@@ -69,7 +67,6 @@ function useFirebaseAuth() {
       .auth()
       .signInWithPopup(new firebase.auth.TwitterAuthProvider())
       .then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 74 ~ .then ~ response", response)
         handleUser(response.user);
 
         // if (redirect) {
@@ -84,7 +81,6 @@ function useFirebaseAuth() {
       .auth()
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 88 ~ .then ~ response", response)
         handleUser(response.user);
 
         // if (redirect) {
@@ -97,7 +93,12 @@ function useFirebaseAuth() {
     return firebase
       .auth()
       .signOut()
-      .then(() => handleUser(false));
+      .then(() => {
+        setUser(null)
+        handleUser(false)
+        cookies.remove('access_token')
+        Router.push('/signin')
+      });
   };
 
   useEffect(() => {
