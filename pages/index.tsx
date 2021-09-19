@@ -5,8 +5,10 @@ import Loading from '../core/components/Loading'
 import { authContext } from '../core/context/auth_context'
 import { useAuth } from '../core/config/auth';
 import Navigator from '../core/components/Navigator'
+import { SignalWifiOffOutlined } from '@material-ui/icons';
+import Home from '../features/Home/pages/'
 
-const Home = () => {
+const Index = () => {
   const router = useRouter()
   const contextUser = useContext(authContext)
   const auth = useAuth();
@@ -37,10 +39,10 @@ const Home = () => {
       <Navigator 
         middleText="Mock"
         >
-      <> Home {auth.user.name} </>
+        <Home />
     </Navigator>
   )
 
 }
 
-export default Home
+export default Index
