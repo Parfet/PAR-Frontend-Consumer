@@ -26,7 +26,6 @@ function useFirebaseAuth() {
     if (rawUser) {
       const user = await formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
-      console.log("🚀 ~ file: auth.js ~ line 31 ~ handleUser ~ rawUser", rawUser)
       cookies.set('access_token', token, { path: '/', maxAge: 60 })
       cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 60 })
       apiAuth.checkUser().then((response) => {
