@@ -87,7 +87,7 @@ const RestaurantParty = (props: Props) => {
             />
         </div>
         <div className="flex flex-col mt-2">
-          <SubHeader bold className="text-center px-2">
+          <SubHeader bold isCut className="text-center px-2">
             {restaurant.name}
           </SubHeader>
           <div className="flex justify-between mx-2">
