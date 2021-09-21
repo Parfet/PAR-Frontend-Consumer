@@ -47,9 +47,10 @@ const RestaurantList = () => {
   const [noContentWord, setNoContentWord] = useState("กรุณาเช็คการเชื่อมต่ออีกครั้งครับ")
 
   useEffect(() => {
-    contextRestaurant.getRestaurants()
+    contextRestaurant.getRestaurants({ lat: contextAuth.latitude, lng: contextAuth.longitude })
     contextAuth.getUser()
   }, [contextRestaurant])
+
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +58,7 @@ const RestaurantList = () => {
     },
     onSubmit: (values) => {
       setNoContentWord("ไม่พบร้าน " + values.restaurantName)
-      contextRestaurant.getRestaurants("name", values.restaurantName)
+      contextRestaurant.getRestaurants({ keyword : values.restaurantName})
     },
   });
 
