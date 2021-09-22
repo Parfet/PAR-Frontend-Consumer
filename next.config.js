@@ -15,7 +15,8 @@ const nextConfig = {
       'www.parfet.in.th', 
       'graph.facebook.com', 
       'lh3.googleusercontent.com',
-      'pbs.twimg.com'
+      'pbs.twimg.com',
+      'maps.googleapis.com'
     ],
   },
 };
