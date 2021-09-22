@@ -22,7 +22,7 @@ import { restaurantContext } from '../contexts/restaurant_context'
 
 const ImageWithFilter = styled(Image)`
   filter:  brightness(${props =>
-              props.restaurantstatus === RestaurantStatus.RESTAURANT_OPEN 
+              props.restaurantstatus != RestaurantStatus.RESTAURANT_OPEN 
                 ? 1 
                 : 0.40});
 `
@@ -48,10 +48,10 @@ const RestaurantParty = (props: Props) => {
   const { restaurant } = props
 
   const selectRestaurant = () => {
-    if (restaurant.status === RestaurantStatus.RESTAURANT_OPEN){
+    // if (restaurant.status === RestaurantStatus.RESTAURANT_OPEN){
       contextRestaurant.setCurrentRestaurant(restaurant)
       router.push("/party")
-    }
+    // }
   }
 
   const selectRestaurantInfo = () => {
@@ -68,7 +68,7 @@ const RestaurantParty = (props: Props) => {
         </div>
         <div className="relative" onClick={selectRestaurant}>
           {
-            restaurant.status === RestaurantStatus.RESTAURANT_OPEN ? 
+            restaurant.status != RestaurantStatus.RESTAURANT_OPEN ? 
               <></>
             : <div className="absolute z-40 flex justify-center w-full h-full">
                 <SubTitle className="flex items-center" white bold>
@@ -81,7 +81,8 @@ const RestaurantParty = (props: Props) => {
             width={2.35}
             height={1}
             layout="responsive"
-            src="/images/tidmun.webp"
+            src={restaurant.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${restaurant.photos[0].photo_reference}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
+              : "/images/tidmun.webp"}
             className="rounded-t-5"
             restaurantstatus={restaurant.status}
             />
