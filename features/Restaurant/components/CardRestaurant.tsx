@@ -93,7 +93,7 @@ const RestaurantParty = (props: Props) => {
             {restaurant.name}
           </SubHeader>
           <div className="flex justify-end">
-            <Rating name="read-only" value={restaurant.rating} readOnly />
+            <Rating name="read-only" value={restaurant.rating} precision={0.5} readOnly />
           </div>
         </div>
       </Paper>
