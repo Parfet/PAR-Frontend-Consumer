@@ -16,6 +16,9 @@ export type Party = {
 }
 
 export type Restaurant = {
+  name?: string
+  place_id?: string
+  photos?: RestaurantImage[]
   restaurant_id?: string
   restaurant_name?: string
   email?: string
@@ -31,19 +34,24 @@ export type Restaurant = {
   schedule_time?: string
 }
 
+type RestaurantImage = {
+  height: number
+  html_attributions: string[]
+  photo_reference: string
+  width: number
+}
+
 export type User = {
-  user_id?: string
   username?: string
+  display_name?: string
   email?: string
-  first_name_th?: string
-  last_name_th?: string
-  first_name_en?: string
-  last_name_en?: string
-  tel_no?: string
+  first_name?: string
+  last_name?: string
   verify_status?: boolean
   interest_tags?: string[]
   image_url?: string
   rating?: number
+  provider?: string
 }
 
 export type Tag = {
