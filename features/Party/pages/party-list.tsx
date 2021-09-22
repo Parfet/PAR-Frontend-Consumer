@@ -20,7 +20,9 @@ const PartyList = () => {
   const contextRestaurant = useContext(restaurantContext)
   
   useEffect(() => {
-    contextParty.getParties(contextRestaurant.currentRestaurant.restaurant_id)
+    (async () => {
+      await contextParty.getParties(contextRestaurant.currentRestaurant.place_id)
+    })()
   }, [contextParty])
 
   return useObserver(() => (
