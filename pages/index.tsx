@@ -21,13 +21,14 @@ const Index = () => {
   const [photoUrl, setPhotoUrl] = useState('')
 
   useEffect(() => {
-    if (cookies.get("access_token")){
-      contextUser.getUserData()
-    }else {
-      router.push('/signin')
-    }
-    if (contextUser.userData != null) {
-      setLoading(false)
+    (async () => {
+      if (contextUser.userData === null) {
+        await contextUser.getUserData()
+        if (cookies.get("access_token")) {
+        } else {
+          router.push('/signin')
+        }
+      }
       setUsername(contextUser.userData.username)
       if (contextUser.userData.provider === "twitter.com") {
         let aryProfile = contextUser.userData.image_url.split('_normal')
@@ -42,7 +43,8 @@ const Index = () => {
           function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
           { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
       }
-    }
+      setLoading(false)
+    })()   
   }, [loading, contextUser.userData])
 
   return loading ?
