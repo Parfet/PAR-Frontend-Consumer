@@ -1,9 +1,8 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { IconButton } from '@material-ui/core';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Image from 'next/image'
-import { SignalWifiOffOutlined } from '@material-ui/icons';
+import Cookies from 'universal-cookie'
 
 import Loading from '../core/components/Loading'
 import { authContext } from '../core/context/auth_context'
@@ -11,26 +10,30 @@ import { useAuth } from '../core/config/auth';
 import Navigator from '../core/components/Navigator'
 import Home from '../features/Home/pages/'
 
+const cookies = new Cookies()
+
 const Index = () => {
   const router = useRouter()
   const contextUser = useContext(authContext)
   const auth = useAuth();
-  const [loading, setLoading] = useState(false)
-  const [firstName, setFirstName] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [username, setUsername] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
 
   useEffect(() => {
-    if (auth.user === null || !auth.user) {
+    if (cookies.get("access_token")){
+      contextUser.getUserData()
+    }else {
       router.push('/signin')
-    }else if(auth.user){
+    }
+    if (contextUser.userData != null) {
       setLoading(false)
-      let aryName = auth.user.name.split(/(\s+)/)
-      setFirstName(aryName[0])
-      if (auth.user.provider === "twitter.com") {
-        let aryProfile = auth.user.photoUrl.split('_normal')
+      setUsername(contextUser.userData.username)
+      if (contextUser.userData.provider === "twitter.com") {
+        let aryProfile = contextUser.userData.image_url.split('_normal')
         setPhotoUrl(aryProfile[0] + aryProfile[1])
       } else {
-        setPhotoUrl(auth.user.photoUrl)
+        setPhotoUrl(contextUser.userData.image_url)
       }
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition((position) => {
@@ -40,8 +43,7 @@ const Index = () => {
           { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
       }
     }
-    
-  }, [auth])
+  }, [loading, contextUser.userData])
 
   return loading ?
     <Loading />
@@ -50,7 +52,7 @@ const Index = () => {
         rightIcon={
           <IconButton>
             <Image
-              alt={firstName + " Photo"}
+              alt={username + " Photo"}
               src={photoUrl || "/images/logo_parfet_192.png"}
               width={"32px"}
               height={"32px"}
@@ -58,7 +60,7 @@ const Index = () => {
             />
           </IconButton>
         }
-        middleText={firstName}
+        middleText={username}
         >
         <Home />
     </Navigator>
