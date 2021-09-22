@@ -47,7 +47,15 @@ const RestaurantList = () => {
   const [noContentWord, setNoContentWord] = useState("กรุณาเช็คการเชื่อมต่ออีกครั้งครับ")
 
   useEffect(() => {
-    contextRestaurant.getRestaurants({ lat: contextAuth.latitude, lng: contextAuth.longitude })
+    (async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(async (position) => {
+          await contextRestaurant.getRestaurants({ lat: position.coords.latitude, lng: position.coords.longitude })
+        },
+          function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
+          { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
+      }
+    })()
   }, [contextRestaurant])
 
 
