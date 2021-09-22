@@ -23,27 +23,29 @@ const Index = () => {
   useEffect(() => {
     (async () => {
       if (contextUser.userData === null) {
-        await contextUser.getUserData()
         if (cookies.get("access_token")) {
+          await contextUser.getUserData()
+          setLoading(false)
         } else {
           router.push('/signin')
         }
+      }else{
+        setUsername(contextUser.userData.username)
+        if (contextUser.userData.provider === "twitter.com") {
+          let aryProfile = contextUser.userData.image_url.split('_normal')
+          setPhotoUrl(aryProfile[0] + aryProfile[1])
+        } else {
+          setPhotoUrl(contextUser.userData.image_url)
+        }
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition((position) => {
+            contextUser.setLatAndLong(position.coords.latitude, position.coords.longitude)
+          },
+            function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
+            { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
+        }
+        setLoading(false)
       }
-      setUsername(contextUser.userData.username)
-      if (contextUser.userData.provider === "twitter.com") {
-        let aryProfile = contextUser.userData.image_url.split('_normal')
-        setPhotoUrl(aryProfile[0] + aryProfile[1])
-      } else {
-        setPhotoUrl(contextUser.userData.image_url)
-      }
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition((position) => {
-          contextUser.setLatAndLong(position.coords.latitude, position.coords.longitude)
-        },
-          function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
-          { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
-      }
-      setLoading(false)
     })()   
   }, [loading, contextUser.userData])
 
