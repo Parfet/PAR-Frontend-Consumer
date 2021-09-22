@@ -7,7 +7,7 @@ import { RestaurantStatus } from '../../../core/constant/enum'
 import { Restaurant } from '../../../core/constant/type'
 export class RestaurantContext {
   restaurant: []
-  currentRestaurant: Object
+  currentRestaurant: Restaurant
   searchObject: Object
 
   constructor() {
