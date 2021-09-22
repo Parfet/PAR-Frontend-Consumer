@@ -4,7 +4,7 @@ services:
     container_name: parfet-fe-consumer-development
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.development
     volumes:
       - '.:/usr/src/app'
       - '/usr/src/app/node_modules'
