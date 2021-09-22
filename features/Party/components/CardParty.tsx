@@ -11,10 +11,12 @@ import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import _ from "lodash"
 
 import {
+  Header,
   SubHeader,
   NormalText,
   SmallText,
-  TinyText
+  TinyText,
+  RegularText
 } from '../../../core/config/textStyle'
 import { UIDateLayout } from '../../../core/constant/constant'
 import { Party } from '../../../core/constant/type'
@@ -50,61 +52,39 @@ const CardParty = (props: Props) => {
   return (
     <>
       <Paper className={classes.paper} onClick={handleClickOpen}>
-        <SubHeader bold>
-          {party.party_name}
-        </SubHeader>
-        <div className="flex py-1">
-          <div className="w-1/2">
-            <Image
-              alt="complex"
-              width={"auto"}
-              height={"100%"}
-              src="/images/tidmun.webp"
-              className="rounded-l-lg"
-            />
+        <SubHeader bold isCut>{party.party_name} </SubHeader>
+        <div className="flex flex-col py-1 mt-1">
+          <div className="flex justify-between items-center px-2 py-1 bg-cusLightOrange rounded-t-5">
+            <RegularText className="text-center" white>
+              หัวข้อที่สนใจ :
+            </RegularText>
+            <NormalText className="text-center" white isCut>
+              {party.interested_topic}
+            </NormalText>
           </div>
-          <div className="w-1/2">
-            <div className="flex flex-wrap justify-center h-9 bg-cusLightOrange rounded-tr-lg">
-              <div className="flex items-center px-2 py-1">
-                <NormalText white>
-                  {party.interested_topic}
-                </NormalText>
-              </div>
-            </div>
-            <div className="flex flex-wrap bg-cusDarkRed justify-center h-7">
-              <div className="flex items-center px-2">
-                <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
-                <SmallText white>
-                  {dayjs(party.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}
-                </SmallText>
-              </div>
-            </div>
-            <div className="flex flex-col h-9 px-2 py-1 bg-cusRed text-center rounded-br-lg">
-              <NormalText white>
-                Promotion
-              </NormalText >
-              <SmallText white>
-                {party.promotion || "Mock Promotion"}
-              </SmallText>
-            </div>
+          <div className="flex justify-between items-center bg-cusDarkRed rounded-b-5 py-1 px-2">
+            <QueryBuilderOutlinedIcon className="mr-2" style={{ color: 'white' }}/>
+            <SmallText white>
+              {dayjs(party.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}
+            </SmallText>
           </div>
         </div>
-        <div className="flex justify-between">
-          <div className="flex flex-row-1 space-x-1">
-            {
-              _.map(party.interest_tags, (data, index) => (
-                <>
-                  {
-                    index < 3 ?
-                      <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3">
-                        {index < 2 ? `${data.label}` : `+${party.interest_tags.length - 2}`}
-                      </TinyText>
-                      : <></>
-                  }
-                </>
-              ))
-            }
-          </div>
+        <div className="flex flex-row-1 h-7 space-x-1 my-1">
+          {
+            _.map(party.interest_tags, (data, index) => (
+              <>
+                {
+                  index < 3 ?
+                    <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3">
+                      {index < 2 ? `${data.label}` : `+${party.interest_tags.length - 2}`}
+                    </TinyText>
+                    : <></>
+                }
+              </>
+            ))
+          }
+        </div>
+        <div className="flex justify-end">
           <NormalText>
             {_.size(party.members)}/{party.max_member}
             <PeopleAltOutlinedIcon />
