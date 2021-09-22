@@ -10,7 +10,7 @@ import makeAnimated from 'react-select/animated';
 import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 
-import { aryPromotion, interestTag } from '../../../core/config/mockData'
+import { interestTag } from '../../../core/config/mockData'
 import { PartyType } from '../../../core/constant/enum'
 import { PartyTypeThai } from '../../../core/constant/constant'
 import { authContext } from '../../../core/context/auth_context'
@@ -99,7 +99,6 @@ const CreateParty = (prop :Prop) => {
   useEffect(() => {
     console.log(contextRestaurant.currentRestaurant)
     contextParty.getAllTag()
-    contextUser.getUser()
   }, [contextUser, contextParty, contextRestaurant])
 
   const handleEditParty = async (values) => {
@@ -116,7 +115,7 @@ const CreateParty = (prop :Prop) => {
   }
 
   const handleCreateParty = async (values) => {
-    const res = await apiParty.createParty(contextRestaurant.currentRestaurant.restaurant_id, values)
+    const res = await apiParty.createParty(contextRestaurant.currentRestaurant.place_id, values)
     if (res.status === StatusCodes.OK){
       router.push('/party/' + res.data.party_id)
     }
@@ -125,10 +124,8 @@ const CreateParty = (prop :Prop) => {
   const formik = useFormik({
     initialValues: {
       party_name: contextParty.currentParty.party_name || '',
-      head_party: contextUser.user.user_id,
       interested_topic: contextParty.currentParty.party_name || '',
       interest_tags: contextParty.currentParty.interest_tags || [],
-      promotion: aryPromotion[0],
       schedule_time: dayjs(contextParty.currentParty.schedule_time).format("YYYY-MM-DDTHH:mm")  || dateAddHour,
       party_type: 
         contextParty.currentParty.party_type === PartyType.PRIVATE ? PartyTypeThai.PRIVATE : PartyTypeThai.PUBLIC
@@ -215,26 +212,6 @@ const CreateParty = (prop :Prop) => {
               : <></>
           }
         </>
-      </InputField>
-      <InputField label="โปรโมชั่น">
-        <TextField
-          id="promotion"
-          name="promotion"
-          variant="outlined"
-          size="small"
-          className={classes.root}
-          select
-          value={formik.values.promotion}
-          onChange={formik.handleChange}
-        >
-          {
-            aryPromotion.map((data) => (
-              <MenuItem key={data} value={data}>
-                {data}
-              </MenuItem>
-            ))
-          }
-        </TextField>
       </InputField>
       <InputField label="วันและเวลาที่จะไป">
         <TextField
