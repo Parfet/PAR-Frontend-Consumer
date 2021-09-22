@@ -3,8 +3,6 @@ import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 import ListIcon from '@material-ui/icons/List';
-import AddIcon from '@material-ui/icons/Add';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import FolderIcon from '@material-ui/icons/Folder';
 
 import Navigator from '../../core/components/Navigator'
@@ -35,11 +33,8 @@ const Restaurant = () => {
   return (
     <Navigator
       middleText='Restaurant'
-      rightIcon={
-        <IconButton>
-          <AccountCircleIcon />
-        </IconButton>
-      }
+      backTextButton='Back'
+      backRoute='/'
       leftIcon={
         <IconButton onClick={handleOpenFilter}>
           <SortIcon />

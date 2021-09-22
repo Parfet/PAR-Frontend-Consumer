@@ -87,12 +87,12 @@ const RestaurantParty = (props: Props) => {
             />
         </div>
         <div className="flex flex-col mt-2">
-          <SubHeader bold className="text-center">
-            {restaurant.restaurant_name}
+          <SubHeader bold isCut className="text-center px-2">
+            {restaurant.name}
           </SubHeader>
           <div className="flex justify-between mx-2">
             <div>
-              <RatingStar rating={4} />
+              <RatingStar rating={restaurant.rating} />
             </div>
             <div className="pt-4 pr-3">
               <NormalText bold>

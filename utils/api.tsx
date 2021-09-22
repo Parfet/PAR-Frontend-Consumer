@@ -1,6 +1,9 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 
+import { getFreshToken } from '../core/config/auth'
+import { ErrorMessage } from '../core/constant/constant'
+
 const cookies = new Cookies()
 
 // eslint-disable-next-line no-unused-vars
@@ -17,7 +20,13 @@ const createInstance = (headers) => {
 const handleResponse = (res) =>
   !res.data.error ? Promise.resolve(res) : Promise.reject(new Error(res))
 
-const catchError = (err) => Promise.reject(err)
+const catchError = (err) => {
+  if (err.response.data.message === ErrorMessage.TOKEN_EXPIRE){
+    getFreshToken()
+  }else{
+    Promise.reject(err)
+  }
+}
 
 export default {
   get: (path, headers = {}) =>

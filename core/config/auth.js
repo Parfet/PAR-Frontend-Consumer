@@ -23,14 +23,13 @@ function useFirebaseAuth() {
   const [loading, setLoading] = useState(true);
 
   const handleUser = async (rawUser) => {
-    console.log('handleUser called', new Date());
     if (rawUser) {
       const user = await formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
       cookies.set('access_token', token, { path: '/', maxAge: 60 })
+      cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 60 })
       apiAuth.checkUser().then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 32 ~ api.get ~ response", response)
-        if (response.data.is_user_existed) {
+        if (response.data.is_user_existed || response.data.user) {
           Router.push('/');
         }else {
         Router.push('/register');
@@ -54,7 +53,6 @@ function useFirebaseAuth() {
       .auth()
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
       .then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 74 ~ .then ~ response", response)
         handleUser(response.user);
 
         // if (redirect) {
@@ -69,7 +67,6 @@ function useFirebaseAuth() {
       .auth()
       .signInWithPopup(new firebase.auth.TwitterAuthProvider())
       .then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 74 ~ .then ~ response", response)
         handleUser(response.user);
 
         // if (redirect) {
@@ -84,7 +81,6 @@ function useFirebaseAuth() {
       .auth()
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((response) => {
-        console.log("🚀 ~ file: auth.js ~ line 88 ~ .then ~ response", response)
         handleUser(response.user);
 
         // if (redirect) {
@@ -97,37 +93,18 @@ function useFirebaseAuth() {
     return firebase
       .auth()
       .signOut()
-      .then(() => handleUser(false));
+      .then(() => {
+        setUser(null)
+        handleUser(false)
+        cookies.remove('access_token')
+        Router.push('/signin')
+      });
   };
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onIdTokenChanged(handleUser);
     return () => unsubscribe();
   }, []);
-
-  // useEffect(() => {
-  //   const interval = setInterval(async () => {
-  //     if (user) {
-  //       const token = await firebase
-  //         .auth()
-  //         .currentUser.getIdToken(/* forceRefresh */ true);
-  //       setUser(user);
-  //       console.log('refreshed token');
-  //     }
-  //   }, 30 * 60 * 1000 /*every 30min, assuming token expires every 1hr*/);
-  //   return () => clearInterval(interval);
-  // }, [user]); // needs to depend on user to have closure on a valid user object in callback fun
-
-  const getFreshToken = async () => {
-    console.log('getFreshToken called', new Date());
-    const currentUser = firebase.auth().currentUser;
-    if (currentUser) {
-      const token = await currentUser.getIdToken(false);
-      return `${token}`;
-    } else {
-      return '';
-    }
-  };
 
   return {
     user,
@@ -136,7 +113,6 @@ function useFirebaseAuth() {
     signinWithTwitter,
     signinWithGoogle,
     signout,
-    getFreshToken,
   };
 }
 
@@ -150,7 +126,6 @@ const formatUser = async (user) => {
   // const token = await user.getIdToken(/* forceRefresh */ true);
   const decodedToken = await user.getIdTokenResult(/*forceRefresh*/ true);
   const { token, expirationTime } = decodedToken;
-  console.log(token);
   return {
     uid: user.uid,
     email: user.email,
@@ -161,4 +136,16 @@ const formatUser = async (user) => {
     expirationTime,
     // stripeRole: await getStripeRole(),
   };
+};
+
+export const getFreshToken = async () => {
+  const currentUser = firebase.auth().currentUser;
+  if (currentUser) {
+    const token = await currentUser.getIdToken(false);
+    cookies.set('access_token', token, { path: '/', maxAge: 60 })
+    cookies.set('refresh_token', currentUser.refreshToken, { path: '/', maxAge: 60 })
+    return `${token}`;
+  } else {
+    return '';
+  }
 };
