@@ -21,7 +21,6 @@ const apiParty = {
   },
   createParty: async (restaurantId: string, party: Party) => {
     const data = {
-      "head_party": party.head_party,
       "party_name": party.party_name,
       "party_type": party.party_type,
       "passcode": party.passcode,
