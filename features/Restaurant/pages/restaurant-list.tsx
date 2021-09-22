@@ -48,7 +48,6 @@ const RestaurantList = () => {
 
   useEffect(() => {
     contextRestaurant.getRestaurants({ lat: contextAuth.latitude, lng: contextAuth.longitude })
-    contextAuth.getUser()
   }, [contextRestaurant])
 
 
