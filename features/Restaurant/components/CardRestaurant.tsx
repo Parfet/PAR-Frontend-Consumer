@@ -9,6 +9,7 @@ import {
   IconButton
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
+import Rating from '@material-ui/lab/Rating';
 
 import {
   SubTitle,
@@ -87,20 +88,12 @@ const RestaurantParty = (props: Props) => {
             restaurantstatus={restaurant.status}
             />
         </div>
-        <div className="flex flex-col mt-2">
-          <SubHeader bold isCut className="text-center px-2">
+        <div className="flex flex-col mt-2 mx-2">
+          <SubHeader bold isCut className="text-left">
             {restaurant.name}
           </SubHeader>
-          <div className="flex justify-between mx-2">
-            <div>
-              <RatingStar rating={restaurant.rating} />
-            </div>
-            <div className="pt-4 pr-3">
-              <NormalText bold>
-                {restaurant.price || '250'} บาท
-              </NormalText>
-            </div>
-
+          <div className="flex justify-end">
+            <Rating name="read-only" value={restaurant.rating} readOnly />
           </div>
         </div>
       </Paper>
