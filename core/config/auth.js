@@ -26,8 +26,8 @@ function useFirebaseAuth() {
     if (rawUser) {
       const user = await formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
-      cookies.set('access_token', token, { path: '/', maxAge: 60 })
-      cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 60 })
+      cookies.set('access_token', token, { path: '/', maxAge: 3600 })
+      cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 3600 })
       apiAuth.checkUser().then((response) => {
         if (response.data.is_user_existed || response.data.user) {
           Router.push('/');
@@ -101,11 +101,6 @@ function useFirebaseAuth() {
       });
   };
 
-  useEffect(() => {
-    const unsubscribe = firebase.auth().onIdTokenChanged(handleUser);
-    return () => unsubscribe();
-  }, []);
-
   return {
     user,
     loading,
@@ -142,8 +137,8 @@ export const getFreshToken = async () => {
   const currentUser = firebase.auth().currentUser;
   if (currentUser) {
     const token = await currentUser.getIdToken(false);
-    cookies.set('access_token', token, { path: '/', maxAge: 60 })
-    cookies.set('refresh_token', currentUser.refreshToken, { path: '/', maxAge: 60 })
+    cookies.set('access_token', token, { path: '/', maxAge: 3600 })
+    cookies.set('refresh_token', currentUser.refreshToken, { path: '/', maxAge: 3600 })
     return `${token}`;
   } else {
     return '';
