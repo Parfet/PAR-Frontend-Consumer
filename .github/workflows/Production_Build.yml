@@ -65,6 +65,7 @@ jobs:
           scp -i "aws.pem" .env .env.production ${{ secrets.SSH_USERNAME }}@${{secrets.SSH_HOST}}:~/PAR-Frontend-Consumer/
 
       - name: Deploy Application
+        timeout-minutes: 30
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{secrets.SSH_HOST}}
