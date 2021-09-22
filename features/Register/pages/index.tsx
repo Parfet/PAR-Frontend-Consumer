@@ -5,12 +5,15 @@ import Image from 'next/image'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import { useFormik } from 'formik';
+import Cookies from 'universal-cookie'
 
 import { useAuth } from '../../../core/config/auth';
 import { Title, SubHeader } from '../../../core/config/textStyle';
 import InputField from '../../../core/components/InputField';
 import { ValidationFormSchema } from '../services/validationSchema';
 import apiRegister from '../services/apiRegister';
+
+const cookies = new Cookies()
 
 const Background = styled.div`
   background-color: white;
@@ -59,6 +62,7 @@ const Register = () => {
   
   useEffect(() => {
     if(auth.user){
+      console.log("🚀 ~ file: index.tsx ~ line 62 ~ useEffect ~ auth.user", auth.user)
       if(auth.user.email){
         setDisabled(true)
         setEmail(auth.user.email)
@@ -80,7 +84,7 @@ const Register = () => {
 
   useEffect(() => {
     return () => {
-      auth.signout()
+      auth.clearUser()
     };
   }, []);
 
@@ -97,7 +101,11 @@ const Register = () => {
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-      apiRegister.register(values).then(() => router.push('/') )
+      apiRegister.register(values).then(() => {
+        cookies.set('access_token', auth.user.token, { path: '/', maxAge: 3600 })
+        cookies.set('refresh_token', auth.user.refreshToken, { path: '/', maxAge: 3600 })
+        router.push('/') 
+      })
     },
   });
   return auth.loading && auth.user ?

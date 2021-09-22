@@ -96,8 +96,18 @@ function useFirebaseAuth() {
       .then(() => {
         setUser(null)
         handleUser(false)
+        cookies.remove('refresh_token')
         cookies.remove('access_token')
         Router.push('/signin')
+      });
+  };
+
+  const clearUser = () => {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        setUser(null)
       });
   };
 
@@ -108,6 +118,7 @@ function useFirebaseAuth() {
     signinWithTwitter,
     signinWithGoogle,
     signout,
+    clearUser
   };
 }
 
@@ -127,6 +138,7 @@ const formatUser = async (user) => {
     name: user.displayName,
     provider: user.providerData[0].providerId,
     photoUrl: user.photoURL,
+    refreshToken: user.refreshToken,
     token,
     expirationTime,
     // stripeRole: await getStripeRole(),
