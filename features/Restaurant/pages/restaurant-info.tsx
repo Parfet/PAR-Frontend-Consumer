@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { useObserver } from 'mobx-react-lite'
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, Theme, useTheme, createStyles } from '@material-ui/core/styles';
 import {
@@ -24,7 +23,7 @@ import _ from "lodash"
 
 import NoContent from '../../../core/components/NoContent'
 import { SubHeader, RegularText } from '../../../core/config/textStyle'
-import { restaurantContext } from '../contexts/restaurant_context'
+import { useRestaurant } from '../contexts/restaurant_context'
 import TabPanel from '../components/TabPanel'
 import { Promotion } from '../../../core/constant/type';
 
@@ -51,13 +50,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const RestaurantInfo = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const contextRestaurant = useContext(restaurantContext)
+  const restaurantContext = useRestaurant()
   const [value, setValue] = useState(0);
   const [expanded, setExpanded] = useState<string | false>(false);
 
   
   useEffect(() => {
-  }, [contextRestaurant])
+  }, [])
   
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -92,7 +91,7 @@ const RestaurantInfo = () => {
         </div>
         <div>
           <MonetizationOnIcon className="mb-2" style={{ fontSize:'24px' }} />
-          <SubHeader className="pl-2">{contextRestaurant.currentRestaurant.price} บาท</SubHeader>
+          <SubHeader className="pl-2">{restaurantContext.currentRestaurant.price} บาท</SubHeader>
         </div>
       </div>
       <div className="px-10">
@@ -120,12 +119,12 @@ const RestaurantInfo = () => {
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             {
-              _.size(contextRestaurant.currentRestaurant.promotions) === 0 ?
+              _.size(restaurantContext.currentRestaurant.promotions) === 0 ?
                 <div className="flex justify-center flex-col w-full h-full py-20">
                   <NoContent text="ไม่มีโปรโมชั่นในตอนนี้" />
                 </div>
                 :
-                _.map(contextRestaurant.currentRestaurant.promotions, (data: Promotion, index: Number) => (
+                _.map(restaurantContext.currentRestaurant.promotions, (data: Promotion, index: Number) => (
                   <Accordion expanded={expanded === 'panel1'} onChange={changeExpand('panel1')}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -154,9 +153,9 @@ const RestaurantInfo = () => {
           </div>
         </div>
         <div className="w-full flex justify-center mb-5">
-          <a href={`tel://${contextRestaurant.currentRestaurant.tel_no}}`}>
+          <a href={`tel://${restaurantContext.currentRestaurant.tel_no}}`}>
             <PhoneIcon style={{ fontSize: '30px' }} />
-            <RegularText className="pl-2">{contextRestaurant.currentRestaurant.tel_no}</RegularText>
+            <RegularText className="pl-2">{restaurantContext.currentRestaurant.tel_no}</RegularText>
           </a>
         </div>
       </div>

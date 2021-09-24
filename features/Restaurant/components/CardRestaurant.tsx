@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import styled from 'styled-components'
@@ -19,7 +19,7 @@ import {
 import RatingStar from '../../../core/components/RatingStar'
 import { RestaurantStatus } from '../../../core/constant/enum'
 import { Restaurant } from '../../../core/constant/type'
-import { restaurantContext } from '../contexts/restaurant_context'
+import { useRestaurant } from '../contexts/restaurant_context'
 
 const ImageWithFilter = styled(Image)`
   filter:  brightness(${props =>
@@ -43,20 +43,20 @@ interface Props {
 }
 
 const RestaurantParty = (props: Props) => {
-  const contextRestaurant = useContext(restaurantContext)
+  const restaurantContext = useRestaurant()
   const router = useRouter()
   const classes = useStyles();
   const { restaurant } = props
 
   const selectRestaurant = () => {
     // if (restaurant.status === RestaurantStatus.RESTAURANT_OPEN){
-      contextRestaurant.setCurrentRestaurant(restaurant)
+    restaurantContext.setCurrentRestaurant(restaurant)
       router.push("/party")
     // }
   }
 
   const selectRestaurantInfo = () => {
-    contextRestaurant.setCurrentRestaurant(restaurant)
+    restaurantContext.setCurrentRestaurant(restaurant)
     router.push("/restaurant/info")
   }
   return (

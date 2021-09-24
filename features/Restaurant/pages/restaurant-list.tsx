@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { useObserver } from 'mobx-react-lite'
 import { 
   Paper, 
   InputBase, 
@@ -10,8 +9,8 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import _ from "lodash"
 
-import { authContext } from '../../../core/context/auth_context'
-import { restaurantContext } from '../contexts/restaurant_context'
+import { useUser } from '../../../core/context/auth_context'
+import { useRestaurant } from '../contexts/restaurant_context'
 import CardRestaurant from '../components/CardRestaurant'
 import NoContent from '../../../core/components/NoContent'
 
@@ -42,21 +41,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const RestaurantList = () => {
   const classes = useStyles();
-  const contextAuth = useContext(authContext)
-  const contextRestaurant = useContext(restaurantContext)
+  const userContext = useUser();
+  const restaurantContext = useRestaurant();
   const [noContentWord, setNoContentWord] = useState("กรุณาเช็คการเชื่อมต่ออีกครั้งครับ")
 
   useEffect(() => {
     (async () => {
       if (navigator.geolocation) {
         navigator.geolocation.watchPosition(async (position) => {
-          await contextRestaurant.getRestaurants({ lat: position.coords.latitude, lng: position.coords.longitude })
+          await restaurantContext.getRestaurants({ lat: position.coords.latitude, lng: position.coords.longitude })
         },
-          function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
+          function error(msg) { setNoContentWord('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ') },
           { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
       }
     })()
-  }, [contextRestaurant])
+  }, [])
 
 
   const formik = useFormik({
@@ -65,12 +64,12 @@ const RestaurantList = () => {
     },
     onSubmit: (values) => {
       setNoContentWord("ไม่พบร้าน " + values.restaurantName)
-      contextRestaurant.getRestaurants({ keyword : values.restaurantName})
+      restaurantContext.getRestaurants({ keyword : values.restaurantName})
     },
   });
 
-  return useObserver(() => (
-    <BackgroundRestaurantList className="overscroll-auto pt-4 pb-10" height={_.size(contextRestaurant.restaurant)}>
+  return (
+    <BackgroundRestaurantList className="overscroll-auto pt-4 pb-10" height={_.size(restaurantContext.restaurants)}>
       <form onSubmit={formik.handleSubmit}>
         <Paper className={classes.root}>
           <InputBase
@@ -89,17 +88,17 @@ const RestaurantList = () => {
         </Paper>
       </form>
       {
-        _.size(contextRestaurant.restaurant)=== 0 ?
+        _.size(restaurantContext.restaurants)=== 0 ?
           <div className="flex justify-center flex-col w-full h-full pb-24">
             <NoContent text={noContentWord} white />
           </div>
         :
-        _.map(contextRestaurant.restaurant, (data, index) => (
+        _.map(restaurantContext.restaurants, (data, index) => (
           <CardRestaurant restaurant={data} key={index} />
         ))
       }
     </BackgroundRestaurantList>
-  ))
+  )
 }
 
 export default RestaurantList

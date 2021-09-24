@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { Switch, Slider, TextField } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Rating from '@material-ui/lab/Rating';
@@ -6,7 +6,7 @@ import Rating from '@material-ui/lab/Rating';
 import FilterBar from '../../../core/components/FilterBar'
 import { RegularText } from '../../../core/config/textStyle';
 import { RestaurantStatus } from '../../../core/constant/enum';
-import { restaurantContext } from '../contexts/restaurant_context'
+import { useRestaurant } from '../contexts/restaurant_context'
 
 const rating = [1, 2, 3, 4, 5]
 
@@ -40,7 +40,7 @@ interface Props {
 }
 
 const FilterRestaurant = (props: Props) => {
-  const contextRestaurant = useContext(restaurantContext)
+  const restaurantContext = useRestaurant();
   const { open, callBackFormFilter } = props
   const [value, setValue] = useState<number[]>([300, 500]);
   const [max, setMax] = useState<number>(500)
@@ -86,7 +86,7 @@ const FilterRestaurant = (props: Props) => {
   }
 
   const fetchRestaurant = () => {
-    contextRestaurant.getRestaurants("status", toggleSwitch.available ? RestaurantStatus.RESTAURANT_OPEN : RestaurantStatus.RESTAURANT_CLOSED )
+    // contextRestaurant.getRestaurants("status", toggleSwitch.available ? RestaurantStatus.RESTAURANT_OPEN : RestaurantStatus.RESTAURANT_CLOSED )
   }
 
   return (

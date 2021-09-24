@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { TextField, Dialog, Button } from '@material-ui/core';
@@ -12,12 +12,14 @@ import {
   SubHeader,
   NormalText,
   SmallText,
-  TinyText
+  TinyText,
+  RegularText
 } from '../../../core/config/textStyle'
 import { ErrorMessage } from '../../../core/constant/constant'
 import { PartyType, Errors } from '../../../core/constant/enum'
 import { Party } from '../../../core/constant/type'
-import { authContext } from '../../../core/context/auth_context'
+import { useUser } from '../../../core/context/auth_context'
+import { useRestaurant } from '../../Restaurant/contexts/restaurant_context'
 import InputField from '../../../core/components/InputField'
 import apiParty from '../services/apiParty'
 import { UIDateLayout } from '../../../core/constant/constant'
@@ -60,7 +62,8 @@ const PartyModal = (props: Props) => {
   const { showModal, callBackToPartyList, party } = props
   const classes = useStyles();
   const router = useRouter()
-  const contextUser = useContext(authContext)
+  const authContext = useUser()
+  const restaurantContext = useRestaurant()
   const [open, setOpen] = useState(false);
   const [alertText, setAlertText] = useState('')
   const [passcode, setPasscode] = useState('')
@@ -70,7 +73,6 @@ const PartyModal = (props: Props) => {
     if (_.size(party.members) >= party.max_member){
       setDisable(true)
     }
-    contextUser.getUser()
     setOpen(showModal)
   })
   
@@ -82,8 +84,9 @@ const PartyModal = (props: Props) => {
   const handleClick = async () => {
     if (passcode.length === 6 || party.party_type === PartyType.PUBLIC){
       setAlertText('')
+      //TODO: Move to context
       try {
-        const res = await apiParty.joinParty(party.party_id, contextUser.user.user_id,passcode)
+        const res = await apiParty.joinParty(party.party_id, passcode)
         if (res.status === StatusCodes.OK) {
           handleClose();
         }
@@ -115,15 +118,16 @@ const PartyModal = (props: Props) => {
             <Image
               width={"auto"}
               height={"120px"}
-              src="/images/tidmun.webp"
+              src={restaurantContext.currentRestaurant.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${restaurantContext.currentRestaurant.photos[0].photo_reference}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
+                : "/images/tidmun.webp"}
               className="rounded-lg object-fill"
             />
             <div className="flex flex-wrap justify-center h-8 mt-3">
               <div className="flex flex-col items-center">
-                <NormalText bold>
+                <RegularText bold>
                   หัวข้อที่สนใจ
-                </NormalText >
-                <NormalText className="text-center">
+                </RegularText >
+                <NormalText className="text-center" isCut>
                     {party.interested_topic}
                 </NormalText>
               </div>
@@ -134,16 +138,6 @@ const PartyModal = (props: Props) => {
                 <NormalText className="text-center " white>
                   {dayjs(party.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}
                 </NormalText>
-              </div>
-            </div>
-            <div className="flex flex-wrap justify-center h-8 mt-3">
-              <div className="flex flex-col px-2 py-1 bg-cusRed text-center rounded-5">
-                <NormalText white>
-                  Promotion
-                </NormalText >
-                <SmallText white>
-                  {party.promotion || "Mock Promotion"}
-                </SmallText>
               </div>
             </div>
             <div className="flex flex-wrap justify-center h-12 mt-3">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
@@ -9,16 +9,16 @@ import FolderIcon from '@material-ui/icons/Folder';
 import Navigator from '../../core/components/Navigator'
 import FilterParty from '../../features/Party/components/FilterParty'
 import PartyList from '../../features/Party/pages/party-list'
-import { partyContext } from '../../features/Party/contexts/party_context'
+import { useParty } from '../../features/Party/contexts/party_context'
 
 const Party = () => {
   const router = useRouter()
-  const contextParty = useContext(partyContext)
+  const partyContext = useParty()
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    contextParty.getAllTag()
-  }, [contextParty])
+    partyContext.getAllTag()
+  }, [])
 
   const callBackFormFilter = (value) => {
     setOpen(value)

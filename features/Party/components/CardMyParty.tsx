@@ -11,7 +11,6 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import _ from "lodash"
 import dayjs from 'dayjs'
-import { useObserver } from 'mobx-react-lite'
 
 import {
   SubHeader,

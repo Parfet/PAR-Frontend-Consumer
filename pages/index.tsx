@@ -1,12 +1,12 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { IconButton } from '@material-ui/core';
 import Image from 'next/image'
 import Cookies from 'universal-cookie'
 
 import Loading from '../core/components/Loading'
-import { authContext } from '../core/context/auth_context'
 import { useAuth } from '../core/config/auth';
+import { useUser } from '../core/context/auth_context';
 import Navigator from '../core/components/Navigator'
 import Home from '../features/Home/pages/'
 
@@ -14,45 +14,46 @@ const cookies = new Cookies()
 
 const Index = () => {
   const router = useRouter()
-  const contextUser = useContext(authContext)
   const auth = useAuth();
+  const userContext = useUser();
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
 
   useEffect(() => {
     (async () => {
-      if (contextUser.userData === null) {
+      if (userContext.userData === null) {
         if (cookies.get("access_token")) {
-          await contextUser.getUserData()
+          await userContext.getUserData()
           setLoading(false)
         } else {
           router.push('/signin')
         }
-      }else{
-        setUsername(contextUser.userData.username)
-        if (contextUser.userData.provider === "twitter.com") {
-          let aryProfile = contextUser.userData.image_url.split('_normal')
+      } else {
+        setUsername(userContext.userData.username)
+        if (userContext.userData.provider === "twitter.com") {
+          let aryProfile = userContext.userData.image_url.split('_normal')
           setPhotoUrl(aryProfile[0] + aryProfile[1])
         } else {
-          setPhotoUrl(contextUser.userData.image_url)
+          setPhotoUrl(userContext.userData.image_url)
         }
         if (navigator.geolocation) {
           navigator.geolocation.watchPosition((position) => {
-            contextUser.setLatAndLong(position.coords.latitude, position.coords.longitude)
+            userContext.setLatitude(position.coords.latitude)
+            userContext.setLongitude(position.coords.longitude)
           },
             function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
             { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
         }
         setLoading(false)
       }
-    })()   
-  }, [loading, contextUser.userData])
+    })()
+  }, [loading])
 
   return loading ?
     <Loading />
-  : (
-      <Navigator 
+    : (
+      <Navigator
         rightIcon={
           <IconButton>
             <Image
@@ -65,10 +66,10 @@ const Index = () => {
           </IconButton>
         }
         middleText={username}
-        >
+      >
         <Home />
-    </Navigator>
-  )
+      </Navigator>
+    )
 
 }
 
