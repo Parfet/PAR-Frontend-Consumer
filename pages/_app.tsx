@@ -7,6 +7,9 @@ import { detect } from 'detect-browser'
 
 import Meta from '../core/components/Meta'
 import { AuthProvider } from '../core/config/auth'
+import { UserProvider } from '../core/context/auth_context'
+import { PartyProvider } from '../features/Party/contexts/party_context'
+import { RestaurantProvider } from '../features/Restaurant/contexts/restaurant_context'
 import InCorrectDevice from '../core/components/Error/InCorrectDevice'
 import InstallPWA from '../core/components/Error/InstallPWA'
 
@@ -30,17 +33,25 @@ const MyApp = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <AuthProvider>
+    <>
       <Meta />
       <CssBaseline />
       {
         checkMobile ? 
           checkPWA ?
-          <Component {...pageProps} />
+            <AuthProvider>
+              <UserProvider >
+                <RestaurantProvider >
+                  <PartyProvider >
+                    <Component {...pageProps} />
+                  </PartyProvider>
+                </RestaurantProvider>
+              </UserProvider>
+            </AuthProvider>
             :<InstallPWA/>
           :<InCorrectDevice />
       }
-    </AuthProvider>
+    </>
   )
 }
 
