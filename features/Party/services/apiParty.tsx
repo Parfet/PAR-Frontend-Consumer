@@ -8,7 +8,6 @@ const apiParty = {
   },
   getPartyByPartyId: async (partyId: string) => {
     const response = await api.get(`/party/info/${partyId}`)
-    console.log("🚀 ~ file: apiParty.tsx ~ line 11 ~ getPartyByPartyId: ~ response", response)
     return response
   },
   getPartyByUserId: async () => {
@@ -32,9 +31,8 @@ const apiParty = {
     const response = await api.post(`/party/${restaurantId}`, data)
     return response
   },
-  joinParty: async (partyId: string, userId: string, passcode: string) => {
+  joinParty: async (partyId: string, passcode: string) => {
     const data = {
-      "user_id": userId,
       "passcode": passcode,
     }
     const response = await api.post(`/party/info/${partyId}/join`, data)
