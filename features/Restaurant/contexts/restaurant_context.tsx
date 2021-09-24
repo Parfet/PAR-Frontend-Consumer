@@ -1,54 +1,68 @@
-import { makeAutoObservable, observable, action } from 'mobx'
-import { createContext } from 'react'
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { StatusCodes } from 'http-status-codes';
 
-import apiRestaurant from '../services/apiRestaurant'
-import { RestaurantStatus } from '../../../core/constant/enum'
 import { Restaurant } from '../../../core/constant/type'
-export class RestaurantContext {
-  restaurant: []
+import apiRestaurant from '../services/apiRestaurant'
+
+interface RestaurantContextInterface {
+  restaurants: Restaurant[]
   currentRestaurant: Restaurant
-  searchObject: Object
+  setCurrentRestaurant: Function
+  getRestaurants: Function
+}
 
-  constructor() {
-    this.restaurant = []
-    this.currentRestaurant = { restaurant_id:'' }
-    this.searchObject = { keyword: "", lat: 0, lng: 0 }
-    makeAutoObservable(this)
-  }
+type SearchWord = {
+  keyword: string
+  lat: 0
+  lng: 0
+}
 
+const restaurantContext = createContext<RestaurantContextInterface | null>(null);
 
-  getRestaurants = async (filter: Object) => {
+export const RestaurantProvider = ({ children }) => {
+  const restaurant = RestaurantFunction();
+  return <restaurantContext.Provider value={restaurant}>{children}</restaurantContext.Provider>;
+}
+export const useRestaurant = () => {
+  return useContext(restaurantContext);
+};
+
+const RestaurantFunction = () => {
+  const [searchWord, setSearchWord] = useState<SearchWord>({ keyword: "", lat: 0, lng: 0 });
+  const [restaurants, setRestaurants] = useState<Array<Restaurant>>();
+  const [currentRestaurant, setCurrentRestaurant] = useState<Restaurant>();
+
+  const getRestaurants = async (filter: Object) => {
     let param = ""
-    Object.keys(this.searchObject).forEach((key, index) => {
+    Object.keys(searchWord).forEach((key, index) => {
       for (const [k, v] of Object.entries(filter)) {
-        if (key === k){
-          this.searchObject[key] = v
+        if (key === k) {
+          searchWord[key] = v
         }
       }
-      if (index === Object.keys(this.searchObject).length-1) {
-        param = param + key + "=" + this.searchObject[key]
-      }else {
-        param = param + key + "=" + this.searchObject[key] + "&"
+      if (index === Object.keys(searchWord).length - 1) {
+        param = param + key + "=" + searchWord[key]
+      } else {
+        param = param + key + "=" + searchWord[key] + "&"
       }
     });
-    
+
     try {
       const response = await apiRestaurant.getAllRestaurants(param)
       if (response.status === StatusCodes.OK) {
-        console.log("🚀 ~ file: restaurant_context.tsx ~ line 40 ~ RestaurantContext ~ getRestaurants= ~ response.data.restaurants", response.data.restaurants)
-        this.restaurant = response.data.restaurants
-      }else {
-        this.restaurant = []
+        setRestaurants(response.data.restaurants)
+      } else {
+        setRestaurants([])
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  setCurrentRestaurant = (currentRestaurant :Restaurant) => {
-    this.currentRestaurant = currentRestaurant
-  }
+  return {
+    restaurants,
+    currentRestaurant,
+    setCurrentRestaurant,
+    getRestaurants,
+  };
 }
-
-export const restaurantContext = createContext(new RestaurantContext())

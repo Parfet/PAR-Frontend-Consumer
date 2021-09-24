@@ -1,38 +1,52 @@
-import { makeAutoObservable } from 'mobx'
-import { createContext } from 'react'
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { StatusCodes } from 'http-status-codes';
 
-import apiAuth from '../services/apiAuth'
 import { User } from '../constant/type'
-export class AuthContext {
+import apiAuth from '../services/apiAuth'
+
+interface UserContextInterface {
   userData: User
-  latitude: number
-  longitude: number
+  latitude: string
+  longitude: string
+  setLatitude: Function
+  setLongitude: Function
+  getUserData: Function
+}
 
-  constructor() {
-    this.userData = null
-    this.latitude = 0
-    this.longitude = 0
-    makeAutoObservable(this)
-  }
+const userContext = createContext<UserContextInterface | null>(null);
 
-  getUserData = async () => {
+export const UserProvider = ({ children }) => {
+  const user = UserFunction();
+  return <userContext.Provider value={user}>{children}</userContext.Provider>;
+}
+export const useUser = () => {
+  return useContext(userContext);
+};
+
+const UserFunction = () => {
+  const [userData, setUserData] = useState<User>(null);
+  const [latitude, setLatitude] = useState<string>();
+  const [longitude, setLongitude] = useState<string>();
+
+  const getUserData = async () => {
     try {
       const response = await apiAuth.getUserData()
       if (response.status === StatusCodes.OK) {
-        this.userData = response.data.user
+        setUserData(response.data.user)
       } else {
-        this.userData = null
+        setUserData(null)
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  setLatAndLong(lat: number, long: number){
-    this.latitude = lat
-    this.longitude = long
-  }
+  return {
+    userData,
+    latitude,
+    longitude,
+    setLatitude,
+    setLongitude,
+    getUserData
+  };
 }
-
-export const authContext = createContext(new AuthContext())

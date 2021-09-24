@@ -1,77 +1,95 @@
-import { makeAutoObservable } from 'mobx'
-import { createContext } from 'react'
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { StatusCodes } from 'http-status-codes';
 
 import { Party, Tag } from '../../../core/constant/type'
 import apiParty from '../services/apiParty'
 
-export class PartyContext {
+interface PartyContextInterface {
   parties: Party[]
   allMyParty: Party[]
   currentParty: Party
   allTag: Tag[]
+  getParties: Function
+  getPartyByPartyId: Function
+  getAllTag: Function
+  getPartyByUserId: Function
+}
 
-  constructor() {
-    this.parties = []
-    this.allMyParty = []
-    this.currentParty = { party_id: "", head_party: { user_id: "" } }
-    this.allTag = [{ value: "", label: "" }]
+const partyContext = createContext<PartyContextInterface | null>(null);
 
-    makeAutoObservable(this)
-  }
+export const PartyProvider = ({ children }) => {
+  const party = PartyFunction();
+  return <partyContext.Provider value={party}>{children}</partyContext.Provider>;
+}
+export const useParty = () => {
+  return useContext(partyContext);
+};
 
-  
-  getParties = async (restaurantId :string) => {
+const PartyFunction = () => {
+  const [parties, setParties] = useState<Array<Party>>();
+  const [allMyParty, setAllMyParty] = useState<Array<Party>>();
+  const [currentParty, setCurrentParty] = useState<Party>();
+  const [allTag, setAllTag] = useState<Array<Tag>>();
+
+  const getParties = async (restaurantId :string) => {
     try {
       const response = await apiParty.getPartyByRestaurantId(restaurantId)
       if (response.status === StatusCodes.OK){
-        this.parties = response.data.parties
+        setParties(response.data.parties)
       }else{
-        this.parties = []
+        setParties([])
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  getPartyByPartyId = async (partyId) => {
+  const getPartyByPartyId = async (partyId) => {
     try {
       const response = await apiParty.getPartyByPartyId(partyId)
       if (response.status === StatusCodes.OK){
-          this.currentParty = response.data.party
+          setCurrentParty(response.data.party)
       }else{
-        this.currentParty = { party_id: "", head_party: { user_id: "" } }
+        setCurrentParty({ party_id: "" })
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  getAllTag = async () => {
+  const getAllTag = async () => {
     try {
       const response = await apiParty.getAllTag()
       if (response.status === StatusCodes.OK){
-        this.allTag = response.data.tags
+        setAllTag(response.data.tags)
       }else{
-        this.allTag = [{ value: "", label: "" }]
+        setAllTag([{ value: "", label: "" }])
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  getPartyByUserId = async () => {
+  const getPartyByUserId = async () => {
     try {
       const response = await apiParty.getPartyByUserId()
       if (response.status === StatusCodes.OK) {
-        this.allMyParty = response.data.parties
+        setAllMyParty(response.data.parties)
       } else {
-        this.allMyParty = []
+        setAllMyParty([])
       }
     } catch (error) {
       console.log(error)
     }
   }
+  return {
+    parties,
+    allMyParty,
+    currentParty,
+    allTag,
+    getParties,
+    getPartyByPartyId,
+    getAllTag,
+    getPartyByUserId
+  };
 }
-
-export const partyContext = createContext(new PartyContext())
