@@ -18,6 +18,7 @@ const Home = () => {
   return (
     <Background className="pt-10 h-screen flex items-center justify-center flex-col space-y-10">
       <Button variant="contained" color="primary" onClick={() => router.push('/restaurant')}> Choose restaurant </Button>
+      <Button variant="contained" color="primary" onClick={() => router.push('/party/me')}> My party</Button>
       <Button variant="contained" color="secondary" onClick={() => auth.signout()}> sign out</Button>
     </Background>
   )
