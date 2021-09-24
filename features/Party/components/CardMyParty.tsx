@@ -43,7 +43,7 @@ const CardMyParty = (props: Props) => {
     router.push('/party/'+party.party_id)
   };
 
-  return useObserver(() => (
+  return (
     <>
       <Paper className={classes.paper} onClick={handleClick}>
         <div className="flex py-1">
@@ -123,7 +123,7 @@ const CardMyParty = (props: Props) => {
         </div>
       </Paper>
     </>
-  ))
+  )
 }
 
 export default CardMyParty

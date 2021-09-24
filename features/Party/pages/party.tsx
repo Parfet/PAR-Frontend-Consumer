@@ -34,7 +34,7 @@ const Party = () => {
     setOpenMemberModal(value)
   }
 
-  return useObserver(() => (
+  return (
     <>
     {
         !partyContext.currentParty ?
@@ -90,7 +90,7 @@ const Party = () => {
         : <></>
     }
     </>
-  ))
+  )
 }
 
 export default Party

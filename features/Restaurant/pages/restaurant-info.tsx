@@ -70,7 +70,7 @@ const RestaurantInfo = () => {
     setExpanded(isExpanded ? panel : false);
   };
   
-  return useObserver(() => (
+  return (
     <div className="overscroll-auto">
       <Image
         alt="complex"
@@ -160,7 +160,7 @@ const RestaurantInfo = () => {
         </div>
       </div>
     </div>
-  ))
+  )
 }
 
 export default RestaurantInfo
