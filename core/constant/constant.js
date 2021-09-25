@@ -7,7 +7,8 @@ export const ErrorMessage = {
   USER_NOT_FOUND: "ไม่พบผู้ใช้งาน",
   PARTY_NOT_FOUND: "ไม่พบปาร์ตี้",
   PASSCODE_INCORRECT: "รหัสผ่านไม่ถูกต้อง",
-  TOKEN_EXPIRE: "token is expire"
+  TOKEN_EXPIRE: "token is expire",
+  INVALID_TOKEN: "invalid signature token"
 }
 
 export const ErrorMessageFirebase = {
