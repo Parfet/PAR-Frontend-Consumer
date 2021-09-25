@@ -4,7 +4,9 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Rating from '@material-ui/lab/Rating';
 
 import FilterBar from '../../../core/components/FilterBar'
-import { RegularText, NormalText } from '../../../core/config/textStyle';
+import { RegularText } from '../../../core/config/textStyle';
+import { RestaurantStatus } from '../../../core/constant/enum';
+import { useRestaurant } from '../contexts/restaurant_context'
 
 const rating = [1, 2, 3, 4, 5]
 
@@ -38,6 +40,7 @@ interface Props {
 }
 
 const FilterRestaurant = (props: Props) => {
+  const restaurantContext = useRestaurant();
   const { open, callBackFormFilter } = props
   const [value, setValue] = useState<number[]>([300, 500]);
   const [max, setMax] = useState<number>(500)
@@ -48,8 +51,7 @@ const FilterRestaurant = (props: Props) => {
   })
 
   const handleChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setToggleSwitch
-    ({ ...toggleSwitch, [event.target.name]: event.target.checked });
+    setToggleSwitch({ ...toggleSwitch, [event.target.name]: event.target.checked });
   };
 
 
@@ -82,9 +84,14 @@ const FilterRestaurant = (props: Props) => {
       setValue([0, max])
     }
   }
+
+  const fetchRestaurant = () => {
+    // contextRestaurant.getRestaurants("status", toggleSwitch.available ? RestaurantStatus.RESTAURANT_OPEN : RestaurantStatus.RESTAURANT_CLOSED )
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      <FilterBar open={open} callBackToParent={callBackFormFilter} >
+      <FilterBar open={open} callBackToParent={callBackFormFilter} handleCloseFromParent={fetchRestaurant}>
         <div className="flex flex-col px-2">
           <div className="flex flex-row">
             <div className="w-1/3 pt-2 text-right"><RegularText>ร้านเปิด</RegularText></div>

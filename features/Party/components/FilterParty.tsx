@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,8 +9,7 @@ import _ from 'lodash'
 
 import FilterBar from '../../../core/components/FilterBar'
 import { RegularText, NormalText } from '../../../core/config/textStyle';
-import { partyContext } from '../contexts/party_context'
-
+import { useParty } from '../contexts/party_context'
 interface Props {
   open: boolean
   callBackFormFilter: (value) => void
@@ -56,7 +55,7 @@ const useStyles = makeStyles({
 
 const FilterParty = (props: Props) => {
   const classes = useStyles();
-  const contextParty = useContext(partyContext)
+  const partyContext = useParty
   const { open, callBackFormFilter } = props
   const [startScheduleTime, setStartScheduleTime] = useState<string>(dateNow)
   const [endScheduleTime, setEndScheduleTime] = useState<string>(dateAddHour)
@@ -96,11 +95,11 @@ const FilterParty = (props: Props) => {
   }
 
   const seeTagMore = () => {
-    if (!clickSeeTagMore){
-      setCountTag(contextParty.allTag.length)
-    }else{
-      setCountTag(4)
-    }
+    // if (!clickSeeTagMore){
+    //   setCountTag(partyContext.allTag.length)
+    // }else{
+    //   setCountTag(4)
+    // }
     setClickSeeTagMore(!clickSeeTagMore)
   }
 

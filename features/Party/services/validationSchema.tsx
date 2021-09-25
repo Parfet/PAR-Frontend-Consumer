@@ -15,9 +15,6 @@ export const ValidationFormSchema = yup.object({
   interest_tags: yup
     .array()
     .required('จำเป็นต้องกรอกแท็กที่เกี่ยวข้อง'),
-  promotion: yup
-    .string()
-    .required('จำเป็นต้องกรอกโปรโัมชั่น'),
   schedule_time: yup
     .date()
     .required('จำเป็นต้องกรอกวันและเวลาที่ต้องการไป'),

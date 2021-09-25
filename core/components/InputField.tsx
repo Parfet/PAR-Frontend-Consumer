@@ -1,9 +1,7 @@
 import React from 'react'
 import { TextField } from '@material-ui/core';
 
-import {
-  RegularText,
-} from '../../../core/config/textStyle'
+import { RegularText } from '../config/textStyle'
 
 interface Props {
   className?: string

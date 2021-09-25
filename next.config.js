@@ -11,7 +11,13 @@ const nextConfig = {
     autoPrerender: false,
   },
   images: {
-    domains: ['www.parfet.in.th'],
+    domains: [
+      'www.parfet.in.th', 
+      'graph.facebook.com', 
+      'lh3.googleusercontent.com',
+      'pbs.twimg.com',
+      'maps.googleapis.com'
+    ],
   },
 };
 
@@ -20,8 +26,10 @@ module.exports = withPlugins([
   [withPWA, {
     pwa: {
       // disable: process.env.NODE_ENV === 'development',
-      dest: 'public'
+      dest: 'public',
+      register: true,
+      scope: '/app',
+      sw: 'service-worker.js',
     },
   }]
 ], nextConfig)
-

@@ -1,12 +1,12 @@
 import api from '../../utils/api'
 
 const apiUser = {
-  getUser: async () => {
-    const response = await api.get('/user')
+  getUserData: async () => {
+    const response = await api.get('/user/me')
     return response
   },
-  getJWTToken: async (data) => {
-    const response = await api.post('/auth/token', data)
+  checkUser: async () => {
+    const response = await api.get('/auth/check')
     return response
   },
 }

@@ -11,7 +11,6 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
 import _ from "lodash"
 import dayjs from 'dayjs'
-import { useObserver } from 'mobx-react-lite'
 
 import {
   SubHeader,
@@ -44,7 +43,7 @@ const CardMyParty = (props: Props) => {
     router.push('/party/'+party.party_id)
   };
 
-  return useObserver(() => (
+  return (
     <>
       <Paper className={classes.paper} onClick={handleClick}>
         <div className="flex py-1">
@@ -124,7 +123,7 @@ const CardMyParty = (props: Props) => {
         </div>
       </Paper>
     </>
-  ))
+  )
 }
 
 export default CardMyParty

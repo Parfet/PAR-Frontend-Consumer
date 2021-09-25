@@ -1,5 +1,9 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+import Router from 'next/router'
+
+import firebase from '../core/config/firebase';
+import { ErrorMessage } from '../core/constant/constant'
 
 const cookies = new Cookies()
 
@@ -8,7 +12,7 @@ const createInstance = (headers) => {
   return axios.create({
     baseURL: process.env.NEXT_PUBLIC_CONSUMER_API,
     headers: {
-      Authorization: `Bearer ${cookies.get('access_token')}`,
+      Authorization: `${cookies.get('access_token')}`,
       'Content-Type': 'application/json'
     }
   })
@@ -17,7 +21,23 @@ const createInstance = (headers) => {
 const handleResponse = (res) =>
   !res.data.error ? Promise.resolve(res) : Promise.reject(new Error(res))
 
-const catchError = (err) => Promise.reject(err)
+const catchError = async (err) => {
+  if (err.response.data.message === ErrorMessage.TOKEN_EXPIRE){
+    await firebase.auth().onAuthStateChanged(async (user) => {
+      if (user) {
+        const token = await user.getIdToken(false);
+        await cookies.set('access_token', token, { path: '/', maxAge: 3600 })
+        await cookies.set('refresh_token', user.refreshToken, { path: '/', maxAge: 3600 })
+        err.config.headers['Authorization'] = token
+        axios.request(err.config)
+      }
+    });
+  }else if (err.response.data.message === ErrorMessage.INVALID_TOKEN){
+    Router.push('/signin')
+  }else{
+    Promise.reject(err)
+  }
+}
 
 export default {
   get: (path, headers = {}) =>

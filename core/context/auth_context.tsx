@@ -1,69 +1,52 @@
-import { makeAutoObservable } from 'mobx'
-import { createContext } from 'react'
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { StatusCodes } from 'http-status-codes';
-import Cookies from 'universal-cookie'
-import { Router } from 'next/router'
 
-import apiAuth from '../services/apiAuth'
 import { User } from '../constant/type'
+import apiAuth from '../services/apiAuth'
 
-const cookies = new Cookies()
-export class AuthContext {
-  users: User[]
-  user: User
-  userId: string 
-
-  constructor() {
-    this.users = [{ user_id: ""}]
-    this.user  = { user_id: ""} 
-    this.userId = ''
-    makeAutoObservable(this)
-  }
-
-
-  login = async (username) => {
-    let currentUser: User
-    this.users.find((data) => {
-      if (data.username === username) {
-        currentUser = data
-      }
-    })
-    try {
-      if (currentUser != null){
-        const response = await apiAuth.getJWTToken({ user_id: currentUser.user_id})
-        if (response.status === StatusCodes.OK) {
-          this.user = currentUser
-          cookies.set('user', currentUser, { path: '/', maxAge: 3600 })
-          cookies.set('access_token', response.data.access_token, { path: '/', maxAge: 3600 })
-          cookies.set('refresh_token', response.data.refresh_token, { path: '/', maxAge: 3600 })
-          Router.prototype.replace('/restaurant')
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  
-  getUser = async () => {
-    try {
-      this.user = cookies.get('user')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  getAllUser = async () => {
-    try {
-      const response = await apiAuth.getUser()
-      if (response.status === StatusCodes.OK) {
-        this.users = response.data.users
-      } else {
-        this.users = null
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+interface UserContextInterface {
+  userData: User
+  latitude: string
+  longitude: string
+  setLatitude: Function
+  setLongitude: Function
+  getUserData: Function
 }
 
-export const authContext = createContext(new AuthContext())
+const userContext = createContext<UserContextInterface | null>(null);
+
+export const UserProvider = ({ children }) => {
+  const user = UserFunction();
+  return <userContext.Provider value={user}>{children}</userContext.Provider>;
+}
+export const useUser = () => {
+  return useContext(userContext);
+};
+
+const UserFunction = () => {
+  const [userData, setUserData] = useState<User>(null);
+  const [latitude, setLatitude] = useState<string>();
+  const [longitude, setLongitude] = useState<string>();
+
+  const getUserData = async () => {
+    try {
+      const response = await apiAuth.getUserData()
+      if (response.status === StatusCodes.OK) {
+        setUserData(response.data.user)
+      } else {
+        setUserData(null)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return {
+    userData,
+    latitude,
+    longitude,
+    setLatitude,
+    setLongitude,
+    getUserData
+  };
+}

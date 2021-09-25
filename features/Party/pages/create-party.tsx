@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { useFormik } from 'formik';
@@ -10,15 +10,14 @@ import makeAnimated from 'react-select/animated';
 import { StatusCodes } from 'http-status-codes';
 import _ from 'lodash';
 
-import { aryPromotion, interestTag } from '../../../core/config/mockData'
+import { interestTag } from '../../../core/config/mockData'
 import { PartyType } from '../../../core/constant/enum'
 import { PartyTypeThai } from '../../../core/constant/constant'
-import { authContext } from '../../../core/context/auth_context'
 import { SubHeader, NormalText } from '../../../core/config/textStyle'
-import { restaurantContext } from '../../Restaurant/contexts/restaurant_context'
+import { useRestaurant } from '../../Restaurant/contexts/restaurant_context'
 import apiParty from '../services/apiParty'
-import { partyContext } from '../contexts/party_context'
-import InputField from '../components/InputField'
+import { useParty } from '../contexts/party_context'
+import InputField from '../../../core/components/InputField'
 import { ValidationFormSchema } from '../services/validationSchema'
 
 let now = dayjs()
@@ -92,19 +91,21 @@ const CreateParty = (prop :Prop) => {
   const router = useRouter()
   const classes = useStyles();
   const [checkTags, setCheckTags] = useState(false);
-  const contextRestaurant = useContext(restaurantContext)
-  const contextUser = useContext(authContext)
-  const contextParty = useContext(partyContext)
+  const restaurantContext = useRestaurant()
+  const partyContext = useParty()
 
   useEffect(() => {
-    console.log(contextRestaurant.currentRestaurant)
-    contextParty.getAllTag()
-    contextUser.getUser()
-  }, [contextUser, contextParty, contextRestaurant])
+    if(!restaurantContext.currentRestaurant){
+      router.push('/restaurant')
+    }
+    (async () => {
+      await partyContext.getAllTag()
+    })()
+  }, [])
 
   const handleEditParty = async (values) => {
     try {
-      const res = await apiParty.updateParty(values, contextParty.currentParty.party_id)
+      const res = await apiParty.updateParty(values, partyContext.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
         router.push('/party/' + res.data.party_id)
       }
@@ -116,7 +117,7 @@ const CreateParty = (prop :Prop) => {
   }
 
   const handleCreateParty = async (values) => {
-    const res = await apiParty.createParty(contextRestaurant.currentRestaurant.restaurant_id, values)
+    const res = await apiParty.createParty(restaurantContext.currentRestaurant.place_id, values)
     if (res.status === StatusCodes.OK){
       router.push('/party/' + res.data.party_id)
     }
@@ -124,17 +125,15 @@ const CreateParty = (prop :Prop) => {
 
   const formik = useFormik({
     initialValues: {
-      party_name: contextParty.currentParty.party_name || '',
-      head_party: contextUser.user.user_id,
-      interested_topic: contextParty.currentParty.party_name || '',
-      interest_tags: contextParty.currentParty.interest_tags || [],
-      promotion: aryPromotion[0],
-      schedule_time: dayjs(contextParty.currentParty.schedule_time).format("YYYY-MM-DDTHH:mm")  || dateAddHour,
+      party_name: partyContext.currentParty.party_name || '',
+      interested_topic: partyContext.currentParty.party_name || '',
+      interest_tags: partyContext.currentParty.interest_tags || [],
+      schedule_time: dayjs(partyContext.currentParty.schedule_time).format("YYYY-MM-DDTHH:mm")  || dateAddHour,
       party_type: 
-        contextParty.currentParty.party_type === PartyType.PRIVATE ? PartyTypeThai.PRIVATE : PartyTypeThai.PUBLIC
+        partyContext.currentParty.party_type === PartyType.PRIVATE ? PartyTypeThai.PRIVATE : PartyTypeThai.PUBLIC
         || PartyTypeThai.PUBLIC,
-      max_member: contextParty.currentParty.max_member || aryMaxMember[0],
-      passcode: contextParty.currentParty.passcode || ''
+      max_member: partyContext.currentParty.max_member || aryMaxMember[0],
+      passcode: partyContext.currentParty.passcode || ''
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
@@ -202,7 +201,7 @@ const CreateParty = (prop :Prop) => {
             placeholder="เลือกTag ที่เกี่ยวข้อง"
             className="rounded-lg"
             isMulti
-            options={contextParty.allTag}
+            options={partyContext.allTag}
             components={{ animatedComponents, DropdownIndicator }}
             onChange={(e) => { formik.setFieldValue('interest_tags', e)}}
             onBlur={() => { formik.values.interest_tags.length === 0 ? setCheckTags(true) : setCheckTags(false)}}
@@ -215,26 +214,6 @@ const CreateParty = (prop :Prop) => {
               : <></>
           }
         </>
-      </InputField>
-      <InputField label="โปรโมชั่น">
-        <TextField
-          id="promotion"
-          name="promotion"
-          variant="outlined"
-          size="small"
-          className={classes.root}
-          select
-          value={formik.values.promotion}
-          onChange={formik.handleChange}
-        >
-          {
-            aryPromotion.map((data) => (
-              <MenuItem key={data} value={data}>
-                {data}
-              </MenuItem>
-            ))
-          }
-        </TextField>
       </InputField>
       <InputField label="วันและเวลาที่จะไป">
         <TextField

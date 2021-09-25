@@ -20,7 +20,6 @@ const apiParty = {
   },
   createParty: async (restaurantId: string, party: Party) => {
     const data = {
-      "head_party": party.head_party,
       "party_name": party.party_name,
       "party_type": party.party_type,
       "passcode": party.passcode,
@@ -32,9 +31,8 @@ const apiParty = {
     const response = await api.post(`/party/${restaurantId}`, data)
     return response
   },
-  joinParty: async (partyId: string, userId: string, passcode: string) => {
+  joinParty: async (partyId: string, passcode: string) => {
     const data = {
-      "user_id": userId,
       "passcode": passcode,
     }
     const response = await api.post(`/party/info/${partyId}/join`, data)
@@ -70,6 +68,17 @@ const apiParty = {
     const response = await api.put(`/party/info/${partyId}`, data)
     return response
   },
+  leaveParty: async (partyId: string) => {
+    const response = await api.delete(`/party/${partyId}`)
+    return response
+  },
+  kickMember: async (partyId: string, userId: string) => {
+    const data = {
+      "user_id": userId,
+    }
+    const response = await api.delete(`/party/info/${partyId}/member`,data)
+    return response
+  }
 }
 
 export default apiParty

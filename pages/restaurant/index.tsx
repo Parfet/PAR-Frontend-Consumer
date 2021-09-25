@@ -1,19 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { BottomNavigationAction, IconButton } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
 import ListIcon from '@material-ui/icons/List';
-import AddIcon from '@material-ui/icons/Add';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import FolderIcon from '@material-ui/icons/Folder';
+import Cookies from 'universal-cookie'
 
-import Navigator from '../core/components/Navigator'
-import RestaurantList from '../features/Restaurant/pages/restaurant-list'
-import FilterRestaurant from '../features/Restaurant/components/FilterRestaurant'
+import Navigator from '../../core/components/Navigator'
+import RestaurantList from '../../features/Restaurant/pages/restaurant-list'
+import FilterRestaurant from '../../features/Restaurant/components/FilterRestaurant'
+import { useUser } from '../../core/context/auth_context';
+
+const cookies = new Cookies()
 
 const Restaurant = () => {
   const router = useRouter()
   const [open,  setOpen] = useState(false)
+  const userContext = useUser();
+
+  useEffect(() => {
+    (async () => {
+      if (userContext.userData === null) {
+        if (cookies.get("access_token")) {
+          await userContext.getUserData()
+        } else {
+          router.push('/signin')
+        }
+      }
+    })()
+  }, [])
 
   const goToCreateParty = (e) => {
     e.preventDefault()
@@ -35,11 +50,8 @@ const Restaurant = () => {
   return (
     <Navigator
       middleText='Restaurant'
-      rightIcon={
-        <IconButton>
-          <AccountCircleIcon />
-        </IconButton>
-      }
+      backTextButton='Back'
+      backRoute='/'
       leftIcon={
         <IconButton onClick={handleOpenFilter}>
           <SortIcon />

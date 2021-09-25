@@ -1,62 +1,76 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { detect } from 'detect-browser'
-import { TextField, Button } from '@material-ui/core'
-import { useFormik } from 'formik';
+import { IconButton } from '@material-ui/core';
+import Image from 'next/image'
+import Cookies from 'universal-cookie'
 
-import InCorrectDevice from '../core/components/Error/InCorrectDevice'
-import { authContext } from '../core/context/auth_context'
+import Loading from '../core/components/Loading'
+import { useAuth } from '../core/config/auth';
+import { useUser } from '../core/context/auth_context';
+import Navigator from '../core/components/Navigator'
+import Home from '../features/Home/pages/'
 
-const Home = () => {
-  const browser = detect();
+const cookies = new Cookies()
+
+const Index = () => {
   const router = useRouter()
-  const contextUser = useContext(authContext)
-  // const [latitude, setLatitude] = useState(0)
-  // const [longitude, setLongitude] = useState(0)
+  const auth = useAuth();
+  const userContext = useUser();
+  const [loading, setLoading] = useState(true)
+  const [username, setUsername] = useState('')
+  const [photoUrl, setPhotoUrl] = useState('')
 
   useEffect(() => {
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.watchPosition((position) => {
-    //     setLatitude(position.coords.latitude)
-    //     setLongitude(position.coords.longitude)
-    //   }, 
-    //   function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
-    //   { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
-    // }
-    contextUser.getAllUser()
-  }, [contextUser])
+    (async () => {
+      if (userContext.userData === null) {
+        if (cookies.get("access_token")) {
+          await userContext.getUserData()
+          setLoading(false)
+        } else {
+          router.push('/signin')
+        }
+      } else {
+        setUsername(userContext.userData.username)
+        if (userContext.userData.provider === "twitter.com") {
+          let aryProfile = userContext.userData.image_url.split('_normal')
+          setPhotoUrl(aryProfile[0] + aryProfile[1])
+        } else {
+          setPhotoUrl(userContext.userData.image_url)
+        }
+        if (navigator.geolocation) {
+          navigator.geolocation.watchPosition((position) => {
+            userContext.setLatitude(position.coords.latitude)
+            userContext.setLongitude(position.coords.longitude)
+          },
+            function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
+            { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
+        }
+        setLoading(false)
+      }
+    })()
+  }, [loading])
 
-  const formik = useFormik({
-    initialValues: {
-      username: ''
-    },
-    onSubmit: (values) => {
-      contextUser.login(values.username)
-    },
-  });
-
-
-  if (browser.os === 'Android OS' || browser.os === 'iOS') {
-    return (
-      <div className="flex items-center justify-center p-4 h-screen">
-        <form className="flex flex-col" onSubmit={formik.handleSubmit}>
-          <TextField
-            id="username"
-            name="username"
-            variant="outlined"
-            size="small"
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            required
-          />
-          <Button type="submit"> เข้าสู่ระบบ</Button>
-        </form>
-      </div>
+  return loading ?
+    <Loading />
+    : (
+      <Navigator
+        rightIcon={
+          <IconButton>
+            <Image
+              alt={username + " Photo"}
+              src={photoUrl || "/images/logo_parfet_192.png"}
+              width={"32px"}
+              height={"32px"}
+              className="rounded-50"
+            />
+          </IconButton>
+        }
+        middleText={username}
+      >
+        <Home />
+      </Navigator>
     )
-  }
-  else {
-    return <InCorrectDevice />
-  }
+
 }
 
-export default Home
+export default Index
