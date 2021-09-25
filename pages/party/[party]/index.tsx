@@ -26,26 +26,20 @@ const PartyPage = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [confirmText, setConfirmText] = useState("")
   const [typeAction, setTypeAction] = useState("")
-  const [partyInfo, setPartyInfo] = useState(null)
   const userContext = useUser();
   const partyContext = useParty();
 
   useEffect(() => {
     (async () => {
-      console.log("🚀 ~ file: index.tsx ~ line 46 ~ !userContext.userData", !userContext.userData)
       if (!userContext.userData) {
         if (cookies.get("access_token")) {
           await userContext.getUserData()
-          console.log("🚀 ~ file: index.tsx ~ line 47 ~ userContext.userData", userContext.userData)
         } else {
           router.push('/signin')
         }
       }
       if (router.asPath !== router.route) {
         await partyContext.getPartyByPartyId(router.query.party)
-        await setPartyInfo(partyContext.currentParty)
-        
-        // buttomNavigationData()
       }
       })()
   }, [router])
