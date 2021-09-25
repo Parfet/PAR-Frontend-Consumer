@@ -15,9 +15,11 @@ const PartyRequest = () => {
   const router = useRouter()
   const partyContext = useParty()
   const [userList, setUserList] = useState<User[]>()
+  const [partyName, setPartyName] = useState('')
 
   useEffect(() => {
     getUserJoinParty()
+    setPartyName(partyContext.currentParty.party_name )
   }, [])
 
   const getUserJoinParty = async () => {
@@ -56,7 +58,7 @@ const PartyRequest = () => {
   return (
     <div className="flex flex-col my-28 px-10 h-screen">
       <div className="ml-2 mb-4">
-        <SubHeader>Party : {partyContext.currentParty.party_name || ''}</SubHeader>
+        <SubHeader>Party : { partyName }</SubHeader>
       </div>
       <div className="flex flex-col space-y-4">
         {

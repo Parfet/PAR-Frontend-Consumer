@@ -21,7 +21,8 @@ const RestaurantInfoPage = () => {
         </IconButton>
       }
     >
-      <RestaurantInfo />
+      <></>
+      {/* <RestaurantInfo /> */}
     </Navigator>
   )
 }

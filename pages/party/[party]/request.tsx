@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'universal-cookie'
 
@@ -13,6 +13,7 @@ const RequestPage = () => {
   const router = useRouter()
   const partyContext = useParty()
   const userContext = useUser();
+  const [partyId, setPartyId] = useState('')
 
   useEffect(() => {
     (async () => {
@@ -24,13 +25,14 @@ const RequestPage = () => {
         }
       }
     })()
+    setPartyId(partyContext.currentParty.party_id)
   }, [])
 
   return (
     <Navigator
       yellow
       backTextButton='Back'
-      backRoute={`/party/${partyContext.currentParty.party_id}`}
+      backRoute={`/party/${partyId}`}
       middleText="Request"
     >
       <PartyRequest />
