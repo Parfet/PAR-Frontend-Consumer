@@ -12,6 +12,7 @@ import _ from 'lodash';
 
 import { interestTag } from '../../../core/config/mockData'
 import { PartyType } from '../../../core/constant/enum'
+import { Party } from '../../../core/constant/type'
 import { PartyTypeThai } from '../../../core/constant/constant'
 import { SubHeader, NormalText } from '../../../core/config/textStyle'
 import { useRestaurant } from '../../Restaurant/contexts/restaurant_context'
@@ -91,15 +92,25 @@ const CreateParty = (prop :Prop) => {
   const router = useRouter()
   const classes = useStyles();
   const [checkTags, setCheckTags] = useState(false);
+  const [partyName, setPartyName] = useState('');
+  const [interestedTopic, setInterestedTopic] = useState('');
+  const [interestTags, setInterestTags] = useState([]);
+  const [scheduleTime, setScheduleTime] = useState(dateAddHour);
+  const [partyType, setPartyType] = useState(PartyTypeThai.PUBLIC);
+  const [maxMember, setMaxMember] = useState(aryMaxMember[0]);
+  const [passcode, setPasscode] = useState('');
   const restaurantContext = useRestaurant()
   const partyContext = useParty()
 
   useEffect(() => {
-    if(!restaurantContext.currentRestaurant){
+    if(!restaurantContext.currentRestaurant && !edit){
       router.push('/restaurant')
     }
     (async () => {
       await partyContext.getAllTag()
+      if(partyContext.currentParty){
+        await setData(partyContext.currentParty)
+      }
     })()
   }, [])
 
@@ -107,7 +118,7 @@ const CreateParty = (prop :Prop) => {
     try {
       const res = await apiParty.updateParty(values, partyContext.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
-        router.push('/party/' + res.data.party_id)
+        router.back()
       }
     } catch (error) {
       if (error.response?.status) {
@@ -117,23 +128,33 @@ const CreateParty = (prop :Prop) => {
   }
 
   const handleCreateParty = async (values) => {
-    const res = await apiParty.createParty(restaurantContext.currentRestaurant.place_id, values)
+    const res = await apiParty.createParty(restaurantContext.currentRestaurant ,values)
     if (res.status === StatusCodes.OK){
       router.push('/party/' + res.data.party_id)
     }
   }
 
+  const setData = (value: Party) => {
+  console.log("🚀 ~ file: create-party.tsx ~ line 132 ~ setData ~ value", value)
+    setPartyName(value.party_name)
+    setInterestedTopic(value.party_name)
+    setInterestTags(value.interest_tags)
+    setScheduleTime(dayjs(value.schedule_time).format("YYYY-MM-DDTHH:mm"))
+    setPartyType(value.party_type === PartyType.PRIVATE ? PartyTypeThai.PRIVATE : PartyTypeThai.PUBLIC)
+    setMaxMember(value.max_member)
+    setPasscode(value.passcode)
+  }
+
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      party_name: partyContext.currentParty.party_name || '',
-      interested_topic: partyContext.currentParty.party_name || '',
-      interest_tags: partyContext.currentParty.interest_tags || [],
-      schedule_time: dayjs(partyContext.currentParty.schedule_time).format("YYYY-MM-DDTHH:mm")  || dateAddHour,
-      party_type: 
-        partyContext.currentParty.party_type === PartyType.PRIVATE ? PartyTypeThai.PRIVATE : PartyTypeThai.PUBLIC
-        || PartyTypeThai.PUBLIC,
-      max_member: partyContext.currentParty.max_member || aryMaxMember[0],
-      passcode: partyContext.currentParty.passcode || ''
+      party_name: partyName,
+      interested_topic: interestedTopic,
+      interest_tags: interestTags,
+      schedule_time: scheduleTime,
+      party_type: partyType,
+      max_member: maxMember,
+      passcode: passcode
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
