@@ -70,7 +70,7 @@ const PartyRequest = () => {
               _.map(userList, (data, index) => (
               <CardRequest
                 imageURL={data.image_url}
-                username={data.username}
+                username={data.display_name}
                 rating={data.rating}
                   acceptFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_ACCEPT)}
                   declineFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_DECLINE)}
