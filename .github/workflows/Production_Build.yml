@@ -1,0 +1,79 @@
+name: Parfet-Frontend-Consumer Deployment [Production] 
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+
+      - name: Set env
+        run: echo "ENV_NAME=$( [ "$GITHUB_REF" == "refs/heads/master" ] && echo 'uat' || echo ${GITHUB_REF##*/} )" >> $GITHUB_ENV
+
+      - name: Create .env file
+        run : |
+          touch .env
+          touch .env.production
+          echo $ENV_CONSUMER_API >> .env
+          echo $ENV_PROD_CONSUMER_API >> .env.production
+          echo $ENV_PROD_FIREBASE_API_KEY >> .env.production
+          echo $ENV_PROD_FIREBASE_APP_ID >> .env.production
+          echo $ENV_PROD_FIREBASE_AUTH_DOMAIN >> .env.production
+          echo $ENV_PROD_FIREBASE_MESSAGING_SENDER_ID >> .env.production
+          echo $ENV_PROD_FIREBASE_PROJECT_ID >> .env.production
+          echo $ENV_PROD_FIREBASE_STORAGE_BUCKET >> .env.production
+        shell : bash
+        env :
+          ENV_CONSUMER_API : ${{secrets.ENV_CONSUMER_API}}
+          ENV_PROD_CONSUMER_API : ${{secrets.ENV_PROD_CONSUMER_API}}
+          ENV_PROD_FIREBASE_API_KEY : ${{secrets.ENV_PROD_FIREBASE_API_KEY}}
+          ENV_PROD_FIREBASE_APP_ID : ${{secrets.ENV_PROD_FIREBASE_APP_ID}}
+          ENV_PROD_FIREBASE_AUTH_DOMAIN : ${{secrets.ENV_PROD_FIREBASE_AUTH_DOMAIN}}
+          ENV_PROD_FIREBASE_MESSAGING_SENDER_ID : ${{secrets.ENV_PROD_FIREBASE_MESSAGING_SENDER_ID}}
+          ENV_PROD_FIREBASE_PROJECT_ID : ${{secrets.ENV_PROD_FIREBASE_PROJECT_ID}}
+          ENV_PROD_FIREBASE_STORAGE_BUCKET : ${{secrets.ENV_PROD_FIREBASE_STORAGE_BUCKET}}
+
+      - name: Create .ssh file
+        run : |
+          touch aws.pem
+          echo "${{secrets.SSH_PEM_KEY}}" >> aws.pem
+          sudo chmod 400 aws.pem
+          mkdir -p ~/.ssh/
+          echo "${{secrets.SSH_KNOWN_HOSTS}}" >> ~/.ssh/known_hosts
+          ssh-keyscan ${{secrets.SSH_HOST}} >> ~/.ssh/known_hosts
+          ls -la
+
+
+      - name: Cloning repository
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.SSH_USERNAME}}
+          key: ${{secrets.SSH_PEM_KEY}}
+          script: |
+           rm -rf PAR-Frontend-Consumer || :
+           git clone git@github.com:Parfet/PAR-Frontend-Consumer.git
+
+      - name: COPY .env 
+        run : |
+          ls -la
+          scp -i "aws.pem" .env .env.production ${{ secrets.SSH_USERNAME }}@${{secrets.SSH_HOST}}:~/PAR-Frontend-Consumer/
+
+      - name: Deploy Application
+        timeout-minutes: 30
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{secrets.SSH_PEM_KEY}}
+          script: |
+           cd PAR-Frontend-Consumer
+           git checkout main
+           docker-compose down --rmi local || :
+           docker-compose up -d --build
+           docker ps -a
