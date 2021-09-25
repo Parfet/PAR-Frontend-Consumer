@@ -95,7 +95,12 @@ const CreateParty = (prop :Prop) => {
   const partyContext = useParty()
 
   useEffect(() => {
-    partyContext.getAllTag()
+    if(!restaurantContext.currentRestaurant){
+      router.push('/restaurant')
+    }
+    (async () => {
+      await partyContext.getAllTag()
+    })()
   }, [])
 
   const handleEditParty = async (values) => {

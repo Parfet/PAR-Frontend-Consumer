@@ -20,7 +20,11 @@ const PartyList = () => {
   
   useEffect(() => {
     (async () => {
-      await partyContext.getParties(restaurantContext.currentRestaurant.place_id)
+      if (restaurantContext.currentRestaurant) {
+        await partyContext.getParties(restaurantContext.currentRestaurant.place_id)
+      }else{
+        router.push('/restaurant')
+      }
     })()
   }, [])
 
