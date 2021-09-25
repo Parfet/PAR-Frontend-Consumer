@@ -53,12 +53,13 @@ const CardMyParty = (props: Props) => {
                 alt="complex"
                 width={"auto"}
                 height={"100%"}
-                src="/images/tidmun.webp"
+                src={party.restaurant.restaurant_photo_ref ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${party.restaurant.restaurant_photo_ref}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
+                  : "/images/tidmun.webp"}
                 className="rounded-l-lg"
               />
             </div>
             <div className="flex flex-col h-7">
-              <div className="text-center pr-2">
+              <div className="text-center">
                 <QueryBuilderOutlinedIcon className="mr-2" />
                 <SmallText>
                   {dayjs(party.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}
@@ -73,18 +74,23 @@ const CardMyParty = (props: Props) => {
             </div>
           </div>
           <div className="w-1/2 flex-col ml-4">
-            <SubHeader bold>
-              {party.party_name}
-            </SubHeader>
+            <div className="flex">
+              <SubHeader bold isCut>
+                {party.party_name}
+              </SubHeader>
+            </div>
             <div className="flex mt-1">
-              <NormalText>
+              <NormalText isCut>
                 <LocationOnIcon />
-                {party.restaurant_name || "Mock"}
+                {party.restaurant.restaurant_name || "Mock"}
               </NormalText>
             </div>
-            <div className="mt-2">
-              <NormalText>
-                หัวข้อที่สนใจ: {party.interested_topic}
+            <div className="flex flex-col my-2">
+              <NormalText isCut>
+                หัวข้อที่สนใจ:
+              </NormalText>
+              <NormalText isCut>
+                {party.interested_topic}
               </NormalText>
             </div>
             <div>
@@ -106,17 +112,12 @@ const CardMyParty = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between">
-              <div></div>
-              <div className="flex items-center mt-2 ml-3">
-                <NormalText bold>
-                  {party.members[0].username || "Mock" }
+            <div className="flex flex-row justify-between mt-3">
+              <div>หัวปาร์ตี้</div>
+              <div className="flex items-center ml-3">
+                <NormalText bold isCut>
+                  {party.head_party.display_name}
                 </NormalText>
-              </div>
-              <div className="flex mt-2 text-center bg-cusPurple rounded-30 p-3">
-                <SmallText white>
-                  99+
-                </SmallText>
               </div>
             </div>
           </div>

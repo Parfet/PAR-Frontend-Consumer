@@ -1,5 +1,5 @@
 import api from '../../../utils/api'
-import { Party } from '../../../core/constant/type'
+import { Party, Restaurant } from '../../../core/constant/type'
 
 const apiParty = {
   getPartyByRestaurantId: async (restaurantId: string) => {
@@ -18,7 +18,7 @@ const apiParty = {
     const response = await api.get(`/party/tags`)
     return response
   },
-  createParty: async (restaurantId: string, party: Party) => {
+  createParty: async (restaurant: Restaurant, party: Party) => {
     const data = {
       "party_name": party.party_name,
       "party_type": party.party_type,
@@ -26,9 +26,10 @@ const apiParty = {
       "interested_topic": party.interested_topic,
       "interest_tags": party.interest_tags,
       "max_member": party.max_member,
-      "schedule_time": party.schedule_time
+      "schedule_time": party.schedule_time,
+      "restaurant_photo_ref": restaurant.photos ? restaurant.photos[0].photo_reference : ''
     }
-    const response = await api.post(`/party/${restaurantId}`, data)
+    const response = await api.post(`/party/${restaurant.place_id}`, data)
     return response
   },
   joinParty: async (partyId: string, passcode: string) => {
@@ -66,6 +67,7 @@ const apiParty = {
       "schedule_time": party.schedule_time
     }
     const response = await api.put(`/party/info/${partyId}`, data)
+    console.log("🚀 ~ file: apiParty.tsx ~ line 59 ~ updateParty: ~ partyId", partyId)
     return response
   },
   leaveParty: async (partyId: string) => {

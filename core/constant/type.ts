@@ -10,6 +10,7 @@ export type Party = {
   passcode?: string
   members?: User[]
   max_member?: number
+  restaurant?: Restaurant
   schedule_time?: string
   created_at?: string
   archived_at?: string
@@ -21,6 +22,7 @@ export type Restaurant = {
   photos?: RestaurantImage[]
   restaurant_id?: string
   restaurant_name?: string
+  restaurant_photo_ref?: string
   email?: string
   tel_no?: string
   verify_status?: boolean
