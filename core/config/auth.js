@@ -144,15 +144,3 @@ const formatUser = async (user) => {
     // stripeRole: await getStripeRole(),
   };
 };
-
-export const getFreshToken = async () => {
-  const currentUser = firebase.auth().currentUser;
-  if (currentUser) {
-    const token = await currentUser.getIdToken(false);
-    cookies.set('access_token', token, { path: '/', maxAge: 3600 })
-    cookies.set('refresh_token', currentUser.refreshToken, { path: '/', maxAge: 3600 })
-    return `${token}`;
-  } else {
-    return '';
-  }
-};
