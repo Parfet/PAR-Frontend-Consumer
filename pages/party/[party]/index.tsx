@@ -140,16 +140,14 @@ const PartyPage = () => {
                     />
                   </div>
                   :
-                  <div className="flex w-1/2 justify-center">
-                    <BottomNavigationAction
-                      label="รายละเอียด"
-                      icon={<InfoIcon />}
-                      showLabel
-                    />
-                  </div>
+                  <></>
               }
               <div className="flex w-1/2 justify-center">
-                <BottomNavigationAction label="ข้อความ" icon={<ChatOutlinedIcon />} showLabel />
+                <BottomNavigationAction
+                  label="รายละเอียด"
+                  icon={<InfoIcon />}
+                  showLabel
+                />
               </div>
             </>
           }
