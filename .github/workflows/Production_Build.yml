@@ -56,6 +56,9 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           key: ${{secrets.SSH_PEM_KEY}}
           script: |
+           cd PAR-Frontend-Consumer
+           docker-compose down --rmi local || :
+           cd
            rm -rf PAR-Frontend-Consumer || :
            git clone git@github.com:Parfet/PAR-Frontend-Consumer.git
 
@@ -74,7 +77,5 @@ jobs:
           command_timeout: 200m
           script: |
            cd PAR-Frontend-Consumer
-           git checkout main
-           docker-compose down --rmi local || :
            docker-compose up -d --build
            docker ps -a
