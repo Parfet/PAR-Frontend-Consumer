@@ -65,10 +65,11 @@ interface Props {
   bottomNavigator?: JSX.Element,
   floatingButton?: JSX.Element,
   yellow?: boolean
+  centerAppBar?: boolean
 }
 
 const Navigator = (props: Props) => {
-  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, rightIcon, yellow, floatingButton } = props
+  const { children, bottomNavigator, backTextButton, backRoute, middleText, leftIcon, rightIcon, yellow, floatingButton, centerAppBar } = props
   const router = useRouter()
   const classes = useStyles();
 
@@ -76,24 +77,35 @@ const Navigator = (props: Props) => {
     <>
       <TopAppBar yellow={yellow}>
         <Toolbar style={{ padding: 0 }}>
-          <div className="flex w-1/3">
-            {
-              backTextButton && backRoute ?
-                <CusButton onClick={() => router.push(backRoute)} yellow={yellow}>
-                  <CusNavigateBeforeIcon yellow={yellow}/>
-                  <SubHeader white={yellow}>{backTextButton}</SubHeader>
-                </CusButton>
-                : <>{rightIcon}</>
-            }
-          </div>
-          <div className="flex w-1/3 justify-center">
-            <Title white={yellow}>
-              {middleText}
-            </Title>
-          </div>
-          <div className="flex w-1/3 justify-end">
-            {leftIcon}
-          </div>
+          {
+            centerAppBar ?
+              <div className="flex w-full justify-center">
+                <Title white={yellow}>
+                  {middleText}
+                </Title>
+              </div>
+              :
+              <>
+                <div className="flex w-1/3">
+                  {
+                    backTextButton && backRoute ?
+                      <CusButton onClick={() => router.push(backRoute)} yellow={yellow}>
+                        <CusNavigateBeforeIcon yellow={yellow} />
+                        <SubHeader white={yellow}>{backTextButton}</SubHeader>
+                      </CusButton>
+                      : <>{rightIcon}</>
+                  }
+                </div>
+                <div className="flex w-1/3 justify-center">
+                  <Title white={yellow}>
+                    {middleText}
+                  </Title>
+                </div>
+                <div className="flex w-1/3 justify-end">
+                  {leftIcon}
+                </div>
+              </>
+          }
         </Toolbar>
       </TopAppBar>
 

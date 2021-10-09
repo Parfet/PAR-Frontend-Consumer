@@ -9,9 +9,9 @@ const apiRegister = {
       display_name: userData.displayName,
       first_name: userData.firstName,
       last_name: userData.lastName,
-      image_url: userData.photoUrl
+      image_url: userData.photoUrl,
+      accept_term_of_use: true
     }
-    console.log("🚀 ~ file: apiRegister.tsx ~ line 14 ~ register: ~ data", data)
     const response = await api.post(`/auth/register`, data)
     return response
   },

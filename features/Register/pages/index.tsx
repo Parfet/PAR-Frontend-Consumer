@@ -62,7 +62,6 @@ const Register = () => {
   
   useEffect(() => {
     if(auth.user){
-      console.log("🚀 ~ file: index.tsx ~ line 62 ~ useEffect ~ auth.user", auth.user)
       if(auth.user.email){
         setDisabled(true)
         setEmail(auth.user.email)
