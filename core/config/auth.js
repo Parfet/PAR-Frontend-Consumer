@@ -29,10 +29,10 @@ function useFirebaseAuth() {
       cookies.set('access_token', token, { path: '/', maxAge: 3600 })
       cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 3600 })
       apiAuth.checkUser().then((response) => {
-        if (response.data.is_user_existed || response.data.user) {
+        if (response.data.is_user_existed) {
           Router.push('/');
         }else {
-        Router.push('/register');
+          Router.push('/term');
         }
       }).catch((error) =>
         console.log("🚀 ~ file: auth.js ~ line 36 ~ handleUser ~ error", error)
