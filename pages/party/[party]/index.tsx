@@ -116,7 +116,7 @@ const PartyPage = () => {
         <Navigator
           yellow
           backTextButton='Back'
-          backRoute='/party/me'
+          backRoute={() => router.push('/party/me')}
           middleText="Party"
           leftIcon={
             <Meatball

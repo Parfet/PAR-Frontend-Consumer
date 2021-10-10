@@ -37,7 +37,7 @@ const CreatePartyPage = () => {
   return (
     <Navigator
       backTextButton='Home'
-      backRoute='/'
+      backRoute={() => router.back()}
       middleText='My Party'
       leftIcon={
         <IconButton>

@@ -57,7 +57,7 @@ const CusButton = styled(Button)`
 
 interface Props {
   backTextButton?: string,
-  backRoute?: string,
+  backRoute?: Function,
   middleText: string,
   rightIcon?: JSX.Element,
   leftIcon?: JSX.Element,
@@ -89,7 +89,7 @@ const Navigator = (props: Props) => {
                 <div className="flex w-1/3">
                   {
                     backTextButton && backRoute ?
-                      <CusButton onClick={() => router.push(backRoute)} yellow={yellow}>
+                      <CusButton onClick={backRoute} yellow={yellow}>
                         <CusNavigateBeforeIcon yellow={yellow} />
                         <SubHeader white={yellow}>{backTextButton}</SubHeader>
                       </CusButton>

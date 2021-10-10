@@ -32,7 +32,7 @@ const RequestPage = () => {
     <Navigator
       yellow
       backTextButton='Back'
-      backRoute={`/party/${partyId}`}
+      backRoute={() => router.push(`/party/${partyId}`)}
       middleText="Request"
     >
       <PartyRequest />

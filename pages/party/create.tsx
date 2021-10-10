@@ -28,7 +28,7 @@ const CreatePartyPage = () => {
     <Navigator
       yellow
       backTextButton='Back'
-      backRoute='/party'
+      backRoute={() => router.push('/party')}
       middleText='New Party'
     >
       <CreateParty />
