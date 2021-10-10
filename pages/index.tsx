@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Cookies from 'universal-cookie'
 
 import Loading from '../core/components/Loading'
-import { useAuth } from '../core/config/auth';
 import { useUser } from '../core/context/auth_context';
 import Navigator from '../core/components/Navigator'
 import Home from '../features/Home/pages/'
@@ -14,7 +13,6 @@ const cookies = new Cookies()
 
 const Index = () => {
   const router = useRouter()
-  const auth = useAuth();
   const userContext = useUser();
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
@@ -22,6 +20,7 @@ const Index = () => {
 
   useEffect(() => {
     (async () => {
+      console.log("🚀 ~ file: index.tsx ~ line 26 ~ userContext.userData", userContext.userData)
       if (userContext.userData === null) {
         if (cookies.get("access_token")) {
           await userContext.getUserData()
@@ -31,20 +30,20 @@ const Index = () => {
         }
       } else {
         setUsername(userContext.userData.username)
-        if (userContext.userData.provider === "twitter.com") {
-          let aryProfile = userContext.userData.image_url.split('_normal')
-          setPhotoUrl(aryProfile[0] + aryProfile[1])
-        } else {
-          setPhotoUrl(userContext.userData.image_url)
-        }
-        if (navigator.geolocation) {
-          navigator.geolocation.watchPosition((position) => {
-            userContext.setLatitude(position.coords.latitude)
-            userContext.setLongitude(position.coords.longitude)
-          },
-            function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
-            { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
-        }
+        // if (userContext.userData.provider === "twitter.com") {
+        //   let aryProfile = userContext.userData.image_url.split('_normal')
+        //   setPhotoUrl(aryProfile[0] + aryProfile[1])
+        // } else {
+        setPhotoUrl(userContext.userData.image_url)
+        // }
+        // if (navigator.geolocation) {
+        //   navigator.geolocation.watchPosition((position) => {
+        //     userContext.setLatitude(position.coords.latitude)
+        //     userContext.setLongitude(position.coords.longitude)
+        //   },
+        //     function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
+        //     { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
+        // }
         setLoading(false)
       }
     })()

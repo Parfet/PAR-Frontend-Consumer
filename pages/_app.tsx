@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { detect } from 'detect-browser'
 
 import Meta from '../core/components/Meta'
-import { AuthProvider } from '../core/config/auth'
 import { UserProvider } from '../core/context/auth_context'
 import { PartyProvider } from '../features/Party/contexts/party_context'
 import { RestaurantProvider } from '../features/Restaurant/contexts/restaurant_context'
@@ -39,15 +38,13 @@ const MyApp = ({ Component, pageProps }) => {
       {
         checkMobile ? 
           checkPWA ?
-            <AuthProvider>
-              <UserProvider >
-                <RestaurantProvider >
-                  <PartyProvider >
-                    <Component {...pageProps} />
-                  </PartyProvider>
-                </RestaurantProvider>
-              </UserProvider>
-            </AuthProvider>
+            <UserProvider >
+              <RestaurantProvider >
+                <PartyProvider >
+                  <Component {...pageProps} />
+                </PartyProvider>
+              </RestaurantProvider>
+            </UserProvider>
             :<InstallPWA/>
           :<InCorrectDevice />
       }
