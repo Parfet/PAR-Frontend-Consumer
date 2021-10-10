@@ -2,10 +2,13 @@ import React, { useEffect, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import Image from 'next/image'
+import Cookies from 'universal-cookie'
 
-import { useAuth } from '../../../core/config/auth';
+import { useUser } from '../../../core/context/auth_context';
 import { Title, SubHeader } from '../../../core/config/textStyle';
 import SignInButton from '../components/SignInButton';
+
+const cookies = new Cookies()
 
 const Background = styled.div`
   background-color: white;
@@ -13,7 +16,7 @@ const Background = styled.div`
 `
 
 const SignIn = () => {
-  const auth = useAuth();
+  const userContext = useUser();
 
   return (
     <Background className="pt-10">
@@ -28,18 +31,18 @@ const SignIn = () => {
       <Title className="text-center mb-16"> เข้าสู่ระบบ </Title>
       <div className="flex flex-col items-center justify-center space-y-6">
         <SignInButton
-          onClick={() => auth.signinWithGoogle('/')}
+          onClick={() => userContext.signinWithGoogle()}
           text="เข้าสู่ระบบด้วย google"
           image="/images/google.png"
         />
         <SignInButton
-          onClick={() => auth.signinWithFacebook('/')}
+          onClick={() => userContext.signinWithFacebook()}
           text="เข้าสู่ระบบด้วย facebook"
           image="/images/facebook.png"
           bgColor="#1676F1"
         />
         <SignInButton
-          onClick={() => auth.signinWithTwitter('/')}
+          onClick={() => userContext.signinWithTwitter()}
           text="เข้าสู่ระบบด้วย twitter"
           image="/images/twitter.png"
           bgColor="#1C9BF3"

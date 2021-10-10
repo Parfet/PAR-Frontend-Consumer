@@ -7,7 +7,7 @@ import { TextField, Button } from '@material-ui/core';
 import { useFormik } from 'formik';
 import Cookies from 'universal-cookie'
 
-import { useAuth } from '../../../core/config/auth';
+import { useUser } from '../../../core/context/auth_context';
 import { Title, SubHeader } from '../../../core/config/textStyle';
 import InputField from '../../../core/components/InputField';
 import { ValidationFormSchema } from '../services/validationSchema';
@@ -51,7 +51,7 @@ const CreateButton = withStyles(() => ({
 
 const Register = () => {
   const router = useRouter()
-  const auth = useAuth();
+  const userContext = useUser();
   const classes = useStyles();
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -61,20 +61,20 @@ const Register = () => {
   const [disabled, setDisabled] = useState(false)
   
   useEffect(() => {
-    if(auth.user){
-      if(auth.user.email){
+    if (userContext.userData){
+      if (userContext.userData.email){
         setDisabled(true)
-        setEmail(auth.user.email)
+        setEmail(userContext.userData.email)
       }
-      let aryName = auth.user.name.split(/(\s+)/)
+      let aryName = userContext.userData.name.split(/(\s+)/)
       setFirstName(aryName[0])
       setLastName(aryName[aryName.length-1])
-      setProvider(auth.user.provider)
-      if (auth.user.provider === "twitter.com"){
-        let aryProfile = auth.user.photoUrl.split('_normal')
+      setProvider(userContext.userData.provider)
+      if (userContext.userData.provider === "twitter.com"){
+        let aryProfile = userContext.userData.photoUrl.split('_normal')
         setPhotoUrl(aryProfile[0] + aryProfile[1])
       }else {
-        setPhotoUrl(auth.user.photoUrl)
+        setPhotoUrl(userContext.userData.photoUrl)
       }
     }else{
       router.push('/signin')
@@ -83,7 +83,7 @@ const Register = () => {
 
   useEffect(() => {
     return () => {
-      auth.clearUser()
+      userContext.clearUser()
     };
   }, []);
 
@@ -101,13 +101,13 @@ const Register = () => {
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
       apiRegister.register(values).then(() => {
-        cookies.set('access_token', auth.user.token, { path: '/', maxAge: 3600 })
-        cookies.set('refresh_token', auth.user.refreshToken, { path: '/', maxAge: 3600 })
+        cookies.set('access_token', userContext.userData.token, { path: '/', maxAge: 3600 })
+        cookies.set('refresh_token', userContext.userData.refreshToken, { path: '/', maxAge: 3600 })
         router.push('/') 
       })
     },
   });
-  return auth.loading && auth.user ?
+  return !userContext.userData ?
     <> waiting </>  
     : (
     <form className="flex flex-col justify-center w-screen my-14 px-10" onSubmit={formik.handleSubmit}>

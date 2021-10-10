@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import { Button } from '@material-ui/core'
 
-import { useAuth } from '../../../core/config/auth';
+import { useUser } from '../../../core/context/auth_context';
 import { Title, SubHeader } from '../../../core/config/textStyle';
 
 const Background = styled.div`
@@ -12,14 +12,14 @@ const Background = styled.div`
 `
 
 const Home = () => {
-  const auth = useAuth();
+  const userContext = useUser();
   const router = useRouter()
 
   return (
     <Background className="pt-10 h-screen flex items-center justify-center flex-col space-y-10">
       <Button variant="contained" color="primary" onClick={() => router.push('/restaurant')}> Choose restaurant </Button>
       <Button variant="contained" color="primary" onClick={() => router.push('/party/me')}> My party</Button>
-      <Button variant="contained" color="secondary" onClick={() => auth.signout()}> sign out</Button>
+      <Button variant="contained" color="secondary" onClick={() => userContext.signout()}> sign out</Button>
     </Background>
   )
 }

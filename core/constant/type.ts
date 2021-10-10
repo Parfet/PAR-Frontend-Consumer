@@ -55,6 +55,10 @@ export type User = {
   image_url?: string
   rating?: number
   provider?: string
+  name?: string
+  photoUrl?: string
+  token?: string
+  refreshToken?: string
 }
 
 export type Tag = {
