@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
-import { Title, SubHeader } from '../config/textStyle'
+import { Title, Header, RegularText } from '../config/textStyle'
 
 const useStyles = makeStyles({
   bottomAppBar: {
@@ -91,15 +91,15 @@ const Navigator = (props: Props) => {
                     backTextButton && backRoute ?
                       <CusButton onClick={backRoute} yellow={yellow}>
                         <CusNavigateBeforeIcon yellow={yellow} />
-                        <SubHeader white={yellow}>{backTextButton}</SubHeader>
+                        <RegularText white={yellow}>{backTextButton}</RegularText>
                       </CusButton>
                       : <>{rightIcon}</>
                   }
                 </div>
                 <div className="flex w-1/3 justify-center">
-                  <Title white={yellow}>
+                  <Header white={yellow}>
                     {middleText}
-                  </Title>
+                  </Header>
                 </div>
                 <div className="flex w-1/3 justify-end">
                   {leftIcon}
