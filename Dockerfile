@@ -17,7 +17,7 @@ WORKDIR /app
 COPY --from=build /build/package*.json ./
 COPY --from=build /build/.next ./.next
 COPY --from=build /build/public ./public
-RUN yarn add next@10.1.2
+RUN yarn add next@11.1.2
 
 EXPOSE 3002
 CMD yarn start
