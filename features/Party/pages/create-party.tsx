@@ -134,6 +134,11 @@ const CreateParty = (prop :Prop) => {
     }
   }
 
+  const handleChangeTag = async (e) => {
+    setCheckTags(e.length == 0)
+    formik.setFieldValue('interest_tags', e)
+  }
+
   const setData = (value: Party) => {
   console.log("🚀 ~ file: create-party.tsx ~ line 132 ~ setData ~ value", value)
     setPartyName(value.party_name)
@@ -158,12 +163,6 @@ const CreateParty = (prop :Prop) => {
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
-      if (formik.values.interest_tags.length === 0){
-        setCheckTags(true)
-      }else{
-        setCheckTags(false)
-      }
-      
       if (values.party_type === PartyTypeThai.PRIVATE){
         values.party_type = PartyType.PRIVATE
       } else {
@@ -216,7 +215,7 @@ const CreateParty = (prop :Prop) => {
       <InputField label="Tag ที่สนใจ">
         <>
           <Select
-            styles={customStyles(checkTags)}
+            styles={customStyles(checkTags || (formik.touched.interest_tags && !!formik.errors.interest_tags))}
             closeMenuOnSelect={false}
             inputId="interest_tags"
             placeholder="เลือกTag ที่เกี่ยวข้อง"
@@ -224,13 +223,12 @@ const CreateParty = (prop :Prop) => {
             isMulti
             options={partyContext.allTag}
             components={{ animatedComponents, DropdownIndicator }}
-            onChange={(e) => { formik.setFieldValue('interest_tags', e)}}
-            onBlur={() => { formik.values.interest_tags.length === 0 ? setCheckTags(true) : setCheckTags(false)}}
+            onChange={(e) => handleChangeTag(e)}
             error={formik.touched.interest_tags && Boolean(formik.errors.interest_tags)}
             helperText={formik.touched.interest_tags && formik.errors.interest_tags}
           />
           {
-            checkTags ? 
+            checkTags || (formik.touched.interest_tags && !!formik.errors.interest_tags) ?
               <NormalText className="ml-3 mt-1" style={{ color: 'red' }}>จำเป็นต้องกรอกแท็กที่เกี่ยวข้อง</NormalText> 
               : <></>
           }

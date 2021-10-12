@@ -51,7 +51,7 @@ const Restaurant = () => {
     <Navigator
       middleText='Restaurant'
       backTextButton='Back'
-      backRoute='/'
+      backRoute={() => router.push('/')}
       leftIcon={
         <IconButton onClick={handleOpenFilter}>
           <SortIcon />
@@ -60,7 +60,12 @@ const Restaurant = () => {
       bottomNavigator={
         <>
           <div className="flex w-1/2 justify-center">
-            <BottomNavigationAction label="ขอเข้าร่วม" icon={<ListIcon />} showLabel />
+            <BottomNavigationAction 
+              label="ขอเข้าร่วม" 
+              icon={<ListIcon />} 
+              showLabel 
+              onClick={() => router.push("/party/request")}
+              />
           </div>
           <div className="flex w-1/2 justify-center">
             <BottomNavigationAction 

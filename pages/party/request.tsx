@@ -8,7 +8,7 @@ import ListIcon from '@material-ui/icons/List';
 import Cookies from 'universal-cookie'
 
 import Navigator from '../../core/components/Navigator'
-import MyParty from '../../features/Party/pages/my-party'
+import MyRequest from '../../features/Party/pages/my-request'
 import { useUser } from '../../core/context/auth_context';
 
 const OverflowFab = styled(Fab)`
@@ -18,7 +18,7 @@ const OverflowFab = styled(Fab)`
 `
 const cookies = new Cookies()
 
-const CreatePartyPage = () => {
+const RequestPartyPage = () => {
   const router = useRouter()
   const userContext = useUser();
 
@@ -36,23 +36,13 @@ const CreatePartyPage = () => {
 
   return (
     <Navigator
-      backTextButton='Home'
-      backRoute={() => router.push('/')}
-      middleText='My Party'
-      leftIcon={
-        <IconButton>
-          <SortIcon />
-        </IconButton>
-      }
-      floatingButton={
-        <OverflowFab onClick={() => router.push("/party/request")} >
-          <ListIcon />
-        </OverflowFab>
-      }
+      backTextButton='Back'
+      backRoute={() => router.back()}
+      middleText='คำขอเข้าร่วม'
     >
-      <MyParty />
+      <MyRequest />
     </Navigator>
   )
 }
 
-export default CreatePartyPage
+export default RequestPartyPage

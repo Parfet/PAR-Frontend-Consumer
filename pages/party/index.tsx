@@ -49,7 +49,7 @@ const Party = () => {
   return (
     <Navigator
       backTextButton='Restaurant'
-      backRoute='/restaurant'
+      backRoute={() => router.push('/restaurant')}
       middleText='Party'
       leftIcon={
         <IconButton onClick={handleOpenFilter} >

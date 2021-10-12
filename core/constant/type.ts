@@ -62,8 +62,10 @@ export type User = {
 }
 
 export type Tag = {
-  value: string
-  label: string
+  value?: string
+  label?: string
+  tag_name?: string
+  tag_id?: string
 }
 
 export type Promotion = {

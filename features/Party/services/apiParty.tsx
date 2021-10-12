@@ -32,6 +32,10 @@ const apiParty = {
     const response = await api.post(`/party/${restaurant.place_id}`, data)
     return response
   },
+  getMyPartyRequest: async () => {
+    const response = await api.get(`/party/request/me`)
+    return response
+  },
   joinParty: async (partyId: string, passcode: string) => {
     const data = {
       "passcode": passcode,

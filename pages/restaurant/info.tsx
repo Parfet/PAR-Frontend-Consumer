@@ -13,7 +13,7 @@ const RestaurantInfoPage = () => {
     <Navigator
       yellow
       backTextButton='Back'
-      backRoute='/restaurant'
+      backRoute={() => router.push('/restaurant')}
       middleText='Information'
       leftIcon={
         <IconButton onClick={() => router.push('/party')}>
