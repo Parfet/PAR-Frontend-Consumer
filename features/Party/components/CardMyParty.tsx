@@ -41,7 +41,7 @@ const CardMyParty = (props: Props) => {
   const { party, mode } = props
 
   const handleClick = () => {
-    if (mode != "request"){
+    if (!mode){
       router.push('/party/'+party.party_id)
     }
   };
@@ -70,7 +70,7 @@ const CardMyParty = (props: Props) => {
                 </SmallText>
               </div>
               {
-                mode != "request"?
+                !mode?
                   <div className="text-center">
                     <NormalText>
                       <PeopleAltOutlinedIcon />

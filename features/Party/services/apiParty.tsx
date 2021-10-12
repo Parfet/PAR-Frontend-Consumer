@@ -36,6 +36,10 @@ const apiParty = {
     const response = await api.get(`/party/request/me`)
     return response
   },
+  getHistory: async () => {
+    const response = await api.get(`/party/history/me`)
+    return response
+  },
   joinParty: async (partyId: string, passcode: string) => {
     const data = {
       "passcode": passcode,
