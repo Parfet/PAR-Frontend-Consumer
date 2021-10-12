@@ -45,7 +45,7 @@ const CreatePartyPage = () => {
         </IconButton>
       }
       floatingButton={
-        <OverflowFab >
+        <OverflowFab onClick={() => router.push("/party/request")} >
           <ListIcon />
         </OverflowFab>
       }

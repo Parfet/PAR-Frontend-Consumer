@@ -32,15 +32,18 @@ const useStyles = makeStyles(() =>
 );
 interface Props {
   party: Party
+  mode?: String
 }
 
 const CardMyParty = (props: Props) => {
   const router = useRouter()
   const classes = useStyles();
-  const { party } = props
+  const { party, mode } = props
 
   const handleClick = () => {
-    router.push('/party/'+party.party_id)
+    if (mode != "request"){
+      router.push('/party/'+party.party_id)
+    }
   };
 
   return (
@@ -65,12 +68,16 @@ const CardMyParty = (props: Props) => {
                   {dayjs(party.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}
                 </SmallText>
               </div>
-              <div className="text-center">
-                <NormalText>
-                  <PeopleAltOutlinedIcon />
-                  {_.size(party.members)}/{party.max_member}
-                </NormalText>
-              </div>
+              {
+                mode != "request"?
+                  <div className="text-center">
+                    <NormalText>
+                      <PeopleAltOutlinedIcon />
+                      {_.size(party.members)}/{party.max_member}
+                    </NormalText>
+                  </div>
+                :<></>
+              }
             </div>
           </div>
           <div className="w-1/2 flex-col ml-4">
@@ -102,7 +109,7 @@ const CardMyParty = (props: Props) => {
                         {
                           index < 3 ?
                             <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3 py-1">
-                              {index < 2 ? `${data.label}` : `+${party.interest_tags.length - 2}`}
+                              {index < 2 ? `${data.tag_name || data.label}` : `+${party.interest_tags.length - 2}`}
                             </TinyText>
                             : <></>
                         }

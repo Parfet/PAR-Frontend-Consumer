@@ -29,11 +29,11 @@ const myRequest = () => {
           :
           _.size(request) === 0 ?
             <div className="flex justify-center flex-col w-full h-full">
-              <NoContent text="ไม่มี Party ในร้านอาหารนี้" white />
+              <NoContent text="ไม่มีคำขอเข้าร่วม" white />
             </div>
             :
             _.map(request, (data) => (
-              <CardMyParty party={data} />
+              <CardMyParty party={data} mode="request" />
             ))
       }
     </BackgroundPartyList>
