@@ -116,8 +116,8 @@ const PartyModal = (props: Props) => {
               {party.party_name}
             </SubHeader>
             <Image
-              width={"auto"}
-              height={"120px"}
+              width={300}
+              height={200}
               src={restaurantContext.currentRestaurant.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${restaurantContext.currentRestaurant.photos[0].photo_reference}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
                 : "/images/tidmun.webp"}
               className="rounded-lg object-fill"

@@ -54,8 +54,9 @@ const CardMyParty = (props: Props) => {
             <div>
               <Image
                 alt="complex"
-                width={"auto"}
-                height={"100%"}
+                layout={`fixed`}
+                width={130}
+                height={100}
                 src={party.restaurant.restaurant_photo_ref ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${party.restaurant.restaurant_photo_ref}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
                   : "/images/tidmun.webp"}
                 className="rounded-l-lg"
