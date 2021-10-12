@@ -87,6 +87,9 @@ const PartyFunction = () => {
   const getMyPartyRequest = async () => {
     try {
       const response = await apiParty.getMyPartyRequest()
+      if(response.status == StatusCodes.NO_CONTENT){
+        return []
+      }
       return response.data.request_list
     } catch (error) {
       console.log(error)
