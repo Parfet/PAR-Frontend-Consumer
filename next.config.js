@@ -4,9 +4,9 @@ const withOffline = require('next-offline')
 
 const nextConfig = {
   future: {
-    webpack5: true,
     strictPostcssConfiguration: true
   },
+  webpack5: true,
   devIndicators: {
     autoPrerender: false,
   },
@@ -14,9 +14,16 @@ const nextConfig = {
     domains: [
       'www.parfet.in.th', 
       'graph.facebook.com', 
+      'storage.googleapis.com',
+      'maps.gstatic.com',
+      'maps.googleapis.com',
+      'lh1.googleusercontent.com',
+      'lh2.googleusercontent.com',
       'lh3.googleusercontent.com',
+      'lh4.googleusercontent.com',
+      'lh5.googleusercontent.com',
+      'lh6.googleusercontent.com',
       'pbs.twimg.com',
-      'maps.googleapis.com'
     ],
   },
 };
