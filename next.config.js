@@ -1,8 +1,13 @@
-const withPlugins = require('next-compose-plugins')
 const withPWA = require('next-pwa')
-const withOffline = require('next-offline')
 
-const nextConfig = {
+module.exports = withPWA({
+    pwa: {
+      // disable: process.env.NODE_ENV === 'development',
+      dest: 'public',
+      register: true,
+      scope: '/app',
+      sw: 'service-worker.js',
+    },
   future: {
     strictPostcssConfiguration: true
   },
@@ -12,8 +17,8 @@ const nextConfig = {
   },
   images: {
     domains: [
-      'www.parfet.in.th', 
-      'graph.facebook.com', 
+      'www.parfet.in.th',
+      'graph.facebook.com',
       'storage.googleapis.com',
       'maps.gstatic.com',
       'maps.googleapis.com',
@@ -26,17 +31,4 @@ const nextConfig = {
       'pbs.twimg.com',
     ],
   },
-};
-
-module.exports = withPlugins([
-  [withOffline],
-  [withPWA, {
-    pwa: {
-      // disable: process.env.NODE_ENV === 'development',
-      dest: 'public',
-      register: true,
-      scope: '/app',
-      sw: 'service-worker.js',
-    },
-  }]
-], nextConfig)
+})
