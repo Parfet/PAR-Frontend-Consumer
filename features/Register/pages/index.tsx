@@ -81,11 +81,11 @@ const Register = () => {
     }
   }, [])
 
-  useEffect(() => {
-    return () => {
-      userContext.clearUser()
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     userContext.clearUser()
+  //   };
+  // }, []);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -100,16 +100,19 @@ const Register = () => {
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
+      console.log("🚀 ~ file: index.tsx ~ line 105 ~ Register ~ userContext.userData", userContext.userData)
+      cookies.set('access_token', userContext.userData.token, { path: '/', maxAge: 3600 })
+      cookies.set('refresh_token', userContext.userData.refreshToken, { path: '/', maxAge: 3600 })
       apiRegister.register(values).then(() => {
-        cookies.set('access_token', userContext.userData.token, { path: '/', maxAge: 3600 })
-        cookies.set('refresh_token', userContext.userData.refreshToken, { path: '/', maxAge: 3600 })
         router.push('/') 
+      }).catch(() => {
+        cookies.remove('refresh_token')
+        cookies.remove('access_token')
+        router.push('/')
       })
     },
   });
-  return !userContext.userData ?
-    <> waiting </>  
-    : (
+  return (
     <form className="flex flex-col justify-center w-screen my-14 px-10" onSubmit={formik.handleSubmit}>
       <div className="flex justify-center">
         <Image

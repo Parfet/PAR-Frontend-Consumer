@@ -60,11 +60,14 @@ const UserFunction = () => {
       cookies.set('access_token', token, { path: '/', maxAge: 3600 })
       cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 3600 })
       apiAuth.checkUser().then((response) => {
+        console.log("🚀 ~ file: auth_context.tsx ~ line 61 ~ apiAuth.checkUser ~ response", response)
         if (response.data.is_user_existed) {
           setFirstTime(false)
           getUserData().then(() => Router.push('/'))
         } else {
           setFirstTime(true)
+          cookies.remove('refresh_token')
+          cookies.remove('access_token')
           Router.push('/term');
         }
       }).catch((error) =>
@@ -136,6 +139,8 @@ const UserFunction = () => {
       .signOut()
       .then(() => {
         setUserData(null)
+        cookies.remove('refresh_token')
+        cookies.remove('access_token')
       });
   };
 

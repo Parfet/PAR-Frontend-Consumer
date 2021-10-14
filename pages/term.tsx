@@ -13,7 +13,7 @@ const TermPages = () => {
       router.replace('/signin')
     } 
   }, [])
-
+  
   return (
     <Navigator yellow centerAppBar middleText='เงื่อนไขในการใช้งาน'>
       <Term />
