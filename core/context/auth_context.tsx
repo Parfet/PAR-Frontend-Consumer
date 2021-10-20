@@ -38,6 +38,21 @@ const UserFunction = () => {
   const [firstTime, setFirstTime] = useState<boolean>(false);
   const [latitude, setLatitude] = useState<string>();
   const [longitude, setLongitude] = useState<string>();
+  const [checkPWA, setCheckPWA] = useState(false)
+
+  useEffect(() => {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setCheckPWA(true)
+    }
+    if (checkPWA) {
+      firebase
+        .auth()
+        .getRedirectResult()
+        .then((response) => {
+          handleUser(response.user);
+        })
+    }
+  }, [firebase, checkPWA])
 
   const getUserData = async () => {
     try {
@@ -81,43 +96,49 @@ const UserFunction = () => {
     }
   };
 
-  const signinWithFacebook = (redirect) => {
-    return firebase
-      .auth()
-      .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then((response) => {
-        handleUser(response.user);
-
-        // if (redirect) {
-        //   Router.push(redirect);
-        // }
-      });
+  const signinWithFacebook = () => {
+    if (checkPWA) {
+      return firebase
+        .auth()
+        .signInWithRedirect(new firebase.auth.FacebookAuthProvider())
+    }else{
+      return firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.FacebookAuthProvider())
+        .then((response) => {
+          handleUser(response.user);
+        })
+    }
   };
 
-  const signinWithTwitter = (redirect) => {
-    return firebase
-      .auth()
-      .signInWithPopup(new firebase.auth.TwitterAuthProvider())
-      .then((response) => {
-        handleUser(response.user);
-
-        // if (redirect) {
-        //   Router.push(redirect);
-        // }
-      });
+  const signinWithTwitter = () => {
+    if (checkPWA) {
+      return firebase
+        .auth()
+        .signInWithRedirect(new firebase.auth.TwitterAuthProvider())
+    } else {
+      return firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.TwitterAuthProvider())
+        .then((response) => {
+          handleUser(response.user);
+        })
+    }
   };
 
-  const signinWithGoogle = (redirect) => {
-    return firebase
-      .auth()
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then((response) => {
-        handleUser(response.user);
-
-        // if (redirect) {
-        //   Router.push(redirect);
-        // }
-      });
+  const signinWithGoogle = () => {
+    if (checkPWA) {
+      return firebase
+        .auth()
+        .signInWithRedirect(new firebase.auth.GoogleAuthProvider())
+    } else {
+      return firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then((response) => {
+          handleUser(response.user);
+        })
+    }
   };
 
   const signout = () => {
