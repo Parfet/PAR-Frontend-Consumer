@@ -1,13 +1,15 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import _ from 'lodash'
+import _, { hasIn } from 'lodash'
 import { Button } from '@material-ui/core'
 
 import { useUser } from '../../../core/context/auth_context';
+import { Party } from '../../../core/constant/type';
 import NoContent from '../../../core/components/NoContent'
 import { useParty } from '../../Party/contexts/party_context';
 import CardMyParty from '../../Party/components/CardMyParty';
+import PartyModal from '../../Party/components/PartyModal';
 import { Title, SubHeader, NormalText } from '../../../core/config/textStyle';
 
 const Background = styled.div`
@@ -26,12 +28,25 @@ const Home = () => {
   const userContext = useUser();
   const partyContext = useParty();
   const router = useRouter()
-
+  const [party, setParty] = useState<Party>()
+  const [openModal, setOpenModal] = useState(false);
+  
   useEffect(() => {
     (async () => {
       await partyContext.getPartyByUserId()
     })()
   }, [])
+
+  const handleRandom = async () => {
+    // await setParty( await partyContext.randomParty())
+    if (party){
+      setOpenModal(true)
+    }
+  }
+
+  const valueFromPartyModal = (value) => {
+    setOpenModal(value)
+  }
 
   return  (
     <Background className="pt-10 overflow-hidden">
@@ -57,20 +72,31 @@ const Home = () => {
       }
       <div className="px-8 space-y-5">
         <div className="flex">
-          <ButtonWithColor variant="contained" className="w-full text-white" onClick={() => router.push('/restaurant')}> เลือกร้านอาหาร </ButtonWithColor>
+          <ButtonWithColor variant="contained" className="w-full text-white" onClick={() => handleRandom()}> เข้าร่วมปาร์ตี้แบบสุ่ม </ButtonWithColor>
           {
             process.env.NODE_ENV == "development" ?
-              <div className="flex">
-                <Button variant="contained" color="secondary" onClick={() => userContext.signout()}> sign out</Button>
-              </div>
-              : <></>
+            <div className="flex">
+            <Button variant="contained" color="secondary" onClick={() => userContext.signout()}> sign out</Button>
+            </div>
+            : <></>
           }
         </div>
         <div className="flex justify-between space-x-5">
-          <ButtonWithColor variant="contained" className="w-1/2 text-white" onClick={() => router.push('/party/history')}> ประวัติ </ButtonWithColor>
-          <ButtonWithColor variant="contained" className="w-1/2 text-white" onClick={() => router.push('/party/request')}> รายการคำขอ </ButtonWithColor>
+          <ButtonWithColor variant="contained" className="w-1/3 text-white" onClick={() => router.push('/restaurant')}> เลือกร้านอาหาร </ButtonWithColor>
+          <ButtonWithColor variant="contained" className="w-1/3 text-white" onClick={() => router.push('/party/history')}> ประวัติ </ButtonWithColor>
+          <ButtonWithColor variant="contained" className="w-1/3 text-white" onClick={() => router.push('/party/request')}> รายการคำขอ </ButtonWithColor>
         </div>
       </div>
+      {
+        openModal ?
+          <PartyModal
+            showModal={openModal}
+            callBackToPartyList={valueFromPartyModal}
+            party={party}
+          />
+        : <></>
+      }
+      
     </Background>
   )
 }
