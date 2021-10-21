@@ -108,7 +108,7 @@ const CreateParty = (prop :Prop) => {
     }
     (async () => {
       await partyContext.getAllTag()
-      if(partyContext.currentParty){
+      if (edit){
         await setData(partyContext.currentParty)
       }
     })()
@@ -215,6 +215,7 @@ const CreateParty = (prop :Prop) => {
       <InputField label="Tag ที่สนใจ">
         <>
           <Select
+            value={formik.values.interest_tags}
             styles={customStyles(checkTags || (formik.touched.interest_tags && !!formik.errors.interest_tags))}
             closeMenuOnSelect={false}
             inputId="interest_tags"
@@ -245,7 +246,7 @@ const CreateParty = (prop :Prop) => {
           value={formik.values.schedule_time}
           onChange={formik.handleChange}
           inputProps={{
-            min: dateNow
+            min: edit ? '' : dateNow
           }}
         />
       </InputField>
