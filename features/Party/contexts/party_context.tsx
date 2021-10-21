@@ -15,6 +15,7 @@ interface PartyContextInterface {
   getPartyByUserId: Function
   getMyPartyRequest: Function
   getHistory: Function
+  getRequestStatus: Function
 }
 
 const partyContext = createContext<PartyContextInterface | null>(null);
@@ -109,6 +110,18 @@ const PartyFunction = () => {
     }
   }
 
+  const getRequestStatus = async () => {
+    try {
+      // const response = await apiParty.getHistory()
+      // if(response.status == StatusCodes.NO_CONTENT){
+      return "DECLINE"
+      // }
+      // return response.data.history
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     parties,
     allMyParty,
@@ -119,6 +132,7 @@ const PartyFunction = () => {
     getAllTag,
     getPartyByUserId,
     getMyPartyRequest,
-    getHistory
+    getHistory,
+    getRequestStatus
   };
 }
