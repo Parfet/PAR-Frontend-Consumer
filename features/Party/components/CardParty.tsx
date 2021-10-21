@@ -19,7 +19,12 @@ import {
   RegularText
 } from '../../../core/config/textStyle'
 import { UIDateLayout } from '../../../core/constant/constant'
+import { PartyRequestStatus } from '../../../core/constant/enum'
 import { Party } from '../../../core/constant/type'
+import { useParty } from '../contexts/party_context'
+import AcceptModal from './RequestStatus/AcceptModal'
+import DeclineModal from './RequestStatus/DeclineModal'
+import WaitingModal from './RequestStatus/WaitingModal'
 import PartyModal from './PartyModal'
 
 const useStyles = makeStyles(() =>
@@ -38,14 +43,38 @@ interface Props {
 
 const CardParty = (props: Props) => {
   const [openModal, setOpenModal] = useState(false);
+  const [openDecline, setOpenDecline] = useState(false);
+  const [openAccept, setOpenAccept] = useState(false);
+  const [openWaiting, setOpenWaiting] = useState(false);
+  const [declineWord, setDeclineWord] = useState(null)
+  const [status, setStatus] = useState()
   const classes = useStyles();
+  const partyContext = useParty()
   const { party } = props
 
-  const handleClickOpen = () => {
-    setOpenModal(true)
+  const handleClickOpen = async () => {
+    if(party.members.length == party.max_member){
+      setDeclineWord("ปาร์ตี้นี้มีจำนวนถึงจำนวนผู้เข้าร่วมสูงสุดแล้ว")
+      setOpenDecline(true)
+    }else {
+      await setStatus(await partyContext.getRequestStatus())
+      if (status === PartyRequestStatus.STATUS_DECLINE){
+        setDeclineWord(null)
+        setOpenDecline(true)
+      } else if (status === PartyRequestStatus.STATUS_ACCEPT){
+        setOpenAccept(true)
+      } else if (status === PartyRequestStatus.STATUS_WAITING){
+        setOpenWaiting(true)
+      } else {
+        setOpenModal(true)
+      }
+    }
   };
 
   const valueFromPartyModal = (value) => {
+    setOpenDecline(value)
+    setOpenAccept(value)
+    setOpenWaiting(value)
     setOpenModal(value)
   }
 
@@ -91,6 +120,20 @@ const CardParty = (props: Props) => {
           </NormalText>
         </div>
       </Paper>
+      <DeclineModal 
+        showModal={openDecline}
+        callBackToPartyList={valueFromPartyModal}
+        text={declineWord}
+      />
+      <WaitingModal
+        showModal={openWaiting}
+        callBackToPartyList={valueFromPartyModal}
+      />
+      <AcceptModal 
+        showModal={openAccept}
+        callBackToPartyList={valueFromPartyModal}
+        party={party}
+      />
       <PartyModal
         showModal={openModal}
         callBackToPartyList={valueFromPartyModal}
