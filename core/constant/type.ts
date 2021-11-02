@@ -10,6 +10,7 @@ export type Party = {
   passcode?: string
   members?: User[]
   max_member?: number
+  member_amount?: number
   restaurant?: Restaurant
   schedule_time?: string
   created_at?: string
@@ -75,3 +76,7 @@ export type Promotion = {
   promotion_condition?: string
 }
 
+export type Location = {
+  lat: number
+  lng: number
+}
