@@ -51,6 +51,8 @@ const RestaurantList = () => {
         let error = await userContext.getLocation()
         if (error) {
           setNoContentWord('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ')
+        }else{
+          await restaurantContext.getRestaurants(userContext.location)
         }
       }else{
         await restaurantContext.getRestaurants(userContext.location)

@@ -52,14 +52,15 @@ const Home = () => {
         setDeclineText('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ')
         setOpenDecline(true)
       }
-    }
-    let newParty = await partyContext.randomParty(await userContext.location)
-    if (newParty && newParty != null) {
-      setParty(newParty)
-      setOpenModal(true)
-    } else {
-      setOpenDecline(true)
-      setDeclineText("ไม่มีที่คุณสามารถเข้าร่วมได้")
+    }else{
+      let newParty = await partyContext.randomParty(await userContext.location)
+      if (newParty && newParty != null) {
+        setParty(newParty)
+        setOpenModal(true)
+      } else {
+        setOpenDecline(true)
+        setDeclineText("ไม่มีที่คุณสามารถเข้าร่วมได้")
+      }
     }
   }
 
