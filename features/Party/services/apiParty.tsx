@@ -40,6 +40,13 @@ const apiParty = {
     const response = await api.get(`/party/history/me`)
     return response
   },
+  checkJoinStatus: async (partyId: String) => {
+    const data = {
+      "party_id": partyId,
+    }
+    const response = await api.post(`/party/check`, data)
+    return response
+  },
   joinParty: async (partyId: string, passcode: string) => {
     const data = {
       "passcode": passcode,

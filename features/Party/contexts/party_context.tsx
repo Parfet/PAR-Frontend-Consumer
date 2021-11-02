@@ -15,7 +15,7 @@ interface PartyContextInterface {
   getPartyByUserId: Function
   getMyPartyRequest: Function
   getHistory: Function
-  getRequestStatus: Function
+  checkJoinStatus: Function
   randomParty: Function
 }
 
@@ -111,13 +111,13 @@ const PartyFunction = () => {
     }
   }
 
-  const getRequestStatus = async () => {
+  const checkJoinStatus = async (partyId: String) => {
     try {
-      // const response = await apiParty.getHistory()
-      // if(response.status == StatusCodes.NO_CONTENT){
-      return ""
-      // }
-      // return response.data.history
+      const response = await apiParty.checkJoinStatus(partyId)
+      if(response.status == StatusCodes.NO_CONTENT){
+        return ""
+      }
+      return response.data.status
     } catch (error) {
       console.log(error)
     }
@@ -146,7 +146,7 @@ const PartyFunction = () => {
     getPartyByUserId,
     getMyPartyRequest,
     getHistory,
-    getRequestStatus,
+    checkJoinStatus,
     randomParty
   };
 }

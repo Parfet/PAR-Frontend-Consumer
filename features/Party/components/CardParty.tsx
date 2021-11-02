@@ -47,7 +47,6 @@ const CardParty = (props: Props) => {
   const [openAccept, setOpenAccept] = useState(false);
   const [openWaiting, setOpenWaiting] = useState(false);
   const [declineWord, setDeclineWord] = useState(null)
-  const [status, setStatus] = useState()
   const classes = useStyles();
   const partyContext = useParty()
   const { party } = props
@@ -57,7 +56,7 @@ const CardParty = (props: Props) => {
       setDeclineWord("ปาร์ตี้นี้มีจำนวนถึงจำนวนผู้เข้าร่วมสูงสุดแล้ว")
       setOpenDecline(true)
     }else {
-      await setStatus(await partyContext.getRequestStatus())
+      let status = await partyContext.checkJoinStatus(party.party_id)
       if (status === PartyRequestStatus.STATUS_DECLINE){
         setDeclineWord(null)
         setOpenDecline(true)
