@@ -56,8 +56,8 @@ const RestaurantParty = (props: Props) => {
   }
 
   const selectRestaurantInfo = () => {
-    restaurantContext.setCurrentRestaurant(restaurant)
-    router.push("/restaurant/info")
+    // restaurantContext.setCurrentRestaurant(restaurant)
+    router.push(restaurant.map_url)
   }
   return (
     <>

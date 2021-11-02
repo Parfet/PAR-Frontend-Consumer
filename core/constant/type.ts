@@ -35,6 +35,7 @@ export type Restaurant = {
   promotions?: Promotion
   max_member?: number
   schedule_time?: string
+  map_url?: string
 }
 
 type RestaurantImage = {
