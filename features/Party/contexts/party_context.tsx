@@ -115,7 +115,7 @@ const PartyFunction = () => {
     try {
       // const response = await apiParty.getHistory()
       // if(response.status == StatusCodes.NO_CONTENT){
-      return "DECLINE"
+      return ""
       // }
       // return response.data.history
     } catch (error) {
@@ -123,13 +123,13 @@ const PartyFunction = () => {
     }
   }
 
-  const randomParty = async () => {
+  const randomParty = async (data) => {
     try {
-      
-      // const response = await apiParty.getHistory()
-      // if(response.status == StatusCodes.NO_CONTENT){
-        // }
-      // return response.data.history
+      const response = await apiParty.randomParty(data)
+      if (response.status == StatusCodes.NO_CONTENT) {
+        return null
+      }
+      return response.data
     } catch (error) {
       console.log(error)
     }

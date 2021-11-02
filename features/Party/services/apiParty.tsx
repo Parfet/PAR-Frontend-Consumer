@@ -82,6 +82,10 @@ const apiParty = {
     const response = await api.delete(`/party/${partyId}`)
     return response
   },
+  randomParty: async (data) => {
+    const response = await api.post(`/party/quick-join`, data)
+    return response
+  },
   kickMember: async (partyId: string, userId: string) => {
     const data = {
       "user_id": userId,

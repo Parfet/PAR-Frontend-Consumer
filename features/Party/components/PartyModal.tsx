@@ -28,6 +28,7 @@ interface Props {
   party :Party
   showModal: boolean
   callBackToPartyList: Function
+  mode?: String
 }
 
 const JoinButton = withStyles(() => ({
@@ -59,7 +60,7 @@ const useStyles = makeStyles({
 });
 
 const PartyModal = (props: Props) => {
-  const { showModal, callBackToPartyList, party } = props
+  const { showModal, callBackToPartyList, party, mode } = props
   const classes = useStyles();
   const router = useRouter()
   const authContext = useUser()
@@ -112,17 +113,39 @@ const PartyModal = (props: Props) => {
       <Dialog onClose={handleClose} open={open} maxWidth="xs">
         <div className="p-4">
           <div className="flex flex-col justify-center">
-            <SubHeader bold className="text-left mb-2">
-              {party.party_name}
-            </SubHeader>
+            <div className="flex justify-between">
+              <SubHeader bold className="text-left mb-2" isCut>
+                {party.party_name}
+              </SubHeader>
+              {
+                mode == "quick" ?
+                  <NormalText>
+                    สมาชิก {party.member_amount} / {party.max_member}
+                  </NormalText>
+                : <></>
+              }
+            </div>
             <Image
               width={300}
               height={200}
-              src={restaurantContext.currentRestaurant.photos ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${restaurantContext.currentRestaurant.photos[0].photo_reference}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
+              src={
+                  ( mode == "quick" && party.restaurant.restaurant_photo_ref) || restaurantContext.currentRestaurant.photos ?
+                    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=
+                    ${mode == "quick" ? party.restaurant.restaurant_photo_ref : restaurantContext.currentRestaurant.photos[0].photo_reference}
+                    &key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
                 : "/images/tidmun.webp"}
               className="rounded-lg object-fill"
             />
-            <div className="flex flex-wrap justify-center h-8 mt-3">
+            {
+              mode == "quick" ?
+              <div className="flex justify-center h-8 mt-3">
+                <SubHeader bold>
+                  ร้าน {party.restaurant.restaurant_name}
+                </SubHeader >
+              </div>
+              : <></>
+            }
+            <div className={`flex flex-wrap justify-center h-8 ${mode == "quick" ? "" : 'mt-3'}`}>
               <div className="flex flex-col items-center">
                 <RegularText bold>
                   หัวข้อที่สนใจ

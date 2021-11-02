@@ -10,6 +10,7 @@ import NoContent from '../../../core/components/NoContent'
 import { useParty } from '../../Party/contexts/party_context';
 import CardMyParty from '../../Party/components/CardMyParty';
 import PartyModal from '../../Party/components/PartyModal';
+import DeclineModal from '../../Party/components/RequestStatus/DeclineModal';
 import { Title, SubHeader, NormalText } from '../../../core/config/textStyle';
 
 const Background = styled.div`
@@ -30,22 +31,41 @@ const Home = () => {
   const router = useRouter()
   const [party, setParty] = useState<Party>()
   const [openModal, setOpenModal] = useState(false);
+  const [openDecline, setOpenDecline] = useState(false);
+  const [declineText, setDeclineText] = useState("ไม่มีที่คุณสามารถเข้าร่วมได้");
   
   useEffect(() => {
     (async () => {
       await partyContext.getPartyByUserId()
+      let error = await userContext.getLocation()
+      if (error){
+        setDeclineText('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ')
+        setOpenDecline(true)
+      }
     })()
   }, [])
 
   const handleRandom = async () => {
-    // await setParty( await partyContext.randomParty())
-    if (party){
+    if (userContext.location.lat == 0 && userContext.location.lng == 0){
+      let error = await userContext.getLocation()
+      if (error) {
+        setDeclineText('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ')
+        setOpenDecline(true)
+      }
+    }
+    let newParty = await partyContext.randomParty(await userContext.location)
+    if (newParty && newParty != null) {
+      setParty(newParty)
       setOpenModal(true)
+    } else {
+      setOpenDecline(true)
+      setDeclineText("ไม่มีที่คุณสามารถเข้าร่วมได้")
     }
   }
 
   const valueFromPartyModal = (value) => {
     setOpenModal(value)
+    setOpenDecline(value)
   }
 
   return  (
@@ -93,6 +113,16 @@ const Home = () => {
             showModal={openModal}
             callBackToPartyList={valueFromPartyModal}
             party={party}
+            mode="quick"
+          />
+        : <></>
+      }
+      {
+        openDecline ?
+          <DeclineModal
+            showModal={openDecline}
+            callBackToPartyList={valueFromPartyModal}
+            text={declineText}
           />
         : <></>
       }
