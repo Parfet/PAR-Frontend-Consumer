@@ -11,7 +11,7 @@ WORKDIR /build
 COPY --from=base /base ./
 RUN yarn build
 
-FROM node:14.16.0-alpine AS production
+FROM node:16.5.0-alpine AS production
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /build/package*.json ./
