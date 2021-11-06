@@ -22,7 +22,7 @@ const myRequest = () => {
   }, [])
 
   return (
-    <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
+    <BackgroundPartyList className="overscroll-auto pt-4 pb-10" height={_.size(request)}>
       {
         request == null ?
           <>loading</>

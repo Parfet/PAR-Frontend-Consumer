@@ -15,7 +15,8 @@ export enum PartyAction {
 
 export enum PartyRequestStatus {
   STATUS_ACCEPT = "ACCEPT",
-  STATUS_DECLINE = "DECLINE"
+  STATUS_DECLINE = "DECLINE",
+  STATUS_WAITING = "WAITING"
 }
 
 export enum RestaurantStatus {

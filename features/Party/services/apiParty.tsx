@@ -40,6 +40,13 @@ const apiParty = {
     const response = await api.get(`/party/history/me`)
     return response
   },
+  checkJoinStatus: async (partyId: String) => {
+    const data = {
+      "party_id": partyId,
+    }
+    const response = await api.post(`/party/check`, data)
+    return response
+  },
   joinParty: async (partyId: string, passcode: string) => {
     const data = {
       "passcode": passcode,
@@ -80,6 +87,10 @@ const apiParty = {
   },
   leaveParty: async (partyId: string) => {
     const response = await api.delete(`/party/${partyId}`)
+    return response
+  },
+  randomParty: async (data) => {
+    const response = await api.post(`/party/quick-join`, data)
     return response
   },
   kickMember: async (partyId: string, userId: string) => {

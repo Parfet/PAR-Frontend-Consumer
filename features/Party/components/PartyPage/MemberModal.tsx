@@ -67,7 +67,7 @@ const MemberModal = (props :Props) => {
       const res = await apiParty.updateParty(partyContext.currentParty, partyContext.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
         callBackToMemberParty(false)
-        router.reload()
+        partyContext.getPartyByPartyId(partyContext.currentParty.party_id)
       }
     } catch (error) {
       if (error.response?.status) {
@@ -83,7 +83,8 @@ const MemberModal = (props :Props) => {
       const res = await apiParty.kickMember(partyContext.currentParty.party_id, memberDetail.user_id)
       if (res.status === StatusCodes.OK) {
         callBackToMemberParty(false)
-        router.reload()
+        partyContext.getPartyByPartyId(partyContext.currentParty.party_id)
+
       }
     } catch (error) {
       if (error.response?.status) {
@@ -136,9 +137,8 @@ const MemberModal = (props :Props) => {
             }
           </div>
           {
-            userContext.userData.user_id === partyContext.currentParty.head_party.user_id ? <></>
-            :
-            <>
+            !(indexMember === -1) && (userContext.userData.user_id === partyContext.currentParty.head_party.user_id)
+            ? <>
                 <div className="flex justify-start mt-4">
                   <div className="w-1/2 flex items-center">
                     <NormalText bold > ให้สิทธิเป็น <br /> เจ้าของปาร์ตี้ </NormalText>
@@ -155,7 +155,7 @@ const MemberModal = (props :Props) => {
                     <Button variant="contained" disableElevation onClick={kickMember} color="secondary">ลบ</Button>
                   </div>
                 </div>
-            </>
+              </> : <></>
           }
           <div className="flex justify-center mt-5">
             <Button variant="contained" disableElevation onClick={handleClose} >ปิด</Button>

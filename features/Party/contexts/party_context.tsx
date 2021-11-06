@@ -15,6 +15,8 @@ interface PartyContextInterface {
   getPartyByUserId: Function
   getMyPartyRequest: Function
   getHistory: Function
+  checkJoinStatus: Function
+  randomParty: Function
 }
 
 const partyContext = createContext<PartyContextInterface | null>(null);
@@ -109,6 +111,30 @@ const PartyFunction = () => {
     }
   }
 
+  const checkJoinStatus = async (partyId: String) => {
+    try {
+      const response = await apiParty.checkJoinStatus(partyId)
+      if(response.status == StatusCodes.NO_CONTENT){
+        return ""
+      }
+      return response.data.status
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const randomParty = async (data) => {
+    try {
+      const response = await apiParty.randomParty(data)
+      if (response.status == StatusCodes.NO_CONTENT) {
+        return null
+      }
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     parties,
     allMyParty,
@@ -119,6 +145,8 @@ const PartyFunction = () => {
     getAllTag,
     getPartyByUserId,
     getMyPartyRequest,
-    getHistory
+    getHistory,
+    checkJoinStatus,
+    randomParty
   };
 }

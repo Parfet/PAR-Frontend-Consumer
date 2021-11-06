@@ -3,18 +3,18 @@ import Router from 'next/router';
 import { StatusCodes } from 'http-status-codes';
 import Cookies from 'universal-cookie'
 
-import { User } from '../constant/type'
+import { User, Location } from '../constant/type'
 import apiAuth from '../services/apiAuth'
 import firebase from '../config/firebase';
 
 const cookies = new Cookies()
+
 interface UserContextInterface {
   userData: User
   firstTime: boolean
-  latitude: string
-  longitude: string
-  setLatitude: Function
-  setLongitude: Function
+  location: Location
+  setLocation: Function
+  getLocation: Function
   signinWithFacebook: Function
   signinWithTwitter: Function
   signinWithGoogle: Function
@@ -36,8 +36,7 @@ export const useUser = () => {
 const UserFunction = () => {
   const [userData, setUserData] = useState<User>(null);
   const [firstTime, setFirstTime] = useState<boolean>(false);
-  const [latitude, setLatitude] = useState<string>();
-  const [longitude, setLongitude] = useState<string>();
+  const [location, setLocation] = useState <Location>({ lat: 0, lng: 0 })
   const [checkPWA, setCheckPWA] = useState(false)
 
   useEffect(() => {
@@ -165,13 +164,27 @@ const UserFunction = () => {
       });
   };
 
+  const getLocation = async () => {
+    navigator.geolocation.watchPosition(async (position) => {
+      setLocation({
+        lat: await position.coords.latitude,
+        lng: await position.coords.longitude
+      })
+    },
+      function error(msg) {
+        console.log("🚀 ~ file: auth_context.tsx ~ line 178 ~ error ~ msg", msg)
+        return true
+      },
+      { maximumAge: 10000, enableHighAccuracy: true });
+    return false
+  }
+
   return {
     firstTime,
     userData,
-    latitude,
-    longitude,
-    setLatitude,
-    setLongitude,
+    location,
+    setLocation,
+    getLocation,
     getUserData,
     signinWithFacebook,
     signinWithTwitter,

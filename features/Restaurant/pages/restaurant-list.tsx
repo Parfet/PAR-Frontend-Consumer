@@ -47,12 +47,15 @@ const RestaurantList = () => {
 
   useEffect(() => {
     (async () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(async (position) => {
-          await restaurantContext.getRestaurants({ lat: position.coords.latitude, lng: position.coords.longitude })
-        },
-          function error(msg) { setNoContentWord('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ') },
-          { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
+      if (userContext.location.lat == 0 && userContext.location.lng == 0) {
+        let error = await userContext.getLocation()
+        if (error) {
+          setNoContentWord('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ')
+        }else{
+          await restaurantContext.getRestaurants(userContext.location)
+        }
+      }else{
+        await restaurantContext.getRestaurants(userContext.location)
       }
     })()
   }, [])
