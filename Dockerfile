@@ -17,6 +17,7 @@ WORKDIR /app
 COPY --from=build /build/package*.json ./
 COPY --from=build /build/.next ./.next
 COPY --from=build /build/public ./public
+COPY --from=build /build/next.config.js ./next.config.js
 RUN yarn add next@11.1.2
 
 EXPOSE 3002
