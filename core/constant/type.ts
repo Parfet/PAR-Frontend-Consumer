@@ -3,6 +3,7 @@ export type Party = {
   party_name?: string
   head_party?: User
   party_type?: string
+  open_chat_link?: string
   interested_topic?: string
   interest_tags?: Tag[]
   restaurant_name?: string

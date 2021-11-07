@@ -138,7 +138,7 @@ const PartyModal = (props: Props) => {
             />
             {
               mode == "quick" ?
-              <div className="flex justify-center h-8 mt-3">
+              <div className="flex justify-center h-8 mt-3 mb-3">
                 <SubHeader bold>
                   ร้าน {party.restaurant.restaurant_name}
                 </SubHeader >

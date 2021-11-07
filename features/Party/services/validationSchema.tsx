@@ -29,5 +29,8 @@ export const ValidationFormSchema = yup.object({
     .when("party_type", {
       is: PartyTypeThai.PRIVATE,
       then: yup.number().required("จำเป็นต้องกรอกรหัสผ่าน")
-    })
+    }),
+  open_chat_link: yup
+    .string()
+    .matches(/(https\:\/\/line\.me\/ti\/g2\/)([A-Za-z0-9_?=&]+)/, "กรุณากรอกลิงค์ Open Chat ให้ถูกต้อง")
 });

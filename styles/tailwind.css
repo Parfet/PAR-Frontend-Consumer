@@ -8,5 +8,20 @@
 }
 
 * {
-  font-family: "Anakotmai", sans-serif ;
+  font-family: "Anakotmai", sans-serif;
+}
+
+.chq-atc {
+  width: 15em;
+}
+
+.chq-atc button {
+  width: 12em;
+  display: flex;
+  color: #3F51B5;
+  font-size: 12px;
+}
+
+.chq-atc button>svg {
+  display: none;
 }
