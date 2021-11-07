@@ -146,6 +146,7 @@ const PartyPage = () => {
                 <BottomNavigationAction
                   label="รายละเอียด"
                   icon={<InfoIcon />}
+                  onClick={() => router.push(`/party/${partyContext.currentParty.party_id}/info`)}
                   showLabel
                 />
               </div>
