@@ -32,20 +32,24 @@ const RestaurantFunction = () => {
   const [restaurants, setRestaurants] = useState<Array<Restaurant>>();
   const [currentRestaurant, setCurrentRestaurant] = useState<Restaurant>();
 
-  const getRestaurants = async (filter: Object) => {
+  const getRestaurants = async (filter: SearchWord) => {
     let param = ""
-    Object.keys(searchWord).forEach((key, index) => {
-      for (const [k, v] of Object.entries(filter)) {
-        if (key === k) {
-          searchWord[key] = v
+    if(filter.keyword){
+      param = "keyword=" + filter.keyword
+    }else{
+      Object.keys(searchWord).forEach((key, index) => {
+        for (const [k, v] of Object.entries(filter)) {
+          if (key === k) {
+            searchWord[key] = v
+          }
         }
-      }
-      if (index === Object.keys(searchWord).length - 1) {
-        param = param + key + "=" + searchWord[key]
-      } else {
-        param = param + key + "=" + searchWord[key] + "&"
-      }
-    });
+        if (index === Object.keys(searchWord).length - 1) {
+          param = param + key + "=" + searchWord[key]
+        } else {
+          param = param + key + "=" + searchWord[key] + "&"
+        }
+      });
+    }
 
     try {
       const response = await apiRestaurant.getAllRestaurants(param)
