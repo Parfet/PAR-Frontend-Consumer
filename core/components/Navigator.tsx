@@ -115,7 +115,7 @@ const Navigator = (props: Props) => {
       {
         bottomNavigator ?
           <AppBar className={classes.bottomAppBar}>
-            <Toolbar>
+            <Toolbar className="flex justify-center">
               {bottomNavigator}
             </Toolbar>
           </AppBar>

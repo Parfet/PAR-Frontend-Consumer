@@ -108,9 +108,9 @@ const CardMyParty = (props: Props) => {
                     _.map(party.interest_tags, (data, index) => (
                       <>
                         {
-                          index < 3 ?
+                          index < 2 ?
                             <TinyText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-3 py-1">
-                              {index < 2 ? `${data.tag_name || data.label}` : `+${party.interest_tags.length - 2}`}
+                              {index < 1 ? `${data.tag_name || data.label}` : `+${party.interest_tags.length - 1}`}
                             </TinyText>
                             : <></>
                         }
