@@ -99,6 +99,7 @@ const CreateParty = (prop :Prop) => {
   const [partyType, setPartyType] = useState(PartyTypeThai.PUBLIC);
   const [maxMember, setMaxMember] = useState(aryMaxMember[0]);
   const [passcode, setPasscode] = useState('');
+  const [openChat, setOpenChat] = useState('');
   const restaurantContext = useRestaurant()
   const partyContext = useParty()
 
@@ -148,6 +149,7 @@ const CreateParty = (prop :Prop) => {
     setPartyType(value.party_type === PartyType.PRIVATE ? PartyTypeThai.PRIVATE : PartyTypeThai.PUBLIC)
     setMaxMember(value.max_member)
     setPasscode(value.passcode)
+    setOpenChat(value.open_chat_link)
   }
 
   const formik = useFormik({
@@ -159,7 +161,8 @@ const CreateParty = (prop :Prop) => {
       schedule_time: scheduleTime,
       party_type: partyType,
       max_member: maxMember,
-      passcode: passcode
+      passcode: passcode,
+      open_chat_link: openChat,
     },
     validationSchema: ValidationFormSchema,
     onSubmit: (values) => {
@@ -310,6 +313,23 @@ const CreateParty = (prop :Prop) => {
             />
           </InputField>
         :<></>
+      }
+      {
+        edit ?
+          <InputField label="Line OpenChat">
+            <TextField
+              id="open_chat_link"
+              name="open_chat_link"
+              variant="outlined"
+              size="small"
+              className={classes.root}
+              value={formik.values.open_chat_link}
+              onChange={formik.handleChange}
+              error={formik.touched.open_chat_link && Boolean(formik.errors.open_chat_link)}
+              helperText={formik.touched.open_chat_link && formik.errors.open_chat_link}
+            />
+          </InputField>
+          : <></>
       }
       <div className="flex justify-center mt-5">
         <CreateButton variant="contained" type="submit">

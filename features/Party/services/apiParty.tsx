@@ -27,8 +27,10 @@ const apiParty = {
       "interest_tags": party.interest_tags,
       "max_member": party.max_member,
       "schedule_time": party.schedule_time,
-      "restaurant_photo_ref": restaurant.photos ? restaurant.photos[0].photo_reference : ''
+      "restaurant_photo_ref": restaurant.photos ? restaurant.photos[0].photo_reference : '',
+      "open_chat_link": ""
     }
+    console.log("🚀 ~ file: apiParty.tsx ~ line 33 ~ createParty: ~ data", data)
     const response = await api.post(`/party/${restaurant.place_id}`, data)
     return response
   },
@@ -79,8 +81,10 @@ const apiParty = {
       "interested_topic": party.interested_topic,
       "interest_tags": party.interest_tags,
       "max_member": party.max_member,
-      "schedule_time": party.schedule_time
+      "schedule_time": party.schedule_time,
+      "open_chat_link": party.open_chat_link
     }
+    console.log("🚀 ~ file: apiParty.tsx ~ line 85 ~ updateParty: ~ data", data)
     const response = await api.put(`/party/info/${partyId}`, data)
     console.log("🚀 ~ file: apiParty.tsx ~ line 59 ~ updateParty: ~ partyId", partyId)
     return response
