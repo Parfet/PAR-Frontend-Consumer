@@ -35,7 +35,7 @@ const catchError = async (err) => {
   }else if (err.response.data.message === ErrorMessage.INVALID_TOKEN){
     Router.push('/signin')
   }else{
-    Promise.reject(err)
+    return err
   }
 }
 

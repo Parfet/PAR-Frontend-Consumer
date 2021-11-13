@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { StatusCodes } from 'http-status-codes'
+import MemberModal from '../components/PartyPage/MemberModal'
 import _ from 'lodash'
 
 import NoContent from '../../../core/components/NoContent'
@@ -16,7 +17,8 @@ const PartyRequest = () => {
   const partyContext = useParty()
   const [userList, setUserList] = useState<User[]>()
   const [partyName, setPartyName] = useState('')
-
+  const [openMemberModal, setOpenMemberModal] = useState(false)
+  
   useEffect(() => {
     getUserJoinParty()
     setPartyName(partyContext.currentParty.party_name )
@@ -55,6 +57,10 @@ const PartyRequest = () => {
     }
   }
 
+  const valueFromMemberModal = (value) => {
+    setOpenMemberModal(value)
+  }
+
   return (
     <div className="flex flex-col my-28 px-10 h-screen">
       <div className="ml-2 mb-4">
@@ -70,14 +76,28 @@ const PartyRequest = () => {
           <>
             {  
               _.map(userList, (data, index) => (
-              <CardRequest
-                imageURL={data.image_url}
-                username={data.display_name}
-                rating={data.rating}
+                <>
+                <CardRequest
+                  imageURL={data.image_url}
+                  username={data.display_name}
+                  rating={data.rating}
                   acceptFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_ACCEPT)}
                   declineFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_DECLINE)}
-                keyId={index}
-                />
+                  handleClick={() => valueFromMemberModal(true)}
+                  keyId={index}
+                  />
+                {
+                  openMemberModal ?
+                    <MemberModal
+                      showModal={openMemberModal}
+                      callBackToMemberParty={valueFromMemberModal}
+                      memberDetail={data}
+                      indexMember={+index}
+                      mode="view"
+                    />
+                    : <></>
+                }
+                </>
               ))
             }
           </>

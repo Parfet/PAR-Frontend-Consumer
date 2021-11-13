@@ -8,23 +8,24 @@ import { SubHeader } from '../../../../core/config/textStyle'
 import RatingStar from '../../../../core/components/RatingStar'
 
 interface Props {
-  imageURL :string
-  username :string
-  rating :number
-  acceptFunc :() => void
-  declineFunc :() => void
-  keyId :number
+  imageURL: string
+  username: string
+  rating: number
+  acceptFunc: () => void
+  declineFunc: () => void
+  handleClick?: () => void
+  keyId: number
 }
 
 const CardRequest = (props: Props) => {
-  const { username, imageURL, rating, acceptFunc, declineFunc, keyId} = props
+  const { username, imageURL, rating, acceptFunc, declineFunc, keyId, handleClick} = props
 
   const bgColor = 
     keyId % 3 === 0 ? 'bg-cusLightOrange' :
       keyId % 3 === 1 ? 'bg-cusDarkRed' : 'bg-cusBrown' 
 
   return (
-    <Card className={`flex space-x-2 p-3 ${bgColor}`} variant="outlined">
+    <Card className={`flex space-x-2 p-3 ${bgColor}`} variant="outlined" onClick={handleClick}>
       <div className="w-1/4">
         <Image
           alt={username}

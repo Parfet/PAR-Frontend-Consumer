@@ -22,11 +22,13 @@ interface Props {
   isAdmin?: boolean
   showModal: boolean
   indexMember: number
+  mode?: string
   callBackToMemberParty: (value) => void
 }
+
 const MemberModal = (props :Props) => {
   const router = useRouter()
-  const { indexMember, memberDetail, callBackToMemberParty, showModal, isAdmin } = props
+  const { indexMember, memberDetail, callBackToMemberParty, showModal, isAdmin, mode } = props
   const [open, setOpen] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [typeAction, setTypeAction] = useState(undefined);
@@ -111,11 +113,11 @@ const MemberModal = (props :Props) => {
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth className="m-14">
         <div className="p-4">
           <div className="flex justify-center">
-            <SubHeader bold> {memberDetail.username} </SubHeader>
+            <SubHeader bold> {memberDetail.display_name} </SubHeader>
           </div>
           <div className={`mx-14 my-3 text-center border-4 rounded-30 ${borderColor}`}>
             <Image
-              alt={memberDetail.username}
+              alt={memberDetail.display_name}
               width={"80px"}
               height={"80px"}
               src={memberDetail.image_url || mockPartyMember[0].imageURL}
@@ -137,7 +139,7 @@ const MemberModal = (props :Props) => {
             }
           </div>
           {
-            !(indexMember === -1) && (userContext.userData.user_id === partyContext.currentParty.head_party.user_id)
+            !(indexMember === -1) && (userContext.userData.user_id === partyContext.currentParty.head_party.user_id) && mode != "view"
             ? <>
                 <div className="flex justify-start mt-4">
                   <div className="w-1/2 flex items-center">

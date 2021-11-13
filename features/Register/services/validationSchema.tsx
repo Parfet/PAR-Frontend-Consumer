@@ -7,7 +7,7 @@ export const ValidationFormSchema = yup.object({
     .required('จำเป็นต้องกรอกชื่อผู้ใช้งาน'),
   displayName: yup
     .string()
-    .required('จำเป็นต้องกรอกหัวข้อที่ต้องการคุย'),
+    .required('จำเป็นต้องกรอกชื่อที่ต้องการแสดง'),
   email: yup
     .string()
     .required('จำเป็นต้องกรอกอีเมลล์')

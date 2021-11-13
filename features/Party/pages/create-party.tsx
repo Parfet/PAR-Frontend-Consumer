@@ -119,7 +119,7 @@ const CreateParty = (prop :Prop) => {
     try {
       const res = await apiParty.updateParty(values, partyContext.currentParty.party_id)
       if (res.status === StatusCodes.OK) {
-        router.back()
+        router.push('/party/' + partyContext.currentParty.party_id)
       }
     } catch (error) {
       if (error.response?.status) {
