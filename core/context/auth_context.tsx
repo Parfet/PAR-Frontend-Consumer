@@ -21,6 +21,7 @@ interface UserContextInterface {
   signout: Function
   clearUser: Function
   getUserData: Function
+  register: Function
 }
 
 const userContext = createContext<UserContextInterface | null>(null);
@@ -179,6 +180,17 @@ const UserFunction = () => {
     return false
   }
 
+  const register = async (userData) => {
+    const response = await apiAuth.register(userData)
+    if (response.response && response.response.status === StatusCodes.BAD_REQUEST){
+      return response.response.data
+    } else if (response.status === StatusCodes.NO_CONTENT){
+      console.log("🚀 ~ file: auth_context.tsx ~ line 190 ~ register ~ response", response)
+      return response
+    }
+    return null
+  }
+
   return {
     firstTime,
     userData,
@@ -190,7 +202,8 @@ const UserFunction = () => {
     signinWithTwitter,
     signinWithGoogle,
     signout,
-    clearUser
+    clearUser,
+    register
   };
 }
 

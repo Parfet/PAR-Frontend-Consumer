@@ -4,14 +4,15 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
+import { StatusCodes } from 'http-status-codes';
 import { useFormik } from 'formik';
 import Cookies from 'universal-cookie'
 
 import { useUser } from '../../../core/context/auth_context';
 import { Title, SubHeader } from '../../../core/config/textStyle';
+import { Errors } from '../../../core/constant/enum';
 import InputField from '../../../core/components/InputField';
 import { ValidationFormSchema } from '../services/validationSchema';
-import apiRegister from '../services/apiRegister';
 
 const cookies = new Cookies()
 
@@ -99,17 +100,23 @@ const Register = () => {
       photoUrl: photoUrl
     },
     validationSchema: ValidationFormSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log("🚀 ~ file: index.tsx ~ line 105 ~ Register ~ userContext.userData", userContext.userData)
       cookies.set('access_token', userContext.userData.token, { path: '/', maxAge: 3600 })
       cookies.set('refresh_token', userContext.userData.refreshToken, { path: '/', maxAge: 3600 })
-      apiRegister.register(values).then(() => {
-        router.push('/') 
-      }).catch(() => {
-        cookies.remove('refresh_token')
-        cookies.remove('access_token')
+      const response = await userContext.register(values)
+      console.log("🚀 ~ file: index.tsx ~ line 107 ~ Register ~ response", response)
+      if (response.message == Errors.USERNAME_ALREADY) {
+        formik.touched.username = true
+        formik.errors.username = "มีชื่อผู้ใช้งานนี้แล้ว"
+      } else if(response.message == Errors.DISPLAY_ALREADY){
+        formik.touched.displayName = true
+        formik.errors.displayName = "มีชื่อที่ต้องการแสดงนี้แล้ว"
+      } else if (response.status == StatusCodes.NO_CONTENT){
         router.push('/')
-      })
+      } else {
+        router.push('/signin')
+      }
     },
   });
   return (
