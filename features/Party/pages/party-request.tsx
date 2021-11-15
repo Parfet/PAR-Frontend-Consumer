@@ -11,6 +11,7 @@ import { Errors, PartyRequestStatus } from '../../../core/constant/enum'
 import CardRequest from '../components/PartyPage/CardRequest'
 import { useParty } from '../contexts/party_context'
 import apiParty from '../services/apiParty'
+import Loading from '../../../core/components/Loading'
 
 const PartyRequest = () => {
   const router = useRouter()
@@ -18,10 +19,12 @@ const PartyRequest = () => {
   const [userList, setUserList] = useState<User[]>()
   const [partyName, setPartyName] = useState('')
   const [openMemberModal, setOpenMemberModal] = useState(false)
-  
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     getUserJoinParty()
     setPartyName(partyContext.currentParty.party_name )
+    if (_.size(userList) >= 0)setLoading(false)
   }, [])
 
   const getUserJoinParty = async () => {
@@ -68,6 +71,9 @@ const PartyRequest = () => {
       </div>
       <div className="flex flex-col space-y-4">
         {
+          loading ?
+            <Loading />
+          :
           _.size(userList) === 0 ?
             <div className="flex justify-center flex-col">
               <NoContent text="ยังไม่มีคนขอเข้าร่วม Party ของคุณ" />
