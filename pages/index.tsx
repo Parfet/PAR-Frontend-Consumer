@@ -35,15 +35,6 @@ const Index = () => {
         //   setPhotoUrl(aryProfile[0] + aryProfile[1])
         // } else {
         setPhotoUrl(userContext.userData.image_url)
-        // }
-        // if (navigator.geolocation) {
-        //   navigator.geolocation.watchPosition((position) => {
-        //     userContext.setLatitude(position.coords.latitude)
-        //     userContext.setLongitude(position.coords.longitude)
-        //   },
-        //     function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
-        //     { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
-        // }
         setLoading(false)
       }
     })()
@@ -57,7 +48,7 @@ const Index = () => {
           <IconButton>
             <Image
               alt={username + " Photo"}
-              src={photoUrl || "/images/logo_parfet_192.png"}
+              src={photoUrl || "/images/default_user.jpg"}
               width={"32px"}
               height={"32px"}
               className="rounded-50"
