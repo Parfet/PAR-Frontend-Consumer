@@ -133,7 +133,7 @@ const PartyModal = (props: Props) => {
                     `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=
                     ${mode == "quick" ? party.restaurant.restaurant_photo_ref : restaurantContext.currentRestaurant.photos[0].photo_reference}
                     &key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
-                : "/images/tidmun.webp"}
+                : "/images/default_restaurant.png"}
               className="rounded-lg object-fill"
             />
             {

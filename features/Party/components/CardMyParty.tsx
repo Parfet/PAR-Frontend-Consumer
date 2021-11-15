@@ -58,7 +58,7 @@ const CardMyParty = (props: Props) => {
                 width={130}
                 height={100}
                 src={party.restaurant.restaurant_photo_ref ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${party.restaurant.restaurant_photo_ref}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
-                  : "/images/tidmun.webp"}
+                  : "/images/default_restaurant.png"}
                 className="rounded-l-lg"
               />
             </div>

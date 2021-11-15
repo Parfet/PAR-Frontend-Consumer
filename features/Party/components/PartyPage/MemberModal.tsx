@@ -120,7 +120,7 @@ const MemberModal = (props :Props) => {
               alt={memberDetail.display_name}
               width={"80px"}
               height={"80px"}
-              src={memberDetail.image_url || mockPartyMember[0].imageURL}
+              src={memberDetail.image_url || "/images/default_user.jpg"}
               layout="responsive"
               objectFit="cover"
               className="rounded-25"
