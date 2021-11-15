@@ -13,6 +13,7 @@ import { useUser } from '../../../core/context/auth_context'
 import { useRestaurant } from '../contexts/restaurant_context'
 import CardRestaurant from '../components/CardRestaurant'
 import NoContent from '../../../core/components/NoContent'
+import Loading from '../../../core/components/Loading'
 
 const BackgroundRestaurantList = styled.div`
   background-color: #F8CE28;
@@ -44,6 +45,7 @@ const RestaurantList = () => {
   const userContext = useUser();
   const restaurantContext = useRestaurant();
   const [noContentWord, setNoContentWord] = useState("กรุณาเช็คการเชื่อมต่ออีกครั้งครับ")
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async () => {
@@ -52,10 +54,12 @@ const RestaurantList = () => {
         if (error) {
           setNoContentWord('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ')
         }else{
-          await restaurantContext.getRestaurants(userContext.location)
+          let response = await restaurantContext.getRestaurants(userContext.location)
+          if (response) setLoading(false)
         }
       }else{
-        await restaurantContext.getRestaurants(userContext.location)
+        let response = await restaurantContext.getRestaurants(userContext.location)
+        if (response) setLoading(false)
       }
     })()
   }, [])
@@ -65,9 +69,14 @@ const RestaurantList = () => {
     initialValues: {
       restaurantName: ''
     },
-    onSubmit: (values) => {
-      setNoContentWord("ไม่พบร้าน " + values.restaurantName)
-      restaurantContext.getRestaurants({ keyword : values.restaurantName})
+    onSubmit: async (values) => {
+      setLoading(true)
+      let response = await restaurantContext.getRestaurants({ keyword : values.restaurantName})
+      if (response) setLoading(false) 
+      else {
+        setLoading(false)
+        setNoContentWord("ไม่พบร้าน " + values.restaurantName)
+      }
     },
   });
 
@@ -80,7 +89,7 @@ const RestaurantList = () => {
             name="restaurantName"
             className={classes.input}
             placeholder="ค้นหาร้านอาหาร"
-            inputProps={{ 'aria-label': 'ค้นหาร้านอาหาร' }}
+            inputProps={{ 'aria-label': 'ค้นหาร้านอาหารiiiiiii' }}
             value={formik.values.restaurantName}
             onChange={formik.handleChange}
             error={formik.touched.restaurantName && Boolean(formik.errors.restaurantName)}
@@ -90,7 +99,10 @@ const RestaurantList = () => {
           </IconButton>
         </Paper>
       </form>
-      {
+      { 
+        loading ?
+          <Loading isWhite />
+        : 
         _.size(restaurantContext.restaurants)=== 0 ?
           <div className="flex justify-center flex-col w-full h-full pb-24">
             <NoContent text={noContentWord} white />

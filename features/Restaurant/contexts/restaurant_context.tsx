@@ -55,8 +55,11 @@ const RestaurantFunction = () => {
       const response = await apiRestaurant.getAllRestaurants(param)
       if (response.status === StatusCodes.OK) {
         setRestaurants(response.data.restaurants)
+        console.log("🚀 ~ file: restaurant_context.tsx ~ line 57 ~ getRestaurants ~ response.status", response.status)
+        return true
       } else {
         setRestaurants([])
+        return true
       }
     } catch (error) {
       console.log(error)

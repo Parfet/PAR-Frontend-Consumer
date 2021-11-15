@@ -77,7 +77,7 @@ const RestaurantInfo = () => {
         width={3}
         height={1.5}
         layout="responsive"
-        src="/images/tidmun.webp"
+        src="/images/default_restaurant.png"
         className="rounded-t-5"
       />
       <div className="flex flex-row justify-around my-3">

@@ -31,7 +31,7 @@ const CardRequest = (props: Props) => {
           alt={username}
           width={"80px"}
           height={"80px"}
-          src={imageURL || "/images/tidmun.webp"}
+          src={imageURL || "/images/default_restaurant.png"}
           layout="responsive"
           objectFit="cover"
           className="rounded-25"
