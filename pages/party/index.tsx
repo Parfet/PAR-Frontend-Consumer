@@ -51,11 +51,6 @@ const Party = () => {
       backTextButton='Restaurant'
       backRoute={() => router.push('/restaurant')}
       middleText='Party'
-      leftIcon={
-        <IconButton onClick={handleOpenFilter} >
-          <SortIcon />
-        </IconButton>
-      }
       bottomNavigator={
         <>
           <div className="flex w-1/3 justify-center">
