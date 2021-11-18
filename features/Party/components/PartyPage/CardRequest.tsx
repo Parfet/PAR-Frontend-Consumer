@@ -25,7 +25,7 @@ const CardRequest = (props: Props) => {
       keyId % 3 === 1 ? 'bg-cusDarkRed' : 'bg-cusBrown' 
 
   return (
-    <Card className={`flex space-x-2 p-3 ${bgColor}`} variant="outlined" onClick={handleClick}>
+    <Card className={`flex space-x-2 p-3 ${bgColor}`} variant="outlined">
       <div className="w-1/4">
         <Image
           alt={username}
@@ -35,6 +35,7 @@ const CardRequest = (props: Props) => {
           layout="responsive"
           objectFit="cover"
           className="rounded-25"
+          onClick={handleClick}
           />
       </div>
       <div className="w-2/4 flex flex-col content-center">
