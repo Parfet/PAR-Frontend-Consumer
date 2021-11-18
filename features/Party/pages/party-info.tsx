@@ -55,7 +55,7 @@ const PartyInfo = () => {
           <NormalText>{partyContext.currentParty.interested_topic}</NormalText>
         </InputField>
         <InputField label="ร้านอาหาร">
-          <NormalText>{partyContext.currentParty.restaurant_name}</NormalText>
+          <NormalText>{partyContext.currentParty.restaurant.restaurant_name}</NormalText>
         </InputField>
         <InputField label="Tag ที่สนใจ">
           <div className="flex flex-wrap justify-start h-full">
@@ -96,7 +96,7 @@ const PartyInfo = () => {
                   event={{
                     name: partyContext.currentParty.party_name,
                     details: `คุณมีนัดหมายในการไปร่วมปาร์ตี้กับเพื่อน ๆ ในปาร์ตี้ ${partyContext.currentParty.party_name} 
-                      สถานที่ในการไปรับประทาน คือ ${partyContext.currentParty.restaurant_name ?? "Mock"} ในเวลา ${dayjs(partyContext.currentParty.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}`,
+                      สถานที่ในการไปรับประทาน คือ ${partyContext.currentParty.restaurant.restaurant_name} ในเวลา ${dayjs(partyContext.currentParty.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}`,
                     location: partyContext.currentParty.restaurant_name ?? "Mock",
                     startsAt: dayjs(partyContext.currentParty.schedule_time).toISOString(),
                     endsAt: dayjs(partyContext.currentParty.schedule_time).add(2, 'hour').toISOString()
