@@ -51,15 +51,10 @@ const Party = () => {
       backTextButton='Restaurant'
       backRoute={() => router.push('/restaurant')}
       middleText='Party'
-      leftIcon={
-        <IconButton onClick={handleOpenFilter} >
-          <SortIcon />
-        </IconButton>
-      }
       bottomNavigator={
         <>
           <div className="flex w-1/3 justify-center">
-            <BottomNavigationAction label="ขอเข้าร่วม" icon={<ListIcon />} showLabel />
+            <BottomNavigationAction label="คำขอของฉัน" icon={<ListIcon />} showLabel />
           </div>
           <div className="flex w-1/3 justify-center">
             <BottomNavigationAction label="สร้างปาร์ตี้ใหม่" icon={<AddIcon />} showLabel onClick={() => router.push("/party/create")} />

@@ -64,9 +64,8 @@ const MemberModal = (props :Props) => {
   }
 
   const givePermissionAPI = async () => {
-    partyContext.currentParty.head_party.user_id = memberDetail.user_id
     try {
-      const res = await apiParty.updateParty(partyContext.currentParty, partyContext.currentParty.party_id)
+      const res = await apiParty.updateParty(partyContext.currentParty, partyContext.currentParty.party_id, memberDetail.user_id)
       if (res.status === StatusCodes.OK) {
         callBackToMemberParty(false)
         partyContext.getPartyByPartyId(partyContext.currentParty.party_id)

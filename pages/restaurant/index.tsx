@@ -52,16 +52,11 @@ const Restaurant = () => {
       middleText='Restaurant'
       backTextButton='Back'
       backRoute={() => router.push('/')}
-      leftIcon={
-        <IconButton onClick={handleOpenFilter}>
-          <SortIcon />
-        </IconButton>
-      }
       bottomNavigator={
         <>
           <div className="flex w-1/2 justify-center">
             <BottomNavigationAction 
-              label="ขอเข้าร่วม" 
+              label="คำขอของฉัน"
               icon={<ListIcon />} 
               showLabel 
               onClick={() => router.push("/party/request")}

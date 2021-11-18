@@ -32,7 +32,7 @@ const myRequest = () => {
           :
           _.size(request) === 0 ?
             <div className="flex justify-center flex-col w-full h-full">
-              <NoContent text="ไม่มีคำขอเข้าร่วม" white />
+              <NoContent text="ไม่มีการส่งคำขอเข้าร่วม" white />
             </div>
             :
             _.map(request, (data) => (

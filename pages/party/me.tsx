@@ -39,11 +39,6 @@ const CreatePartyPage = () => {
       backTextButton='Home'
       backRoute={() => router.push('/')}
       middleText='My Party'
-      leftIcon={
-        <IconButton>
-          <SortIcon />
-        </IconButton>
-      }
       floatingButton={
         <OverflowFab onClick={() => router.push("/party/request")} >
           <ListIcon />
