@@ -61,7 +61,7 @@ const Restaurant = () => {
         <>
           <div className="flex w-1/2 justify-center">
             <BottomNavigationAction 
-              label="ขอเข้าร่วม" 
+              label="คำขอของฉัน"
               icon={<ListIcon />} 
               showLabel 
               onClick={() => router.push("/party/request")}
