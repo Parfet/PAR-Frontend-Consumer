@@ -15,7 +15,7 @@ import InstallPWA from '../core/components/Error/InstallPWA'
 const MyApp = ({ Component, pageProps }) => {
   const browser = detect();
 
-  const [checkPWA, setCheckPWA] = useState(false)
+  const [checkPWA, setCheckPWA] = useState(true)
   const [checkMobile, setCheckMobile] = useState(true)
 
   useEffect(() => {
