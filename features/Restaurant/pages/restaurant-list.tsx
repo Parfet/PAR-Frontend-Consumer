@@ -71,7 +71,7 @@ const RestaurantList = () => {
     },
     onSubmit: async (values) => {
       setLoading(true)
-      let response = await restaurantContext.getRestaurants({ keyword : values.restaurantName})
+      let response = await restaurantContext.getRestaurants({ keyword: values.restaurantName, ...userContext.location})
       if (response) setLoading(false) 
       else {
         setLoading(false)
