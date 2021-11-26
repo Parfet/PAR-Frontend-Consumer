@@ -69,7 +69,7 @@ const PartyRequest = () => {
           :
           _.size(userList) === 0 ?
             <div className="flex justify-center flex-col">
-              <NoContent text="ยังไม่มีคนขอเข้าร่วม Party ของคุณ" />
+              <NoContent text="ยังไม่มีคนขอเข้าร่วมปาร์ตี้ของคุณ" />
             </div>
           :
           <>
