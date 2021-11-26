@@ -40,3 +40,4 @@ yarn-error.log*
 # Generated via next-pwa
 **/public/workbox**
 **/public/sw**
+**/public/service*
