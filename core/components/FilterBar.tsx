@@ -11,10 +11,11 @@ interface Props {
 
 const useStyles = makeStyles({
   paper: {
-    marginTop: "4em",
+    marginTop: "3em",
     paddingTop: "3em",
-    width: "250px",
-    background: "#FFDC97"
+    paddingLeft: "1em",
+    width: "200px",
+    background: "#FFFFFF"
   }
 })
 
@@ -41,7 +42,7 @@ const FilterBar = (props: Props) => {
     callBackToParent(false);
     setOpenDrawer(open);
     
-    if (!open) {
+    if (handleCloseFromParent && !open) {
       handleCloseFromParent()
     }
   };
@@ -49,7 +50,7 @@ const FilterBar = (props: Props) => {
 
   return (
     <Drawer
-      anchor="right" 
+      anchor="left" 
       open={openDrawer} 
       onClose={toggleDrawer(false)}
       classes={{paper: classes.paper}}
