@@ -112,11 +112,18 @@ const CardParty = (props: Props) => {
             ))
           }
         </div>
-        <div className="flex justify-end">
-          <NormalText>
-            {_.size(party.members)}/{party.max_member}
-            <PeopleAltOutlinedIcon />
-          </NormalText>
+        <div className="grid justify-items-stretch grid-cols-2">
+          <div className="justify-self-start place-self-center">
+            <NormalText isCut>
+              เจ้าของปาร์ตี้ {party.head_party.display_name}
+            </NormalText>
+          </div>
+          <div className="justify-self-end">
+            <NormalText>
+              {_.size(party.members)}/{party.max_member}
+              <PeopleAltOutlinedIcon />
+            </NormalText>
+          </div>
         </div>
       </Paper>
       <DeclineModal 

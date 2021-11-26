@@ -30,7 +30,7 @@ const DeclineModal = (props: Props) => {
           <CancelIcon style={{ color: "#AC3B31", fontSize: '48px' }} />
         </div>
         <div className="mt-3 mb-5">
-          <RegularText> { text || 'คำขอเข้าร่วมถูกปฏิเสธ' } </RegularText>
+          <RegularText> { text || 'คำขอเข้าร่วมถูกปฏิเสธ หรือคุณได้ยกเลิกคำขอเข้าร่วมปาร์ตี้' } </RegularText>
         </div>
         <div className="flex justify-center">
           <Button variant="contained" disableElevation onClick={handleClose}>ปิด</Button>

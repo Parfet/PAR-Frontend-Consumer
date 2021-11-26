@@ -29,7 +29,7 @@ const CreatePartyPage = () => {
       yellow
       backTextButton='กลับ'
       backRoute={() => router.push('/party')}
-      middleText='สร้างปาร์ตี้ใหม่'
+      middleText='สร้างปาร์ตี้'
     >
       <CreateParty />
     </Navigator>

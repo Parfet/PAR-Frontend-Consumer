@@ -56,6 +56,10 @@ const apiParty = {
     const response = await api.post(`/party/info/${partyId}/join`, data)
     return response
   },
+  cancelJoinParty: async (partyId: string) => {
+    const response = await api.post(`/party/info/${partyId}/cancel`)
+    return response
+  },
   getUserJoinParty: async (partyId: string) => {
     const response = await api.get(`/party/info/${partyId}/join`)
     return response
