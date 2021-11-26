@@ -54,7 +54,7 @@ const Party = () => {
       bottomNavigator={
         <>
           <div className="flex w-1/3 justify-center">
-            <BottomNavigationAction label="คำขอของฉัน" icon={<ListIcon />} showLabel />
+            <BottomNavigationAction label="คำขอของฉัน" icon={<ListIcon />} showLabel onClick={() => router.push("/party/request")} />
           </div>
           <div className="flex w-1/3 justify-center">
             <BottomNavigationAction label="สร้างปาร์ตี้ใหม่" icon={<AddIcon />} showLabel onClick={() => router.push("/party/create")} />
