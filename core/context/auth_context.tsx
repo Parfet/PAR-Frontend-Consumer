@@ -22,6 +22,7 @@ interface UserContextInterface {
   clearUser: Function
   getUserData: Function
   register: Function
+  loading: Boolean
 }
 
 const userContext = createContext<UserContextInterface | null>(null);
@@ -39,6 +40,7 @@ const UserFunction = () => {
   const [firstTime, setFirstTime] = useState<boolean>(false);
   const [location, setLocation] = useState <Location>({ lat: 0, lng: 0 })
   const [checkPWA, setCheckPWA] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (window.matchMedia('(display-mode: standalone)').matches) {
@@ -46,9 +48,10 @@ const UserFunction = () => {
     }
     if (checkPWA) {
       firebase
-        .auth()
-        .getRedirectResult()
-        .then((response) => {
+      .auth()
+      .getRedirectResult()
+      .then((response) => {
+          setLoading(true)
           handleUser(response.user);
         })
     }
@@ -73,14 +76,16 @@ const UserFunction = () => {
       const user = await formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
       cookies.set('access_token', token, { path: '/', maxAge: 3600 })
-      cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 3600 })
+      cookies.set('refresh_token', rawUser.refreshToken, { path: '/', maxAge: 7200 })
       apiAuth.checkUser().then((response) => {
         console.log("🚀 ~ file: auth_context.tsx ~ line 61 ~ apiAuth.checkUser ~ response", response)
         if (response.data.is_user_existed) {
           setFirstTime(false)
-          getUserData().then(() => Router.push('/'))
+          // setLoading(false)
+          // getUserData().then(() => Router.push('/'))
         } else {
           setFirstTime(true)
+          setLoading(false)
           cookies.remove('refresh_token')
           cookies.remove('access_token')
           Router.push('/term');
@@ -150,6 +155,7 @@ const UserFunction = () => {
         handleUser(false)
         cookies.remove('refresh_token')
         cookies.remove('access_token')
+        setLoading(false)
         Router.push('/signin')
       });
   };
@@ -162,6 +168,7 @@ const UserFunction = () => {
         setUserData(null)
         cookies.remove('refresh_token')
         cookies.remove('access_token')
+        setLoading(false)
       });
   };
 
@@ -203,7 +210,8 @@ const UserFunction = () => {
     signinWithGoogle,
     signout,
     clearUser,
-    register
+    register,
+    loading
   };
 }
 
