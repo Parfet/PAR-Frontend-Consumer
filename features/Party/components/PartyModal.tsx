@@ -22,6 +22,7 @@ import { useUser } from '../../../core/context/auth_context'
 import { useRestaurant } from '../../Restaurant/contexts/restaurant_context'
 import InputField from '../../../core/components/InputField'
 import apiParty from '../services/apiParty'
+import { useParty } from '../contexts/party_context'
 import { UIDateLayout } from '../../../core/constant/constant'
 
 interface Props {
@@ -63,6 +64,7 @@ const PartyModal = (props: Props) => {
   const { showModal, callBackToPartyList, party, mode } = props
   const classes = useStyles();
   const router = useRouter()
+  const partyContext = useParty()
   const authContext = useUser()
   const restaurantContext = useRestaurant()
   const [open, setOpen] = useState(false);
@@ -77,7 +79,10 @@ const PartyModal = (props: Props) => {
     setOpen(showModal)
   })
   
-  const handleClose = () => {
+  const handleClose = async () => {
+    if (mode == "quick"){
+      await partyContext.cancelJoinParty(party.party_id)
+    }
     setOpen(false);
     callBackToPartyList(false);
   };

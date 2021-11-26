@@ -17,6 +17,7 @@ interface PartyContextInterface {
   getHistory: Function
   checkJoinStatus: Function
   randomParty: Function
+  cancelJoinParty: Function
 }
 
 const partyContext = createContext<PartyContextInterface | null>(null);
@@ -135,6 +136,16 @@ const PartyFunction = () => {
     }
   }
 
+  const cancelJoinParty = async (partyId) => {
+    try {
+      const response = await apiParty.cancelJoinParty(partyId)
+      return !!response
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   return {
     parties,
     allMyParty,
@@ -147,6 +158,7 @@ const PartyFunction = () => {
     getMyPartyRequest,
     getHistory,
     checkJoinStatus,
-    randomParty
+    randomParty,
+    cancelJoinParty
   };
 }
