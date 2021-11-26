@@ -81,8 +81,8 @@ const UserFunction = () => {
         console.log("🚀 ~ file: auth_context.tsx ~ line 61 ~ apiAuth.checkUser ~ response", response)
         if (response.data.is_user_existed) {
           setFirstTime(false)
-          // setLoading(false)
-          // getUserData().then(() => Router.push('/'))
+          setLoading(false)
+          getUserData().then(() => Router.push('/'))
         } else {
           setFirstTime(true)
           setLoading(false)
