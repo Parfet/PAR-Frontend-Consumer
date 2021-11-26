@@ -33,7 +33,7 @@ const MyParty = () => {
         :
         _.size(partyContext.allMyParty) === 0 ?
           <div className="flex justify-center flex-col w-full h-full">
-            <NoContent text="คุณไม่มี Party ที่เข้าร่วมในตอนนี้" white />
+            <NoContent text="คุณไม่มีปาร์ตี้ที่เข้าร่วมในตอนนี้" white />
           </div>
           :
           _.map(partyContext.allMyParty, (data, index) => (

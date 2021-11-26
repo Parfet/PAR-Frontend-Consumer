@@ -7,7 +7,7 @@ import {
   } from '@material-ui/core';
   import _ from 'lodash'
 
-import { User } from '../../../../core/constant/type'
+import { User, Tag } from '../../../../core/constant/type'
 import { SubHeader, NormalText } from '../../../../core/config/textStyle'
 import { AdminPartyAction } from '../../../../core/constant/enum'
 import ConfirmModal from '../../../../core/components/ConfirmModal'
@@ -130,11 +130,14 @@ const MemberModal = (props :Props) => {
           </div>
           <div className="flex flex-wrap justify-start">
             {
-              _.map(memberDetail.interest_tags, (data) => (
-                <NormalText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-4 py-1 m-1 ">
-                  {data}
-                </NormalText>
-              ))
+              _.size(memberDetail.interested_tag) === 0 ?
+                <NormalText>ไม่มี Tag ที่สนใจ</NormalText>
+                :
+                _.map(memberDetail.interested_tag, (data: Tag) => (
+                  <NormalText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-4 py-1 m-1 ">
+                    {data.tag_name}
+                  </NormalText>
+                ))
             }
           </div>
           {

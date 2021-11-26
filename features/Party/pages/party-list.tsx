@@ -38,7 +38,7 @@ const PartyList = () => {
         :
         _.size(partyContext.parties) === 0 ? 
         <div className="flex justify-center flex-col w-full h-full">
-          <NoContent text="ไม่มี Party ในร้านอาหารนี้" white />
+          <NoContent text="ไม่มีปาร์ตี้ในร้านอาหารนี้" white />
         </div>
         :
         _.map(partyContext.parties, (data) => (

@@ -8,6 +8,8 @@ import Loading from '../core/components/Loading'
 import { useUser } from '../core/context/auth_context';
 import Navigator from '../core/components/Navigator'
 import Home from '../features/Home/pages/'
+import NavDrawer from '../features/Home/components/NavDrawer'
+
 
 const cookies = new Cookies()
 
@@ -17,7 +19,8 @@ const Index = () => {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
-
+  const [open, setOpen] = useState(false)
+  
   useEffect(() => {
     (async () => {
       console.log("🚀 ~ file: index.tsx ~ line 26 ~ userContext.userData", userContext.userData)
@@ -40,12 +43,20 @@ const Index = () => {
     })()
   }, [loading])
 
+  const callBackFormFilter = (value) => {
+    setOpen(value)
+  }
+
+  const handleOpenNav = () => {
+    setOpen(!open)
+  }
+
   return loading ?
     <Loading />
     : (
       <Navigator
         rightIcon={
-          <IconButton>
+          <IconButton onClick={handleOpenNav}>
             <Image
               alt={username + " Photo"}
               src={photoUrl || "/images/default_user.jpg"}
@@ -57,7 +68,10 @@ const Index = () => {
         }
         middleText={username}
       >
-        <Home />
+        <>
+          <NavDrawer open={open} callBackFormFilter={callBackFormFilter}/>
+          <Home />
+        </>
       </Navigator>
     )
 
