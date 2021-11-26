@@ -51,8 +51,10 @@ const UserFunction = () => {
       .auth()
       .getRedirectResult()
       .then((response) => {
-          setLoading(true)
-          handleUser(response.user);
+          if (response.user){
+            setLoading(true)
+            handleUser(response.user);
+          }
         })
     }
   }, [firebase, checkPWA])

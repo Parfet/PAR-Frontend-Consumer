@@ -49,8 +49,8 @@ const Restaurant = () => {
 
   return (
     <Navigator
-      middleText='Restaurant'
-      backTextButton='Back'
+      middleText='ร้านอาหาร'
+      backTextButton='กลับ'
       backRoute={() => router.push('/')}
       bottomNavigator={
         <>

@@ -14,7 +14,7 @@ const RegisterPages = () => {
     } 
   }, [])
   return (
-    <Navigator yellow centerAppBar middleText='Register'>
+    <Navigator yellow centerAppBar middleText='ลงทะเบียน'>
       <Register />
     </Navigator>
   )

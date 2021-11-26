@@ -48,9 +48,9 @@ const Party = () => {
   
   return (
     <Navigator
-      backTextButton='Restaurant'
+      backTextButton='ร้านอาหาร'
       backRoute={() => router.push('/restaurant')}
-      middleText='Party'
+      middleText='ปาร์ตี้'
       bottomNavigator={
         <>
           <div className="flex w-1/3 justify-center">
