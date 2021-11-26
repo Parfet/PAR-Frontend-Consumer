@@ -8,7 +8,6 @@ import Loading from '../core/components/Loading'
 import { useUser } from '../core/context/auth_context';
 import Navigator from '../core/components/Navigator'
 import Home from '../features/Home/pages/'
-
 import NavDrawer from '../features/Home/components/NavDrawer'
 
 
