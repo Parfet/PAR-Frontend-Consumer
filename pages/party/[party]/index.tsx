@@ -115,9 +115,9 @@ const PartyPage = () => {
       userContext.userData && partyContext.currentParty ?
         <Navigator
           yellow
-          backTextButton='Back'
+          backTextButton='กลับ'
           backRoute={() => router.push('/party/me')}
-          middleText="Party"
+          middleText="ปาร์ตี้"
           leftIcon={
             <Meatball
               menuItems={

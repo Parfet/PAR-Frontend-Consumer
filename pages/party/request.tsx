@@ -36,7 +36,7 @@ const RequestPartyPage = () => {
 
   return (
     <Navigator
-      backTextButton='Back'
+      backTextButton='กลับ'
       backRoute={() => router.back()}
       middleText='คำขอของฉัน'
     >

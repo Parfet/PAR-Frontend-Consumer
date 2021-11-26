@@ -31,9 +31,9 @@ const RequestPage = () => {
   return (
     <Navigator
       yellow
-      backTextButton='Back'
+      backTextButton='กลับ'
       backRoute={() => router.push(`/party/${partyId}`)}
-      middleText="Request"
+      middleText="คำร้อง"
     >
       <PartyRequest />
     </Navigator>
