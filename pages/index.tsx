@@ -17,7 +17,7 @@ const Index = () => {
   const router = useRouter()
   const userContext = useUser();
   const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState('')
+  const [displayName, setDisplayName] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
   const [open, setOpen] = useState(false)
   
@@ -32,7 +32,7 @@ const Index = () => {
           router.push('/signin')
         }
       } else {
-        setUsername(userContext.userData.username)
+        setDisplayName(userContext.userData.display_name)
         // if (userContext.userData.provider === "twitter.com") {
         //   let aryProfile = userContext.userData.image_url.split('_normal')
         //   setPhotoUrl(aryProfile[0] + aryProfile[1])
@@ -67,7 +67,7 @@ const Index = () => {
         rightIcon={
           <IconButton onClick={handleOpenNav}>
             <Image
-              alt={username + " Photo"}
+              alt={displayName + " Photo"}
               src={photoUrl || "/images/logo_parfet_192.png"}
               width={"32px"}
               height={"32px"}
@@ -75,7 +75,7 @@ const Index = () => {
             />
           </IconButton>
         }
-        middleText={username}
+        middleText={displayName}
       >
         <>
           <NavDrawer open={open} callBackFormFilter={callBackFormFilter}/>

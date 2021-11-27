@@ -120,7 +120,7 @@ const Register = () => {
     },
   });
   return (
-    <form className="flex flex-col justify-center w-screen my-14 px-10" onSubmit={formik.handleSubmit}>
+    <form className="flex flex-col justify-center w-screen my-16 px-10" onSubmit={formik.handleSubmit}>
       <div className="flex justify-center">
         <Image
           alt={firstName + " Photo"}

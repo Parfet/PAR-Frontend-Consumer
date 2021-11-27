@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { StatusCodes } from 'http-status-codes';
 import Cookies from 'universal-cookie'
 
-import { User, Location } from '../constant/type'
+import { User, Location, Tag } from '../constant/type'
 import apiAuth from '../services/apiAuth'
 import firebase from '../config/firebase';
 
@@ -22,6 +22,7 @@ interface UserContextInterface {
   clearUser: Function
   getUserData: Function
   register: Function
+  editUser: Function
 }
 
 const userContext = createContext<UserContextInterface | null>(null);
@@ -191,6 +192,26 @@ const UserFunction = () => {
     return null
   }
 
+  const editUser = async (userData) => {
+    let formatUserData = {
+      display_name: userData.display_name,
+      interested_tag: []
+    };
+    userData.interested_tag.map( (data: Tag) => {
+      formatUserData.interested_tag.push(data.value)
+    })
+
+    try {
+      const response = await apiAuth.updateUser(formatUserData)
+      if (response.status === StatusCodes.OK) {
+        getUserData()
+        console.log("🚀 ~ file: auth_context.tsx ~ line 47 ~ getUserData ~ response.data.user", response.data.user)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     firstTime,
     userData,
@@ -203,7 +224,8 @@ const UserFunction = () => {
     signinWithGoogle,
     signout,
     clearUser,
-    register
+    register,
+    editUser
   };
 }
 
