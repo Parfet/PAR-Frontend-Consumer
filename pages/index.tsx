@@ -38,15 +38,6 @@ const Index = () => {
         //   setPhotoUrl(aryProfile[0] + aryProfile[1])
         // } else {
         setPhotoUrl(userContext.userData.image_url)
-        // }
-        // if (navigator.geolocation) {
-        //   navigator.geolocation.watchPosition((position) => {
-        //     userContext.setLatitude(position.coords.latitude)
-        //     userContext.setLongitude(position.coords.longitude)
-        //   },
-        //     function error(msg) { alert('กรุณาเปิดการเข้าถึงตำแหน่งที่ตั้งของคุณ'); },
-        //     { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true });
-        // }
         setLoading(false)
       }
     })()

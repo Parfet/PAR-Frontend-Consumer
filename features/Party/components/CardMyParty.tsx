@@ -58,7 +58,7 @@ const CardMyParty = (props: Props) => {
                 width={130}
                 height={100}
                 src={party.restaurant.restaurant_photo_ref ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=${party.restaurant.restaurant_photo_ref}&key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
-                  : "/images/tidmun.webp"}
+                  : "/images/default_restaurant.png"}
                 className="rounded-l-lg"
               />
             </div>
@@ -121,8 +121,8 @@ const CardMyParty = (props: Props) => {
               </div>
             </div>
             <div className="flex flex-row justify-between mt-3">
-              <div>หัวปาร์ตี้</div>
-              <div className="flex items-center ml-3">
+              <div className="w-2/5">หัวปาร์ตี้</div>
+              <div className="flex items-center w-3/5">
                 <NormalText bold isCut>
                   {party.head_party.display_name}
                 </NormalText>

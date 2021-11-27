@@ -10,16 +10,19 @@ import { Errors, PartyRequestStatus } from '../../../core/constant/enum'
 import CardRequest from '../components/PartyPage/CardRequest'
 import { useParty } from '../contexts/party_context'
 import apiParty from '../services/apiParty'
+import Loading from '../../../core/components/Loading'
 
 const PartyRequest = () => {
   const router = useRouter()
   const partyContext = useParty()
   const [userList, setUserList] = useState<User[]>()
   const [partyName, setPartyName] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getUserJoinParty()
     setPartyName(partyContext.currentParty.party_name )
+    if (_.size(userList) >= 0)setLoading(false)
   }, [])
 
   const getUserJoinParty = async () => {
@@ -54,7 +57,6 @@ const PartyRequest = () => {
       }
     }
   }
-
   return (
     <div className="flex flex-col my-28 px-10 h-screen">
       <div className="ml-2 mb-4">
@@ -62,22 +64,24 @@ const PartyRequest = () => {
       </div>
       <div className="flex flex-col space-y-4">
         {
+          loading ?
+            <Loading />
+          :
           _.size(userList) === 0 ?
             <div className="flex justify-center flex-col">
-              <NoContent text="ยังไม่มีคนขอเข้าร่วม Party ของคุณ" />
+              <NoContent text="ยังไม่มีคนขอเข้าร่วมปาร์ตี้ของคุณ" />
             </div>
           :
           <>
             {  
               _.map(userList, (data, index) => (
-              <CardRequest
-                imageURL={data.image_url}
-                username={data.display_name}
-                rating={data.rating}
+                <CardRequest
+                  userData={data}
                   acceptFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_ACCEPT)}
                   declineFunc={() => handleRequest(data.user_id, PartyRequestStatus.STATUS_DECLINE)}
-                keyId={index}
-                />
+                  keyId={index}
+                  />
+                  
               ))
             }
           </>

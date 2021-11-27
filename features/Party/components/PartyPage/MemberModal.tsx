@@ -7,7 +7,7 @@ import {
   } from '@material-ui/core';
   import _ from 'lodash'
 
-import { User } from '../../../../core/constant/type'
+import { User, Tag } from '../../../../core/constant/type'
 import { SubHeader, NormalText } from '../../../../core/config/textStyle'
 import { AdminPartyAction } from '../../../../core/constant/enum'
 import ConfirmModal from '../../../../core/components/ConfirmModal'
@@ -22,11 +22,13 @@ interface Props {
   isAdmin?: boolean
   showModal: boolean
   indexMember: number
+  mode?: string
   callBackToMemberParty: (value) => void
 }
+
 const MemberModal = (props :Props) => {
   const router = useRouter()
-  const { indexMember, memberDetail, callBackToMemberParty, showModal, isAdmin } = props
+  const { indexMember, memberDetail, callBackToMemberParty, showModal, isAdmin, mode } = props
   const [open, setOpen] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [typeAction, setTypeAction] = useState(undefined);
@@ -62,9 +64,8 @@ const MemberModal = (props :Props) => {
   }
 
   const givePermissionAPI = async () => {
-    partyContext.currentParty.head_party.user_id = memberDetail.user_id
     try {
-      const res = await apiParty.updateParty(partyContext.currentParty, partyContext.currentParty.party_id)
+      const res = await apiParty.updateParty(partyContext.currentParty, partyContext.currentParty.party_id, memberDetail.user_id)
       if (res.status === StatusCodes.OK) {
         callBackToMemberParty(false)
         partyContext.getPartyByPartyId(partyContext.currentParty.party_id)
@@ -111,14 +112,14 @@ const MemberModal = (props :Props) => {
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth className="m-14">
         <div className="p-4">
           <div className="flex justify-center">
-            <SubHeader bold> {memberDetail.username} </SubHeader>
+            <SubHeader bold> {memberDetail.display_name} </SubHeader>
           </div>
           <div className={`mx-14 my-3 text-center border-4 rounded-30 ${borderColor}`}>
             <Image
-              alt={memberDetail.username}
+              alt={memberDetail.display_name}
               width={"80px"}
               height={"80px"}
-              src={memberDetail.image_url || mockPartyMember[0].imageURL}
+              src={memberDetail.image_url || "/images/default_user.jpg"}
               layout="responsive"
               objectFit="cover"
               className="rounded-25"
@@ -129,15 +130,18 @@ const MemberModal = (props :Props) => {
           </div>
           <div className="flex flex-wrap justify-start">
             {
-              _.map(memberDetail.interest_tags, (data) => (
-                <NormalText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-4 py-1 m-1 ">
-                  {data}
-                </NormalText>
-              ))
+              _.size(memberDetail.interested_tag) === 0 ?
+                <NormalText>ไม่มี Tag ที่สนใจ</NormalText>
+                :
+                _.map(memberDetail.interested_tag, (data: Tag) => (
+                  <NormalText className="flex flex-wrap content-center bg-gray-300 rounded-5 px-4 py-1 m-1 ">
+                    {data.tag_name}
+                  </NormalText>
+                ))
             }
           </div>
           {
-            !(indexMember === -1) && (userContext.userData.user_id === partyContext.currentParty.head_party.user_id)
+            !(indexMember === -1) && (userContext.userData.user_id === partyContext.currentParty.head_party.user_id) && mode != "view"
             ? <>
                 <div className="flex justify-start mt-4">
                   <div className="w-1/2 flex items-center">

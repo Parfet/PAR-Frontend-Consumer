@@ -1,4 +1,5 @@
 import '../styles/tailwind.css'
+import '@culturehq/add-to-calendar/dist/styles.css'
 import 'dayjs/locale/th'
 
 import React, { useEffect, useState } from 'react'
@@ -15,7 +16,7 @@ import InstallPWA from '../core/components/Error/InstallPWA'
 const MyApp = ({ Component, pageProps }) => {
   const browser = detect();
 
-  const [checkPWA, setCheckPWA] = useState(true)
+  const [checkPWA, setCheckPWA] = useState(false)
   const [checkMobile, setCheckMobile] = useState(true)
 
   useEffect(() => {

@@ -105,7 +105,7 @@ const Home = () => {
         <div className="flex justify-between space-x-5">
           <ButtonWithColor variant="contained" className="w-1/3 text-white" onClick={() => router.push('/restaurant')}> เลือกร้านอาหาร </ButtonWithColor>
           <ButtonWithColor variant="contained" className="w-1/3 text-white" onClick={() => router.push('/party/history')}> ประวัติ </ButtonWithColor>
-          <ButtonWithColor variant="contained" className="w-1/3 text-white" onClick={() => router.push('/party/request')}> รายการคำขอ </ButtonWithColor>
+          <ButtonWithColor variant="contained" className="w-1/3 text-white" onClick={() => router.push('/party/request')}> คำขอของฉัน </ButtonWithColor>
         </div>
       </div>
       {

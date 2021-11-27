@@ -5,6 +5,7 @@ import _ from "lodash"
 import { useParty } from '../contexts/party_context'
 import NoContent from '../../../core/components/NoContent'
 import CardMyParty from '../components/CardMyParty'
+import Loading from '../../../core/components/Loading'
 
 const BackgroundPartyList = styled.div`
   background-color: #F8CE28;
@@ -14,18 +15,20 @@ const BackgroundPartyList = styled.div`
 const historyParty = () => {
   const partyContext = useParty()
   const [history, setHistory] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async () => {
       setHistory(await partyContext.getHistory())
+      if (_.size(history) >= 0) setLoading(false)
     })()
   }, [])
 
   return (
-    <BackgroundPartyList className="overscroll-auto pt-4 pb-10">
+    <BackgroundPartyList className="overscroll-auto pt-4 pb-10" height={_.size(history)}>
       {
-        history == null ?
-          <>loading</>
+        history == null || loading ?
+          <Loading isWhite />
           :
           _.size(history) === 0 ?
             <div className="flex justify-center flex-col w-full h-full">

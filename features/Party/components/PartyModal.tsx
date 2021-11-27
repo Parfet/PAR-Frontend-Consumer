@@ -22,6 +22,7 @@ import { useUser } from '../../../core/context/auth_context'
 import { useRestaurant } from '../../Restaurant/contexts/restaurant_context'
 import InputField from '../../../core/components/InputField'
 import apiParty from '../services/apiParty'
+import { useParty } from '../contexts/party_context'
 import { UIDateLayout } from '../../../core/constant/constant'
 
 interface Props {
@@ -63,6 +64,7 @@ const PartyModal = (props: Props) => {
   const { showModal, callBackToPartyList, party, mode } = props
   const classes = useStyles();
   const router = useRouter()
+  const partyContext = useParty()
   const authContext = useUser()
   const restaurantContext = useRestaurant()
   const [open, setOpen] = useState(false);
@@ -77,7 +79,10 @@ const PartyModal = (props: Props) => {
     setOpen(showModal)
   })
   
-  const handleClose = () => {
+  const handleClose = async () => {
+    if (mode == "quick"){
+      await partyContext.cancelJoinParty(party.party_id)
+    }
     setOpen(false);
     callBackToPartyList(false);
   };
@@ -89,7 +94,8 @@ const PartyModal = (props: Props) => {
       try {
         const res = await apiParty.joinParty(party.party_id, passcode)
         if (res.status === StatusCodes.OK) {
-          handleClose();
+          setOpen(false);
+          callBackToPartyList(false);
         }
       } catch (error) {
         if (error.response?.status === StatusCodes.BAD_REQUEST) {
@@ -97,7 +103,8 @@ const PartyModal = (props: Props) => {
             if (message === Errors.PASSCODE_INCORRECT) {
               setAlertText(ErrorMessage.PASSCODE_INCORRECT)
             }else if (message === Errors.PARTY_NOT_FOUND || message === Errors.ALREADY_JOIN_PARTY) {
-              handleClose();
+              setOpen(false);
+              callBackToPartyList(false);
             } else {
               router.push('/')
             }
@@ -133,7 +140,7 @@ const PartyModal = (props: Props) => {
                     `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photo_reference=
                     ${mode == "quick" ? party.restaurant.restaurant_photo_ref : restaurantContext.currentRestaurant.photos[0].photo_reference}
                     &key=AIzaSyDrsNg9fJrPlKhGh4BzGfLNA3khHeqg-Js`
-                : "/images/tidmun.webp"}
+                : "/images/default_restaurant.png"}
               className="rounded-lg object-fill"
             />
             {

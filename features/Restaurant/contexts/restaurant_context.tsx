@@ -34,29 +34,29 @@ const RestaurantFunction = () => {
 
   const getRestaurants = async (filter: SearchWord) => {
     let param = ""
-    if(filter.keyword){
-      param = "keyword=" + filter.keyword
-    }else{
-      Object.keys(searchWord).forEach((key, index) => {
-        for (const [k, v] of Object.entries(filter)) {
-          if (key === k) {
-            searchWord[key] = v
-          }
+
+    Object.keys(searchWord).forEach((key, index) => {
+      for (const [k, v] of Object.entries(filter)) {
+        if (key === k) {
+          searchWord[key] = v
         }
-        if (index === Object.keys(searchWord).length - 1) {
-          param = param + key + "=" + searchWord[key]
-        } else {
-          param = param + key + "=" + searchWord[key] + "&"
-        }
-      });
-    }
+      }
+      if (index === Object.keys(searchWord).length - 1) {
+        param = param + key + "=" + searchWord[key]
+      } else {
+        param = param + key + "=" + searchWord[key] + "&"
+      }
+    });
 
     try {
       const response = await apiRestaurant.getAllRestaurants(param)
       if (response.status === StatusCodes.OK) {
         setRestaurants(response.data.restaurants)
+        console.log("🚀 ~ file: restaurant_context.tsx ~ line 57 ~ getRestaurants ~ response.status", response.status)
+        return true
       } else {
         setRestaurants([])
+        return true
       }
     } catch (error) {
       console.log(error)

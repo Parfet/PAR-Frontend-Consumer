@@ -56,6 +56,10 @@ const apiParty = {
     const response = await api.post(`/party/info/${partyId}/join`, data)
     return response
   },
+  cancelJoinParty: async (partyId: string) => {
+    const response = await api.post(`/party/info/${partyId}/cancel`)
+    return response
+  },
   getUserJoinParty: async (partyId: string) => {
     const response = await api.get(`/party/info/${partyId}/join`)
     return response
@@ -72,10 +76,10 @@ const apiParty = {
     const response = await api.put(`/party/info/${partyId}/join`, data)
     return response
   },
-  updateParty: async (party: Party, partyId: string) => {
+  updateParty: async (party: Party, partyId: string, userId?: string) => {
     const data = {
       "party_name": party.party_name,
-      "head_party": party.head_party,
+      "head_party": userId ? userId : party.head_party,
       "passcode": party.passcode,
       "party_type": party.party_type,
       "interested_topic": party.interested_topic,

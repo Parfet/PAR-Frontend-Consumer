@@ -36,14 +36,9 @@ const CreatePartyPage = () => {
 
   return (
     <Navigator
-      backTextButton='Home'
+      backTextButton='หน้าหลัก'
       backRoute={() => router.push('/')}
-      middleText='My Party'
-      leftIcon={
-        <IconButton>
-          <SortIcon />
-        </IconButton>
-      }
+      middleText='ปาร์ตี้ของฉัน'
       floatingButton={
         <OverflowFab onClick={() => router.push("/party/request")} >
           <ListIcon />

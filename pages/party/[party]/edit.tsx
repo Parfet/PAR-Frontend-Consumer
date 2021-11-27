@@ -31,9 +31,9 @@ const EditParty = () => {
   return (
     <Navigator
       yellow
-      backTextButton='Back'
+      backTextButton='กลับ'
       backRoute={() => router.push(`/party/${partyId}`)}
-      middleText='Edit Party'
+      middleText='แก้ไขปาร์ตี้'
     >
       <CreateParty edit/>
     </Navigator>

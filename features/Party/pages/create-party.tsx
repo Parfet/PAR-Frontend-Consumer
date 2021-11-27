@@ -254,7 +254,7 @@ const CreateParty = (prop :Prop) => {
         />
       </InputField>
       <div className="flex  space-x-2">
-        <InputField label="ประเภทของปาร์ตี้" className="w-2/3">
+        <InputField label="ประเภทของปาร์ตี้" className="w-3/5">
           <TextField
             id="party_type"
             name="party_type"
@@ -274,7 +274,7 @@ const CreateParty = (prop :Prop) => {
             }
           </TextField>
         </InputField>
-        <InputField label="จำนวนคนสูงสุด" className="w-1/3">
+        <InputField label="จำนวนคนสูงสุด" className="w-2/5">
           <TextField
             id="max_member"
             name="max_member"

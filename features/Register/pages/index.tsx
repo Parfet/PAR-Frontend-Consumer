@@ -113,7 +113,7 @@ const Register = () => {
         formik.touched.displayName = true
         formik.errors.displayName = "มีชื่อที่ต้องการแสดงนี้แล้ว"
       } else if (response.status == StatusCodes.NO_CONTENT){
-        router.push('/')
+        userContext.getUserData().then(() => router.push('/'))
       } else {
         router.push('/signin')
       }
