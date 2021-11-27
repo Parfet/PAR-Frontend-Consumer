@@ -91,25 +91,21 @@ const PartyModal = (props: Props) => {
     if (passcode.length === 6 || party.party_type === PartyType.PUBLIC){
       setAlertText('')
       //TODO: Move to context
-      try {
         const res = await apiParty.joinParty(party.party_id, passcode)
-        if (res.status === StatusCodes.OK) {
+      if (res.response && res.response.status === StatusCodes.BAD_REQUEST) {
+        const message = res.response.data.message
+        if (message === Errors.PASSCODE_INCORRECT) {
+          setAlertText(ErrorMessage.PASSCODE_INCORRECT)
+        } else if (message === Errors.PARTY_NOT_FOUND || message === Errors.ALREADY_JOIN_PARTY) {
           setOpen(false);
           callBackToPartyList(false);
+        } else {
+          router.push('/')
         }
-      } catch (error) {
-        if (error.response?.status === StatusCodes.BAD_REQUEST) {
-          const message = error.response?.data.message
-            if (message === Errors.PASSCODE_INCORRECT) {
-              setAlertText(ErrorMessage.PASSCODE_INCORRECT)
-            }else if (message === Errors.PARTY_NOT_FOUND || message === Errors.ALREADY_JOIN_PARTY) {
-              setOpen(false);
-              callBackToPartyList(false);
-            } else {
-              router.push('/')
-            }
-          }
-        }
+      }else if (res.status === StatusCodes.OK) {
+        setOpen(false);
+        callBackToPartyList(false);
+      }
     }else {
       setAlertText("รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร")
     }

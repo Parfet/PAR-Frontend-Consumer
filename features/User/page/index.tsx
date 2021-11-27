@@ -117,10 +117,12 @@ const UserPage = () => {
             display_name: values.displayName,
             interested_tag: values.interest_tags
           })
+          console.log("🚀 ~ file: index.tsx ~ line 121 ~ onSubmit: ~ response", response)
           if(response.message == Errors.DISPLAY_ALREADY){
             formik.touched.displayName = true
             formik.errors.displayName = "มีชื่อที่ต้องการแสดงนี้แล้ว"
           } else if (response.status == StatusCodes.OK){
+            await userContext.getUserData()
             router.push('/')  
           }
         },
@@ -252,6 +254,7 @@ const UserPage = () => {
             inputId="interest_tags"
             placeholder="เลือกTag ที่เกี่ยวข้อง"
             className="rounded-lg"
+            menuPlacement="top"
             isMulti
             options={partyContext.allTag}
             components={{ animatedComponents, DropdownIndicator }}

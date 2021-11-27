@@ -209,16 +209,13 @@ const UserFunction = () => {
     userData.interested_tag.map( (data: Tag) => {
       formatUserData.interested_tag.push(data.value)
     })
-
-    try {
-      const response = await apiAuth.updateUser(formatUserData)
-      if (response.status === StatusCodes.OK) {
-        getUserData()
-        console.log("🚀 ~ file: auth_context.tsx ~ line 47 ~ getUserData ~ response.data.user", response.data.user)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    const response = await apiAuth.updateUser(formatUserData)
+    if (response.response && response.response.status === StatusCodes.BAD_REQUEST) {
+      return response.response.data
+    } else if (response.status === StatusCodes.OK) {
+      return response
+    } 
+    return false
   }
 
   return {
