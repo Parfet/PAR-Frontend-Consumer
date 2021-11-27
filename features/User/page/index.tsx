@@ -11,11 +11,13 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 import { useUser } from '../../../core/context/auth_context';
+import { useParty } from '../../Party/contexts/party_context'
 import InputField from '../../../core/components/InputField';
 import { SubHeader,NormalText } from '../../../core/config/textStyle';
+import { Tag } from '../../../core/constant/type';
 import { Errors } from '../../../core/constant/enum';
 import { ValidationFormSchema } from '../../Register/services/validationSchema';
-import { interestTag } from '../../../core/config/mockData';
+
 
 const cookies = new Cookies()
 
@@ -42,6 +44,7 @@ const useStyles = makeStyles({
   
 const CreateButton = withStyles(() => ({
   root: {
+    borderRadius: 25,
     backgroundColor: "#F8CE28",
     '&:hover': {
       backgroundColor: "#F8CE28",
@@ -53,19 +56,53 @@ const UserPage = () => {
     const router = useRouter()
     const userContext = useUser();
     const classes = useStyles();
+    const partyContext = useParty()
     const [email, setEmail] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [provider, setProvider] = useState('')
     const [photoUrl, setPhotoUrl] = useState('')
+    const [username, setUsername] = useState('')
+    const [displayname, setDisplayname] = useState('')
+    const [interestTag, setInteresttags] = useState([])
     const [checkTags, setCheckTags] = useState(false);
+
+    useEffect(() => {
+      (async () => {
+        await partyContext.getAllTag()
+        if(!userContext.userData){
+          await userContext.getUserData()
+        }
+        await setData()
+      })()
+    }, [])
+
+    const setData = async () => {
+      console.log("userContext", userContext.userData)
+      setEmail(userContext.userData.email)
+      setFirstName(userContext.userData.first_name)
+      setLastName(userContext.userData.last_name)
+      setPhotoUrl(userContext.userData.image_url)
+      setProvider(userContext.userData.provider)
+      setUsername(userContext.userData.username)
+      setDisplayname(userContext.userData.display_name)
+      let newInterestTag = []
+      userContext.userData.interested_tag.map( (data: Tag) => {
+        let newFormat = {
+          label: data.tag_name,
+          value: data.tag_id
+        }
+        newInterestTag.push(newFormat)
+      })
+      setInteresttags(await newInterestTag)
+    }
 
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
           provider: provider,
-          username: '',
-          displayName: '',
+          username: username,
+          displayName: displayname,
           email: email,
           firstName: firstName,
           lastName: lastName,
@@ -223,6 +260,7 @@ const UserPage = () => {
             placeholder="เลือกTag ที่เกี่ยวข้อง"
             className="rounded-lg"
             isMulti
+            options={partyContext.allTag}
             components={{ animatedComponents, DropdownIndicator }}
             onChange={(e) => handleChangeTag(e)}
             error={formik.touched.interest_tags && Boolean(formik.errors.interest_tags)}
