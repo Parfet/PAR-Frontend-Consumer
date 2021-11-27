@@ -1,4 +1,7 @@
+
+import apiParty from '../../features/Party/services/apiParty'
 import api from '../../utils/api'
+import { interestTag } from '../config/mockData'
 
 const apiUser = {
   getUserData: async () => {
@@ -23,6 +26,10 @@ const apiUser = {
     const response = await api.post(`/auth/register`, data)
     return response
   },
+  updateUser: async (userData) => {
+    const response = await api.patch('/user/me', userData)
+    return response
+  }
 }
 
 export default apiUser
