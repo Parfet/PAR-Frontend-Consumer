@@ -234,7 +234,7 @@ const UserFunction = () => {
     signout,
     clearUser,
     register,
-    editUser
+    editUser,
     loading
   };
 }
