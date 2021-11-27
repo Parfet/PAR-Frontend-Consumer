@@ -121,8 +121,8 @@ const CardMyParty = (props: Props) => {
               </div>
             </div>
             <div className="flex flex-row justify-between mt-3">
-              <div>หัวปาร์ตี้</div>
-              <div className="flex items-center ml-3">
+              <div className="w-2/5">หัวปาร์ตี้</div>
+              <div className="flex items-center w-3/5">
                 <NormalText bold isCut>
                   {party.head_party.display_name}
                 </NormalText>

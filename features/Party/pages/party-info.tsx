@@ -95,8 +95,7 @@ const PartyInfo = () => {
                   filename={partyContext.currentParty.party_name}
                   event={{
                     name: partyContext.currentParty.party_name,
-                    details: `คุณมีนัดหมายในการไปร่วมปาร์ตี้กับเพื่อน ๆ ในปาร์ตี้ ${partyContext.currentParty.party_name} 
-                      สถานที่ในการไปรับประทาน คือ ${partyContext.currentParty.restaurant.restaurant_name} ในเวลา ${dayjs(partyContext.currentParty.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}`,
+                    details: `คุณมีนัดหมายในการไปร่วมปาร์ตี้กับเพื่อน ๆ ในปาร์ตี้ ${partyContext.currentParty.party_name} สถานที่ในการไปรับประทาน คือ ${partyContext.currentParty.restaurant.restaurant_name} ในเวลา ${dayjs(partyContext.currentParty.schedule_time).format(UIDateLayout.TIMESTAMP_WITH_DAY)}`,
                     location: partyContext.currentParty.restaurant_name ?? "Mock",
                     startsAt: dayjs(partyContext.currentParty.schedule_time).toISOString(),
                     endsAt: dayjs(partyContext.currentParty.schedule_time).add(2, 'hour').toISOString()
