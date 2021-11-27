@@ -54,7 +54,7 @@ export type User = {
   first_name?: string
   last_name?: string
   verify_status?: boolean
-  interested_tag?: string[]
+  interested_tag?: Tag[]
   image_url?: string
   rating?: number
   provider?: string
