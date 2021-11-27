@@ -112,20 +112,16 @@ const UserPage = () => {
         validationSchema: ValidationFormSchema,
         onSubmit: async (values) => {
           console.log("🚀 ~ file: index.tsx ~ line 105 ~ Register ~ userContext.userData", userContext.userData)
-          cookies.set('access_token', userContext.userData.token, { path: '/', maxAge: 3600 })
-          cookies.set('refresh_token', userContext.userData.refreshToken, { path: '/', maxAge: 3600 })
-          const response = await userContext.register(values)
-          console.log("🚀 ~ file: index.tsx ~ line 107 ~ Register ~ response", response)
-          if (response.message == Errors.USERNAME_ALREADY) {
-            formik.touched.username = true
-            formik.errors.username = "มีชื่อผู้ใช้งานนี้แล้ว"
-          } else if(response.message == Errors.DISPLAY_ALREADY){
+          console.log("submit", values)
+          const response = await userContext.editUser({
+            display_name: values.displayName,
+            interested_tag: values.interest_tags
+          })
+          if(response.message == Errors.DISPLAY_ALREADY){
             formik.touched.displayName = true
             formik.errors.displayName = "มีชื่อที่ต้องการแสดงนี้แล้ว"
-          } else if (response.status == StatusCodes.NO_CONTENT){
-            router.push('/')
-          } else {
-            router.push('/signin')
+          } else if (response.status == StatusCodes.OK){
+            router.push('/')  
           }
         },
       });
@@ -155,9 +151,6 @@ const UserPage = () => {
         );
       };
 
-    interface Prop {
-      edit?: boolean
-    }
 
     const handleChangeTag = async (e) => {
       setCheckTags(e.length == 0)
@@ -165,7 +158,7 @@ const UserPage = () => {
     }
       
     return (
-        <form className="flex flex-col justify-center w-screen my-14 px-10" onSubmit={formik.handleSubmit}>
+        <form className="flex flex-col justify-center w-screen my-16 px-10" onSubmit={formik.handleSubmit}>
           <div className="flex justify-center">
             <Image
               alt={firstName + " Photo"}

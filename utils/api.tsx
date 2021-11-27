@@ -60,6 +60,15 @@ export default {
       })
       .then(handleResponse)
       .catch(catchError),
+  patch: (path, body = {}, headers = {}) =>
+    createInstance(headers)
+      .request({
+        url: path,
+        method: 'PATCH',
+        data: body
+      })
+      .then(handleResponse)
+      .catch(catchError),
   delete: (path, body = {}, headers = {}) =>
     createInstance(headers)
       .request({
