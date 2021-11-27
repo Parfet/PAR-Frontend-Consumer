@@ -94,7 +94,8 @@ const PartyModal = (props: Props) => {
       try {
         const res = await apiParty.joinParty(party.party_id, passcode)
         if (res.status === StatusCodes.OK) {
-          handleClose();
+          setOpen(false);
+          callBackToPartyList(false);
         }
       } catch (error) {
         if (error.response?.status === StatusCodes.BAD_REQUEST) {
@@ -102,7 +103,8 @@ const PartyModal = (props: Props) => {
             if (message === Errors.PASSCODE_INCORRECT) {
               setAlertText(ErrorMessage.PASSCODE_INCORRECT)
             }else if (message === Errors.PARTY_NOT_FOUND || message === Errors.ALREADY_JOIN_PARTY) {
-              handleClose();
+              setOpen(false);
+              callBackToPartyList(false);
             } else {
               router.push('/')
             }
