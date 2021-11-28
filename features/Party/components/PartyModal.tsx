@@ -111,6 +111,11 @@ const PartyModal = (props: Props) => {
     }
   }
 
+  const handleChange = (e) => {
+    setPasscode(e.target.value)
+    setAlertText('')
+  }
+
   return (
     <>
       <Dialog onClose={handleClose} open={open} maxWidth="xs">
@@ -188,7 +193,7 @@ const PartyModal = (props: Props) => {
                     type="text"
                     value={passcode}
                     className={classes.root}
-                    onChange={(e) => setPasscode(e.target.value)}
+                    onChange={(e) => handleChange(e)}
                     inputProps={{ maxLength: "6", pattern: "[0-9]*" }}
                     required
                     />
