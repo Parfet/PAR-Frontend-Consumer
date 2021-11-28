@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc';
 import { useFormik } from 'formik';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { TextField, MenuItem, Button } from '@material-ui/core';
@@ -20,6 +21,8 @@ import apiParty from '../services/apiParty'
 import { useParty } from '../contexts/party_context'
 import InputField from '../../../core/components/InputField'
 import { ValidationFormSchema } from '../services/validationSchema'
+
+dayjs.extend(utc)
 
 let now = dayjs()
 let dateNow = now.format("YYYY-MM-DDTHH:mm")
@@ -178,10 +181,15 @@ const CreateParty = (prop :Prop) => {
           tagsValue.push(data.value)
         })
         values.interest_tags = tagsValue
+
+        let parseUtc = dayjs(values.schedule_time).utc().format('YYYY-MM-DDTHH:mm')
+        console.log("🚀 ~ file: create-party.tsx ~ line 187 ~ CreateParty ~ values.schedule_time", values.schedule_time)
+        console.log("🚀 ~ file: create-party.tsx ~ line 187 ~ CreateParty ~ parseUtc", parseUtc)
+        let newValueWithUtc = { ...values, schedule_time: parseUtc}
         if (edit){
-          handleEditParty(values)
+          handleEditParty(newValueWithUtc)
         }else {
-          handleCreateParty(values)
+          handleCreateParty(newValueWithUtc)
         }
       }
     },
