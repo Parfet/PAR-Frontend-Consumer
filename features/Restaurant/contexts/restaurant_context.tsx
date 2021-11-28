@@ -6,9 +6,11 @@ import apiRestaurant from '../services/apiRestaurant'
 
 interface RestaurantContextInterface {
   restaurants: Restaurant[]
+  searchWord: SearchWord
   currentRestaurant: Restaurant
   setCurrentRestaurant: Function
   getRestaurants: Function
+  setSearchWord: Function
 }
 
 type SearchWord = {
@@ -33,6 +35,7 @@ const RestaurantFunction = () => {
   const [currentRestaurant, setCurrentRestaurant] = useState<Restaurant>();
 
   const getRestaurants = async (filter: SearchWord) => {
+    setSearchWord({ ...searchWord, lat: filter.lat, lng: filter.lng})
     let param = ""
 
     Object.keys(searchWord).forEach((key, index) => {
@@ -68,5 +71,7 @@ const RestaurantFunction = () => {
     currentRestaurant,
     setCurrentRestaurant,
     getRestaurants,
+    setSearchWord,
+    searchWord
   };
 }

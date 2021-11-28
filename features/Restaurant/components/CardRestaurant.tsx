@@ -51,6 +51,7 @@ const RestaurantParty = (props: Props) => {
   const selectRestaurant = () => {
     // if (restaurant.status === RestaurantStatus.RESTAURANT_OPEN){
     restaurantContext.setCurrentRestaurant(restaurant)
+    restaurantContext.setSearchWord({ ...restaurantContext.searchWord, keyword: "", })
       router.push("/party")
     // }
   }
