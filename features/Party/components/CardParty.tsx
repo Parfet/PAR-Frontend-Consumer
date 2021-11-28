@@ -52,21 +52,19 @@ const CardParty = (props: Props) => {
   const { party } = props
 
   const handleClickOpen = async () => {
-    if(party.members.length == party.max_member){
+    let status = await partyContext.checkJoinStatus(party.party_id)
+    if (status === PartyRequestStatus.STATUS_DECLINE){
+      setDeclineWord(null)
+      setOpenDecline(true)
+    } else if (status === PartyRequestStatus.STATUS_ACCEPT){
+      setOpenAccept(true)
+    } else if (status === PartyRequestStatus.STATUS_WAITING){
+      setOpenWaiting(true)
+    } else if (party.members.length == party.max_member) {
       setDeclineWord("ปาร์ตี้นี้มีจำนวนถึงจำนวนผู้เข้าร่วมสูงสุดแล้ว")
       setOpenDecline(true)
     }else {
-      let status = await partyContext.checkJoinStatus(party.party_id)
-      if (status === PartyRequestStatus.STATUS_DECLINE){
-        setDeclineWord(null)
-        setOpenDecline(true)
-      } else if (status === PartyRequestStatus.STATUS_ACCEPT){
-        setOpenAccept(true)
-      } else if (status === PartyRequestStatus.STATUS_WAITING){
-        setOpenWaiting(true)
-      } else {
-        setOpenModal(true)
-      }
+      setOpenModal(true)
     }
   };
 
