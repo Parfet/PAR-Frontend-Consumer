@@ -27,7 +27,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Parfet/PAR-Backend-Consumer">
+  <a href="https://github.com/Parfet/PAR-Frontend-Consumer">
     <img src="https://github.com/Parfet/PAR-Frontend-Consumer/blob/main/public/images/logo_parfet_512.png" alt="PARFET Logo" width="80" height="80">
   </a>
 
@@ -37,9 +37,9 @@
     This is User Interface for PARFET.
     <br />
     <br />
-    <a href="https://github.com/Parfet/PAR-Backend-Consumer/issues">Report Bug</a>
+    <a href="https://github.com/Parfet/PAR-Frontend-Consumer/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Parfet/PAR-Backend-Consumer/issues">Request Feature</a>
+    <a href="https://github.com/Parfet/PAR-Frontend-Consumer/issues">Request Feature</a>
   </p>
 </div>
 
@@ -64,7 +64,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is API service for implemented with [Parfet-Backend-Consumer](https://github.com/Parfet/PAR-Backend-Consumer). <br />
+This is API service for implemented with [Parfet-Backend-Consumer](https://github.com/Parfet/PAR-Frontend-Consumer). <br />
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
