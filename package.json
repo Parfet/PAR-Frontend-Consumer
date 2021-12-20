@@ -1,7 +1,13 @@
 {
-  "name": "frontend-consumer",
-  "version": "0.6.3",
-  "private": true,
+  "name": "PAR-Frontend-Consumer",
+  "version": "1.0.0",
+  "description": "Web Application for Party Management",
+  "url": "https://github.com/Parfet/PAR-Frontend-Consumer/issues",
+  "author": "Natthasit Panjapornpol",
+  "email": "natthasit.panja@gmail.com",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/Parfet/PAR-Frontend-Consumer/blob/main/README.md",
+  "private": false,
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "NODE_OPTIONS=\"--max_old_space_size=1024\" next build",
